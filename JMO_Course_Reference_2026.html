@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
+<meta name="format-detection" content="telephone=no">
 <title>JMO Course Reference — Fall 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -148,14 +149,66 @@
   }
   .theme-toggle-btn:hover { background: rgba(255,255,255,0.18); border-color: var(--gold-light); }
   .theme-toggle-btn svg { width: 20px; height: 20px; }
-  .theme-toggle-btn .icon-moon { display: none; }
-  :root[data-theme="dark"] .theme-toggle-btn .icon-sun { display: none; }
-  :root[data-theme="dark"] .theme-toggle-btn .icon-moon { display: block; }
-  .container {
-    max-width: 920px;
+  .icon-moon { display: none; }
+  :root[data-theme="dark"] .icon-sun { display: none; }
+  :root[data-theme="dark"] .icon-moon { display: block; }
+  .page-layout {
+    max-width: 1400px;
     margin: 0 auto;
     padding: 28px 20px 100px;
   }
+  .sidebar { min-width: 0; }
+  .main-col { min-width: 0; }
+
+  @media (min-width: 1100px) {
+    .page-layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 40px;
+      align-items: start;
+      padding: 36px 40px 100px;
+    }
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      padding-bottom: 8px;
+    }
+    .sidebar .toolbar {
+      position: static;
+      flex-direction: column;
+      align-items: stretch;
+      border-bottom: none;
+      padding: 0 0 18px;
+      margin-bottom: 2px;
+    }
+    .sidebar .toolbar-btn { width: 100%; }
+    .sidebar .legend {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    .card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px 40px;
+    }
+    .card-body > .card-block-label,
+    .card-body > .epigraph,
+    .card-body > .moderator-update-box,
+    .card-body > .seminar-note-box {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 1500px) {
+    .page-layout { max-width: 1600px; }
+  }
+
   .toolbar {
     position: sticky;
     top: 0;
@@ -472,9 +525,11 @@
   }
 
   @media print {
-    .toolbar, .back-to-top, .bottom-nav, .theme-toggle-btn { display: none; }
+    .toolbar, .back-to-top, .bottom-nav, .theme-toggle-btn, .sidebar { display: none; }
+    .page-layout { display: block !important; max-width: none; }
     header.hero { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .session-card { break-inside: avoid; box-shadow: none; }
+    .card-body { display: block !important; }
   }
 
   /* --- key dates / off-sites / seminar notes --- */
@@ -764,7 +819,7 @@
     .today-btn { font-size: 0.82rem; padding: 9px 18px; margin-top: 0; }
     .header-controls { margin-top: 18px; }
 
-    .container { padding: 20px 14px 128px; }
+    .page-layout { padding: 20px 14px 128px; }
     .cal-intro p { font-size: 0.85rem; }
 
     .seminar-notes-panel summary { padding: 12px 14px; font-size: 0.84rem; }
@@ -882,12 +937,30 @@
   </div>
 </header>
 
-<div class="container">
-  <details class="course-update-panel" id="courseUpdatePanel">
+<div class="page-layout">
+  <aside class="sidebar">
+    <div class="toolbar">
+      <input id="searchBox" type="text" placeholder="Search objectives, questions, readings, authors…" autocomplete="off">
+      <button type="button" class="toolbar-btn" data-action="expand-all">Expand all</button>
+      <button type="button" class="toolbar-btn" data-action="collapse-all">Collapse all</button>
+    </div>
+    
+<div class="legend">
+  <span class="legend-item"><span class="legend-dot dot-session"></span>Session</span>
+  <span class="legend-item"><span class="legend-dot dot-offsite"></span>Off&#8209;Site</span>
+  <span class="legend-item"><span class="legend-dot dot-deadline"></span>Deadline</span>
+  <span class="legend-item"><span class="legend-dot dot-social"></span>Event</span>
+  <span class="legend-item"><span class="legend-dot dot-admin"></span>Admin</span>
+  <span class="legend-item"><span class="legend-dot dot-note"></span>Note</span>
+</div>
+  </aside>
+
+  <div class="main-col">
+    <details class="course-update-panel" id="courseUpdatePanel">
           <summary><span class="mu-ribbon">NEW &mdash; 12 Aug 2026</span> Magnificent 7 Reading Guidance — Week 3-4</summary>
           <div class="sn-body"><p>Great first week of discussion and interaction. This update sets reading focus and guidance for upcoming sessions — expect adjustments as we move along.</p><p>The China Panel was well received; moderators will continue to reference it throughout the trimester.</p><p>Research Paper IPR sign-up: sign up for an IPR slot on 25, 26, or 28 August via the shared document Nick will provide. Complete sign-up no later than 21 Aug 2026.</p><div class="mu-subhead">Team assignments (Philippines Campaign exercises)</div><ul class="plain-list"><li>Team Japan: Jason, Anton, Dan J., Matt B., Andrew, Linden, Roman</li><li>Team US (Allies): Dan S., Matt W., Frank, Eric, Mat R., James, Felipe</li></ul><p>Session-by-session reading guidance for JMO-09 through JMO-16 (17–28 Aug) has been added to each session’s card below, flagged “NEW — 12 Aug 2026 update.”</p></div>
         </details>
-  <details class="seminar-notes-panel" id="seminarNotesPanel">
+    <details class="seminar-notes-panel" id="seminarNotesPanel">
       <summary>Seminar 7 Notes &mdash; moderators &amp; logistics</summary>
       <div class="sn-body">
         <div class="mod-grid"><div class="mod-card">
@@ -910,25 +983,9 @@
       </div>
     </details>
 
-  <div class="toolbar">
-    <input id="searchBox" type="text" placeholder="Search objectives, questions, readings, authors…" autocomplete="off">
-    <button type="button" class="toolbar-btn" data-action="expand-all">Expand all</button>
-    <button type="button" class="toolbar-btn" data-action="collapse-all">Collapse all</button>
-  </div>
+    
 
-  
-
-  
-<div class="legend">
-  <span class="legend-item"><span class="legend-dot dot-session"></span>Session</span>
-  <span class="legend-item"><span class="legend-dot dot-offsite"></span>Off&#8209;Site</span>
-  <span class="legend-item"><span class="legend-dot dot-deadline"></span>Deadline</span>
-  <span class="legend-item"><span class="legend-dot dot-social"></span>Event</span>
-  <span class="legend-item"><span class="legend-dot dot-admin"></span>Admin</span>
-  <span class="legend-item"><span class="legend-dot dot-note"></span>Note</span>
-</div>
-
-  <div class="cal-agenda" id="calAgenda"><h3 class="cal-month-header" id="month-2026-08">August 2026</h3><div class="cal-day" id="day-2026-08-03">
+    <div class="cal-agenda" id="calAgenda"><h3 class="cal-month-header" id="month-2026-08">August 2026</h3><div class="cal-day" id="day-2026-08-03">
           <div class="cal-day-date"><span class="cal-dow">Monday</span><span class="cal-dnum">Aug 3</span></div>
           <div class="cal-day-items"><div class="cal-item cal-item-admin"><span class="cal-item-main">Cloister</span></div></div>
         </div><div class="cal-day" id="day-2026-08-04">
@@ -2521,7 +2578,8 @@
           <div class="cal-day-items"><div class="cal-item cal-item-admin"><span class="cal-item-main">Veteran&#x27;s Day Observed</span></div></div>
         </div></div>
 
-  <p class="no-results" id="noResults">No sessions match your search.</p>
+    <p class="no-results" id="noResults">No sessions match your search.</p>
+  </div>
 </div>
 
 <footer class="page-footer">
@@ -2535,17 +2593,14 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><circle cx="12" cy="15" r="1.6" fill="currentColor" stroke="none"/></svg>
     <span>Today</span>
   </button>
-  <button type="button" data-action="scroll-agenda" aria-label="Agenda">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
-    <span>Agenda</span>
-  </button>
   <button type="button" data-action="focus-search" aria-label="Search">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
     <span>Search</span>
   </button>
-  <button type="button" data-action="jump-updates" aria-label="Updates">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-    <span>Updates</span>
+  <button type="button" data-action="theme-toggle" aria-label="Toggle dark mode">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+    <span>Theme</span>
   </button>
 </nav>
 
@@ -2695,25 +2750,11 @@
     jumpToDate(closest);
   }
 
-  function scrollToAgenda() {
-    var el = document.getElementById('calAgenda');
-    if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
-  }
-
   function focusSearch() {
     var box = document.getElementById('searchBox');
     if (!box) return;
     box.scrollIntoView({behavior: 'smooth', block: 'center'});
     setTimeout(function() { box.focus(); }, 250);
-  }
-
-  function jumpToUpdates() {
-    var panel = document.getElementById('courseUpdatePanel') || document.getElementById('seminarNotesPanel');
-    if (!panel) return;
-    panel.open = true;
-    setTimeout(function() {
-      panel.scrollIntoView({behavior: 'smooth', block: 'start'});
-    }, 30);
   }
 
   function collapseHeavyPanelsIfMobile() {
@@ -2738,9 +2779,7 @@
     'expand-all': expandAll,
     'collapse-all': collapseAll,
     'scroll-top': function() { window.scrollTo({top: 0, behavior: 'smooth'}); },
-    'scroll-agenda': scrollToAgenda,
     'focus-search': focusSearch,
-    'jump-updates': jumpToUpdates,
     'theme-toggle': toggleTheme
   };
 
