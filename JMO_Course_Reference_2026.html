@@ -44,6 +44,8 @@
     .moderator-update-box h4, .course-update-panel summary, .mu-date { color: #f0b96a; }
     .seminar-note-box { background: #241f0c; border-color: #5a4a1a; }
     .card-block-label { color: var(--muted); }
+    .event-callout { background: #2a2410; border-color: #6b5a1a; }
+    .event-callout h4 { color: #e8c368; }
  }
   }
   :root[data-theme="dark"] { 
@@ -63,6 +65,8 @@
     .moderator-update-box h4, .course-update-panel summary, .mu-date { color: #f0b96a; }
     .seminar-note-box { background: #241f0c; border-color: #5a4a1a; }
     .card-block-label { color: var(--muted); }
+    .event-callout { background: #2a2410; border-color: #6b5a1a; }
+    .event-callout h4 { color: #e8c368; }
  }
 
   * { box-sizing: border-box; }
@@ -607,6 +611,76 @@
   .dot-social { background: var(--gold); }
   .dot-admin { background: #b7bfcc; }
   .dot-note { background: #7a8aa8; }
+  .dot-homework { background: #6a3fa0; }
+
+  /* --- team assignments panel --- */
+  .team-panel {
+    margin: 2px 0 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .team-panel-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .team-card { margin-bottom: 10px; }
+  .team-card:last-child { margin-bottom: 0; }
+  .team-card-name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: var(--navy-text);
+    font-family: var(--serif);
+    margin-bottom: 3px;
+  }
+  .team-flag { font-size: 1rem; line-height: 1; }
+  .team-card-members { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* --- homework / exercise / event tags --- */
+  .hw-ribbon {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #fff;
+    background: #6a3fa0;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin: 0 0 8px 6px;
+  }
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-right: 6px;
+    flex-shrink: 0;
+    vertical-align: 2px;
+  }
+  .tag-homework { background: #6a3fa0; }
+  .tag-event { background: var(--gold); color: var(--navy-deep); }
+  .event-callout {
+    background: #fdf8ec;
+    border: 1.5px solid var(--gold-light);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .event-callout h4 { color: #8a6d00; margin: 0 0 8px; }
+  .event-callout .sec-icon { color: var(--gold); }
+  .event-callout p { margin: 6px 0; }
 
   /* --- agenda --- */
   .cal-month-header {
@@ -952,13 +1026,26 @@
   <span class="legend-item"><span class="legend-dot dot-social"></span>Event</span>
   <span class="legend-item"><span class="legend-dot dot-admin"></span>Admin</span>
   <span class="legend-item"><span class="legend-dot dot-note"></span>Note</span>
+  <span class="legend-item"><span class="legend-dot dot-homework"></span>Homework</span>
+</div>
+
+<div class="team-panel">
+  <div class="team-panel-title">Team Assignments &mdash; Philippines Campaign</div>
+  <div class="team-card">
+    <div class="team-card-name"><span class="team-flag" role="img" aria-label="Flag of Japan">🇯🇵</span>Team Japan</div>
+    <div class="team-card-members">Jason, Anton, Dan J., Matt B., Andrew, Linden, Roman</div>
+  </div>
+  <div class="team-card">
+    <div class="team-card-name"><span class="team-flag" role="img" aria-label="Flag of the United States">🇺🇸</span>Team US</div>
+    <div class="team-card-members">Dan S., Matt W., Frank, Eric, Mat R., James, Felipe</div>
+  </div>
 </div>
   </aside>
 
   <div class="main-col">
     <details class="course-update-panel" id="courseUpdatePanel">
           <summary><span class="mu-ribbon">NEW &mdash; 12 Aug 2026</span> Magnificent 7 Reading Guidance — Week 3-4</summary>
-          <div class="sn-body"><p>Great first week of discussion and interaction. This update sets reading focus and guidance for upcoming sessions — expect adjustments as we move along.</p><p>The China Panel was well received; moderators will continue to reference it throughout the trimester.</p><p>Research Paper IPR sign-up: sign up for an IPR slot on 25, 26, or 28 August via the shared document Nick will provide. Complete sign-up no later than 21 Aug 2026.</p><div class="mu-subhead">Team assignments (Philippines Campaign exercises)</div><ul class="plain-list"><li>Team Japan: Jason, Anton, Dan J., Matt B., Andrew, Linden, Roman</li><li>Team US (Allies): Dan S., Matt W., Frank, Eric, Mat R., James, Felipe</li></ul><p>Session-by-session reading guidance for JMO-09 through JMO-16 (17–28 Aug) has been added to each session’s card below, flagged “NEW — 12 Aug 2026 update.”</p></div>
+          <div class="sn-body"><p>Great first week of discussion and interaction. This update sets reading focus and guidance for upcoming sessions — expect adjustments as we move along.</p><p>The China Panel was well received; moderators will continue to reference it throughout the trimester.</p><p>Research Paper IPR sign-up: sign up for an IPR slot on 25, 26, or 28 August via the shared document Nick will provide. Complete sign-up no later than 21 Aug 2026.</p><div class="mu-subhead">Team assignments (Philippines Campaign exercises)</div><ul class="plain-list"><li>🇯🇵 Team Japan: Jason, Anton, Dan J., Matt B., Andrew, Linden, Roman</li><li>🇺🇸 Team US (Allies): Dan S., Matt W., Frank, Eric, Mat R., James, Felipe</li></ul><p>Session-by-session reading guidance for JMO-09 through JMO-16 (17–28 Aug) has been added to each session’s card below, flagged “NEW — 12 Aug 2026 update.”</p></div>
         </details>
     <details class="seminar-notes-panel" id="seminarNotesPanel">
       <summary>Seminar 7 Notes &mdash; moderators &amp; logistics</summary>
@@ -1284,9 +1371,9 @@
       <p>&ldquo;I intend, if possible, to deny the enemy a chance to outrange me in an air duel and also to deny him an opportunity to employ an air shuttle against me. If I am to prevent his gaining that advantage, I must have early information and I must move smartly.&rdquo;</p>
       <footer>&mdash; Admiral William F. “Bull” Halsey Letter to Admiral Chester W. Nimitz (October 3, 1944)</footer>
     </blockquote><div class="subsection moderator-update-box">
-          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div>
+          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div><span class="hw-ribbon">Homework</span>
           <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h13l-3 5 3 5H5"/></svg></span>War at Sea videos assigned</h4>
-          <p>No changes to the Required Readings (50 pages). The Philippines Case Study discussion questions below are unchanged from the syllabus.</p><p><a href="https://www.youtube.com/playlist?list=PLam-yp5uUR1bg92xFim-yHA6v18RrNp5R" target="_blank" rel="noopener">War at Sea instructional videos (YouTube playlist)</a></p><ul class="plain-list"><li>Watch “Introduction” (3 min), “Game Components” (6 min), and “Turn Overview” (6 min).</li><li>These three videos (of 14 total) provide a good sense of what the game is about.</li></ul>
+          <p>No changes to the Required Readings (50 pages). The Philippines Case Study discussion questions below are unchanged from the syllabus.</p><p><span class="tag-pill tag-homework">Homework</span><a href="https://www.youtube.com/playlist?list=PLam-yp5uUR1bg92xFim-yHA6v18RrNp5R" target="_blank" rel="noopener">War at Sea instructional videos (YouTube playlist)</a></p><ul class="plain-list"><li>Watch “Introduction” (3 min), “Game Components” (6 min), and “Turn Overview” (6 min).</li><li>These three videos (of 14 total) provide a good sense of what the game is about.</li></ul>
         </div><div class="subsection">
       <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg></span>Objectives</h4>
       <ul class="plain-list obj-list"><li>Analyze how the operational factors of time, space and force impact planning and execution of major operations and campaigns.</li><li>Apply an analytical framework that addresses operational factors in shaping the desired outcomes of strategies, campaigns, and operations.</li><li>Understand the key concepts of theater geometry (positions, bases of operations, lines of operation, decisive points, lines of communication and objectives).</li></ul>
@@ -1362,13 +1449,17 @@
       <p>&ldquo;The Japanese in the Philippines were ill prepared to withstand invasion. Indeed, the Japanese forces as a whole were now suffering the consequences of their own earlier success. Having passed what Clausewitz calls ‘the culminating point of the offensive’, they found themselves in possession of more territory than they could closely defend and were confronted by an enemy who was on the rampage and whose resources were growing by the month.&rdquo;</p>
       <footer>&mdash; John Keegan, The Second World War (2005)</footer>
     </blockquote><div class="subsection moderator-update-box">
-          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div>
+          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div><span class="hw-ribbon">Exercise</span>
           <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h13l-3 5 3 5H5"/></svg></span>Critical Factor Analysis exercise <span class="mu-date">Wed, 19 Aug</span></h4>
           <p>A handout on one way to approach Critical Factor Analysis has been posted to Blackboard for reference in class. We will identify potential COGs based on our understanding of the objectives.</p><div class="mu-subhead">Exercise (all seminar members)</div><p>“Do a critical factor analysis of both friendly and enemy COGs at the operational level for the reoccupation (or defense) of the Philippines as you think the commanders did in planning, given the info they had at the time.”</p><ul class="plain-list"><li>Refer to the assigned reading “Joint Planning Process Workbook” (NWC 4111), pages D-9 through D-12, for the method.</li><li>Focus on the few critical capabilities and requirements that were most impactful (i.e., reflected in the plan) rather than trying to capture them all.</li><li>Keep to the historical facts. You are trying to reverse-engineer the historical commander’s thinking — reflect what they thought at the time, as evidenced by their plans. Critiques and “they should have” come later.</li><li>Keep the objective front and center. A center of gravity means nothing without an associated objective.</li><li>Critical capabilities are typically verbs and often functions; critical requirements are the things and conditions that enable critical capabilities. Critical vulnerabilities may be pre-existing (e.g., weak Japanese airpower) or creatable (e.g., the deception of Halsey).</li></ul><p>Required reading for this session is unchanged from the syllabus (see Required Reading below); the moderators also circulated short annotations on why each reading matters, posted to Blackboard.</p>
         </div><div class="subsection moderator-update-box">
-          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div>
+          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div><span class="hw-ribbon">Homework</span>
           <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h13l-3 5 3 5H5"/></svg></span>Guest speaker + focus for Thursday&#x27;s session <span class="mu-date">Thu, 20 Aug</span></h4>
-          <p>We will be joined by RADM (Ret.) Lars Saunes, Royal Norwegian Navy, Professor and Distinguished International Fellow, for this session. We will deconstruct and analyze potential COGs based on our understanding of the objectives.</p><ul class="plain-list"><li>Drawing on your analysis of the enemy COG, deduce your commander’s operational idea and write it out in narrative form. Do this individually for homework, then use it as input to draft a group consensus version during seminar. (Homework will not be collected or graded.)</li></ul><p>“The operational idea should be written in free form; shortcuts and buzzwords should be avoided. It should express in clear and commonly understood operational terms how the operational commander intends to sequence and synchronize all available sources of power to accomplish the assigned strategic or operational objective in the shortest possible time and with the fewest friendly losses.” — Vego, Operational Warfare at Sea, p. 170</p><p>1015: War at Sea Rules Brief with our sister seminar, in H-320 — a game overview covering pieces and mechanics, alongside homework to watch tutorial videos and read Appendix C of the War at Sea Instruction Book (the Quick Start Guide for the Philippines game).</p>
+          <p>We will deconstruct and analyze potential COGs based on our understanding of the objectives.</p><ul class="plain-list"><li><span class="tag-pill tag-homework">Homework</span>Drawing on your analysis of the enemy COG, deduce your commander’s operational idea and write it out in narrative form. Do this individually, then use it as input to draft a group consensus version during seminar. (Homework will not be collected or graded.)</li></ul><p>“The operational idea should be written in free form; shortcuts and buzzwords should be avoided. It should express in clear and commonly understood operational terms how the operational commander intends to sequence and synchronize all available sources of power to accomplish the assigned strategic or operational objective in the shortest possible time and with the fewest friendly losses.” — Vego, Operational Warfare at Sea, p. 170</p>
+        </div><div class="subsection event-callout">
+          <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>War at Sea Rules Brief <span class="mu-date">Thu, 20 Aug &middot; 1015 &middot; H-320</span></h4>
+          <p><span class="tag-pill tag-event">Event</span>With our sister seminar — a game overview covering pieces and mechanics.</p>
+          <p><span class="tag-pill tag-homework">Homework</span>Watch tutorial videos and read Appendix C of the War at Sea Instruction Book (the Quick Start Guide for the Philippines game).</p>
         </div><div class="subsection">
       <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg></span>Objectives</h4>
       <ul class="plain-list obj-list"><li>Analyze enemy and friendly critical factors and centers of gravity through the lens of the objective.</li><li>Examine the concept of defeat mechanism as it relates to translating critical factor analysis into an operational idea.</li><li>Deduce the operational ideas developed by opposing commanders during planning for the Philippines and “SHO One” Campaigns.</li></ul>
@@ -1394,7 +1485,7 @@
           <div class="cal-day-items"><button type="button" class="cal-item cal-item-session cal-item-continuation" data-code="JMO-11" data-jump-session="JMO-11">
       <span class="cal-item-time">0830-1000</span>
       <span class="cal-item-main"><span class="cal-item-code">JMO-11</span> Critical Factor Analysis<span class="cal-item-format"> &mdash; Seminar (continued)</span></span>
-      <span class="cal-guest">Guest: RADM Saunes</span><span class="cal-updated-flag">Updated 12 Aug</span>
+      <span class="cal-updated-flag">Updated 12 Aug</span>
     </button>
     <details class="session-card cal-session-card" id="card-JMO-12" data-code="JMO-12">
       <summary>
@@ -1409,11 +1500,11 @@
       <p>&ldquo;It is still somewhat of a mystery how and whence… MacArthur derived his authority to use United States Forces to liberate one Philippines island after another. He had no specific directive for anything subsequent to Luzon…&rdquo;</p>
       <footer>&mdash; Samuel Eliot Morison, The Liberation of the Philippines (1965)</footer>
     </blockquote><div class="subsection moderator-update-box">
-          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div>
+          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div><span class="hw-ribbon">Homework</span>
           <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h13l-3 5 3 5H5"/></svg></span>Added reading for the design/leadership exercise <span class="mu-date">Thu, 20 Aug</span></h4>
-          <p>No change to the syllabus readings (61 pages). In addition, read Appendix C, “Quick Start Guide – Leyte,” from the War at Sea Instruction Book (NWC 2204) (issued in seminar), and review the OP Design Handout.</p><p>Prepare individually as homework, then come to seminar ready to combine your work with your team (Team Japan / Team Allies). The key-decisions critique task itself is unchanged from the syllabus Discussion Questions above.</p>
+          <p>No change to the syllabus readings (61 pages). In addition, read Appendix C, “Quick Start Guide – Leyte,” from the War at Sea Instruction Book (NWC 2204) (issued in seminar), and review the OP Design Handout.</p><p><span class="tag-pill tag-homework">Homework</span>Prepare individually, then come to seminar ready to combine your work with your team (🇯🇵 Team Japan / 🇺🇸 Team Allies). The key-decisions critique task itself is unchanged from the syllabus Discussion Questions above.</p>
         </div><div class="subsection moderator-update-box">
-          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div>
+          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div><span class="hw-ribbon">Exercise</span>
           <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h13l-3 5 3 5H5"/></svg></span>Tip for the lessons-learned exercise (JMO-12 continued) <span class="mu-date">Tue, 25 Aug</span></h4>
           <p>The lessons-learned task itself (derive two operational lessons learned, each as a single declarative sentence with a short rationale) is unchanged from the syllabus Discussion Questions above. One added tip:</p><ul class="plain-list"><li>Avoid immediately obvious “water is wet” lessons — e.g., “unity of command is essential” or “good logistics are vital.” They serve no purpose. Dig deeper.</li></ul>
         </div><div class="subsection">
@@ -1465,9 +1556,9 @@
       <p>&ldquo;…all too often it is forgotten that the main-in fact, the sole- purpose of the estimate is to reach a quick and good, not the best, decision.&rdquo;</p>
       <footer>&mdash; Milan Vego “The Logic of the Commander’s Estimate of the Situation” (2016)</footer>
     </blockquote><div class="subsection moderator-update-box">
-          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div>
+          <div class="mu-ribbon">NEW &mdash; 12 Aug 2026 update</div><span class="hw-ribbon">Homework</span>
           <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h13l-3 5 3 5H5"/></svg></span>CES prep, homework, and submission instructions</h4>
-          <p>Homework: re-look Appendix C, “Quick Start Guide – Leyte,” in the War at Sea Instruction Book. Read the War at Sea Objectives and Forces document specific to your team (US or Japan) — it provides what you need to conduct a Commander’s Estimate of the Situation (CES).</p><p>Note the starting positions of your forces as listed in the documentation, and that some forces may enter the game later than the first turn — this is part of the interplay between time, space, and force that frames your military problem. (The homework prep questions themselves are unchanged from the syllabus Discussion Questions above.)</p><p>In seminar: your team will conduct a CES to develop an operational idea, which will be tested in simulated combat (wargame). You will use the historical factors, objectives, and geometry, but the decisions are entirely your own.</p><div class="mu-subhead">Individually complete and email to Matt, Nick, and Jon by 0800, 26 Aug 2026 (NMT 1–2 pages)</div><ul class="plain-list"><li>Understanding of the higher objective</li><li>Important operational environmental factors</li><li>Enemy options to consider</li><li>Friendly options to consider</li><li>One key decision you think needs to be made to achieve the operational objective (where will you defend or attack?)</li><li>A brief proposed commander’s intent to achieve the operational objective</li></ul><p>This will drive the collective CES discussion and Operational Idea work.</p><div class="mu-subhead">Op Idea narrative (1–2 pages) includes</div><ul class="plain-list"><li>Mission</li><li>Intent</li><li>Decision</li><li>Phasing</li><li>Main effort / supporting efforts</li><li>Generic C2 structure</li><li>Consider operational fires / OP sustainment / OP deception / OP reserve</li><li>Sketch</li><li>Game turn #1 move and ISR card overlays completed</li></ul>
+          <p><span class="tag-pill tag-homework">Homework</span>Re-look Appendix C, “Quick Start Guide – Leyte,” in the War at Sea Instruction Book. Read the War at Sea Objectives and Forces document specific to your team (🇯🇵 Japan or 🇺🇸 US) — it provides what you need to conduct a Commander’s Estimate of the Situation (CES).</p><p>Note the starting positions of your forces as listed in the documentation, and that some forces may enter the game later than the first turn — this is part of the interplay between time, space, and force that frames your military problem. (The homework prep questions themselves are unchanged from the syllabus Discussion Questions above.)</p><p>In seminar: your team will conduct a CES to develop an operational idea, which will be tested in simulated combat (wargame). You will use the historical factors, objectives, and geometry, but the decisions are entirely your own.</p><div class="mu-subhead">Individually complete and email to Matt, Nick, and Jon by 0800, 26 Aug 2026 (NMT 1–2 pages)</div><ul class="plain-list"><li>Understanding of the higher objective</li><li>Important operational environmental factors</li><li>Enemy options to consider</li><li>Friendly options to consider</li><li>One key decision you think needs to be made to achieve the operational objective (where will you defend or attack?)</li><li>A brief proposed commander’s intent to achieve the operational objective</li></ul><p>This will drive the collective CES discussion and Operational Idea work.</p><div class="mu-subhead">Op Idea narrative (1–2 pages) includes</div><ul class="plain-list"><li>Mission</li><li>Intent</li><li>Decision</li><li>Phasing</li><li>Main effort / supporting efforts</li><li>Generic C2 structure</li><li>Consider operational fires / OP sustainment / OP deception / OP reserve</li><li>Sketch</li><li>Game turn #1 move and ISR card overlays completed</li></ul>
         </div><div class="subsection">
       <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.6" fill="currentColor"/></svg></span>Objectives</h4>
       <ul class="plain-list obj-list"><li>Apply the logic of the Commander’s Estimate of the Situation and operational art concepts to balance ends, ways, means and risk during conceptual planning for a military operation.</li><li>Create an original Operational Idea for employing forces and capabilities to accomplish assigned objectives during a wargame.</li><li>Understand the wargame rules, materials, and game mechanics sufficiently to play and achieve the game’s learning objectives.</li></ul>
@@ -1845,7 +1936,7 @@
           <span class="title">Campaigning and Conceptual Planning</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="cal-guest">Guest: ADM Saunes</span><span class="badge badge-type">Seminar</span><span class="badge">6 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">6 readings</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;The commander in war must work in a medium which his eyes cannot see; which his best deductive powers cannot always fathom; and with which, because of constant changes, he can rarely become completely familiar.&rdquo;</p>
