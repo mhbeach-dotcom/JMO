@@ -44,6 +44,9 @@
     .moderator-update-box h4, .course-update-panel summary, .mu-date { color: #f0b96a; }
     .seminar-note-box { background: #241f0c; border-color: #5a4a1a; }
     .card-block-label { color: var(--muted); }
+    .research-countdown { background: #3a1512; border-color: #7a3129; color: #f3a99c; }
+    .research-date-item.is-next .research-date-when,
+    .research-date-item.is-next .research-date-nlt { color: #f3a99c; }
     .event-callout { background: #2a2410; border-color: #6b5a1a; }
     .event-callout h4 { color: #e8c368; }
  }
@@ -65,6 +68,9 @@
     .moderator-update-box h4, .course-update-panel summary, .mu-date { color: #f0b96a; }
     .seminar-note-box { background: #241f0c; border-color: #5a4a1a; }
     .card-block-label { color: var(--muted); }
+    .research-countdown { background: #3a1512; border-color: #7a3129; color: #f3a99c; }
+    .research-date-item.is-next .research-date-when,
+    .research-date-item.is-next .research-date-nlt { color: #f3a99c; }
     .event-callout { background: #2a2410; border-color: #6b5a1a; }
     .event-callout h4 { color: #e8c368; }
  }
@@ -632,6 +638,68 @@
   }
   .team-card-members { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
 
+  /* --- research paper dates panel --- */
+  .research-panel {
+    margin: 2px 0 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .research-panel-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .research-countdown {
+    background: #fdecea;
+    border: 1px solid #f3b4ac;
+    color: #a23225;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+  .research-countdown .rc-label {
+    display: block;
+    font-size: 0.64rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    opacity: 0.85;
+    margin-bottom: 2px;
+  }
+  .research-countdown .rc-time { font-size: 0.9rem; font-weight: 700; }
+  .research-countdown .rc-desc { font-weight: 500; }
+  .research-date-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .research-date-item[hidden] { display: none; }
+  .research-date-item { font-size: 0.78rem; line-height: 1.4; }
+  .research-date-when {
+    font-weight: 700;
+    color: var(--navy-text);
+    font-family: var(--serif);
+  }
+  .research-date-nlt {
+    font-weight: 600;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+  }
+  .research-date-desc { color: var(--text); }
+  .research-date-item.is-next .research-date-when { color: #a23225; }
+  .research-date-item.is-next .research-date-nlt { color: #a23225; }
+  .research-date-empty { font-size: 0.78rem; color: var(--muted); font-style: italic; margin: 0; }
+
   /* --- homework / exercise / event tags --- */
   .hw-ribbon {
     display: inline-flex;
@@ -1051,6 +1119,38 @@
     <div class="team-card-name"><svg class="flag-icon" viewBox="0 0 30 20" width="20" height="14" role="img" aria-label="Flag of the United States"><rect width="30" height="20" rx="2" fill="#fff"/><g fill="#b31942"><rect y="0" width="30" height="1.54"/><rect y="3.08" width="30" height="1.54"/><rect y="6.15" width="30" height="1.54"/><rect y="9.23" width="30" height="1.54"/><rect y="12.31" width="30" height="1.54"/><rect y="15.38" width="30" height="1.54"/><rect y="18.46" width="30" height="1.54"/></g><rect width="12" height="10.77" fill="#0a3161"/><rect width="30" height="20" rx="2" fill="none" stroke="#d8dce3" stroke-width="1"/></svg>Team US</div>
     <div class="team-card-members">Dan S., Matt W., Frank, Eric, Mat R., James, Felipe</div>
   </div>
+</div>
+
+<div class="research-panel" id="researchPanel">
+  <div class="research-panel-title">Research Paper Dates</div>
+  <div class="research-countdown" id="researchCountdown" hidden></div>
+  <ul class="research-date-list" id="researchDateList">
+    <li class="research-date-item" data-due="2026-08-24T08:30:00" data-kind="due">
+      <div class="research-date-when">Aug 24 <span class="research-date-nlt">NLT 0830</span></div>
+      <div class="research-date-desc">Research Question &amp; Draft Thesis, and Initial Outline due</div>
+    </li>
+    <li class="research-date-item" data-due="2026-08-28T23:59:59" data-kind="range">
+      <div class="research-date-when">Aug 25&ndash;28</div>
+      <div class="research-date-desc">IPR #1</div>
+    </li>
+    <li class="research-date-item" data-due="2026-09-08T08:30:00" data-kind="due">
+      <div class="research-date-when">Sep 8 <span class="research-date-nlt">NLT 0830</span></div>
+      <div class="research-date-desc">Full Research Paper Proposal due</div>
+    </li>
+    <li class="research-date-item" data-due="2026-09-10T23:59:59" data-kind="range">
+      <div class="research-date-when">Sep 8&ndash;10</div>
+      <div class="research-date-desc">IPR #2</div>
+    </li>
+    <li class="research-date-item" data-due="2026-10-05T12:00:00" data-kind="due">
+      <div class="research-date-when">Mon, Oct 5 <span class="research-date-nlt">NLT 1200</span></div>
+      <div class="research-date-desc">Draft Research Paper due</div>
+    </li>
+    <li class="research-date-item" data-due="2026-10-16T16:00:00" data-kind="due">
+      <div class="research-date-when">Fri, Oct 16 <span class="research-date-nlt">NLT 1600</span></div>
+      <div class="research-date-desc">Final Research Paper due</div>
+    </li>
+  </ul>
+  <p class="research-date-empty" id="researchDateEmpty" hidden>All research paper dates have passed.</p>
 </div>
   </aside>
 
@@ -2866,6 +2966,52 @@
     setTimeout(function() { box.focus(); }, 250);
   }
 
+  // ---------------- research paper dates / countdown ----------------
+  function updateResearchDates() {
+    var list = document.getElementById('researchDateList');
+    var countdownEl = document.getElementById('researchCountdown');
+    var emptyEl = document.getElementById('researchDateEmpty');
+    if (!list || !countdownEl || !emptyEl) return;
+
+    var now = new Date();
+    var items = list.querySelectorAll('.research-date-item');
+    var nextDueEl = null;
+    var nextDueTime = null;
+    var anyVisible = false;
+
+    items.forEach(function(li) {
+      li.classList.remove('is-next');
+      var due = new Date(li.dataset.due);
+      if (due < now) {
+        li.hidden = true;
+        return;
+      }
+      li.hidden = false;
+      anyVisible = true;
+      if (li.dataset.kind === 'due' && (!nextDueTime || due < nextDueTime)) {
+        nextDueTime = due;
+        nextDueEl = li;
+      }
+    });
+
+    emptyEl.hidden = anyVisible;
+
+    if (nextDueEl && nextDueTime) {
+      nextDueEl.classList.add('is-next');
+      var diffMs = nextDueTime - now;
+      var totalHours = Math.floor(diffMs / 3600000);
+      var days = Math.floor(totalHours / 24);
+      var hours = totalHours % 24;
+      var desc = nextDueEl.querySelector('.research-date-desc').textContent;
+      countdownEl.hidden = false;
+      countdownEl.innerHTML = '<span class="rc-label">Next research paper deadline</span>' +
+        '<span class="rc-time">' + days + 'd ' + hours + 'h</span> ' +
+        '<span class="rc-desc">&mdash; ' + desc + '</span>';
+    } else {
+      countdownEl.hidden = true;
+    }
+  }
+
   function collapseHeavyPanelsIfMobile() {
     if (window.innerWidth < 720) {
       document.querySelectorAll('.seminar-notes-panel, .course-update-panel').forEach(function(p) {
@@ -2950,6 +3096,8 @@
   buildSearchIndex();
   initReadingCheckboxes();
   collapseHeavyPanelsIfMobile();
+  updateResearchDates();
+  setInterval(updateResearchDates, 60000);
 })();
 </script>
 
