@@ -85,7 +85,7 @@
     background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
     color: #fff;
     border-radius: 14px;
-    padding: 20px 44px 20px 18px;
+    padding: 18px;
     margin-bottom: 20px;
     position: relative;
     overflow: hidden;
@@ -98,35 +98,38 @@
     background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
   }
   .sidebar-title {
-    margin: 0 0 6px;
+    margin: 0 0 14px;
     font-family: var(--serif);
     font-weight: 600;
-    font-size: 1.28rem;
-    line-height: 1.25;
+    font-size: 1.22rem;
+    line-height: 1.3;
     letter-spacing: 0.2px;
-  }
-  .sidebar-subtitle {
-    margin: 0 0 16px;
-    color: #cfd8e8;
-    font-size: 0.76rem;
-    font-style: italic;
-    font-family: var(--serif);
-    line-height: 1.4;
+    padding-right: 24px;
   }
   .sidebar-controls {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
   }
-  .sidebar-controls .today-btn { padding: 9px 16px; font-size: 0.82rem; }
+  .sidebar-controls .today-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 9px 14px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+  .sidebar-controls .theme-toggle-btn {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+  }
   .drawer-close-btn {
     display: none;
     position: absolute;
     top: 14px;
     right: 14px;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     align-items: center;
     justify-content: center;
     border-radius: 999px;
@@ -136,7 +139,7 @@
     cursor: pointer;
     flex-shrink: 0;
   }
-  .drawer-close-btn svg { width: 16px; height: 16px; }
+  .drawer-close-btn svg { width: 14px; height: 14px; }
   .drawer-close-btn:hover { background: rgba(255,255,255,0.18); }
   .flag-icon { flex-shrink: 0; border-radius: 2px; display: inline-block; }
   .flag-icon-inline { vertical-align: -2px; }
@@ -209,14 +212,6 @@
       margin-bottom: 2px;
     }
     .sidebar .toolbar-btn { width: 100%; }
-    .sidebar .legend {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-      border-bottom: none;
-      padding-bottom: 0;
-      margin-bottom: 0;
-    }
     .card-body {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -366,6 +361,7 @@
     white-space: nowrap;
   }
   .badge-type { background: #5c6f8a; }
+  .badge-homework { background: #6a3fa0; }
   .missing-badge { background: #c0392b; }
   .card-body {
     padding: 6px 22px 20px 22px;
@@ -607,31 +603,6 @@
   .sn-notes-list { margin-top: 4px; }
   .sn-notes-list li { font-size: 0.86rem; margin-bottom: 8px; }
 
-  /* --- legend --- */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin: 2px 0 22px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-weight: 600;
-  }
-  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-  .dot-session { background: var(--navy-text); }
-  .dot-offsite { background: #0b7d6b; }
-  .dot-deadline { background: #c0392b; }
-  .dot-social { background: var(--gold); }
-  .dot-admin { background: #b7bfcc; }
-  .dot-note { background: #7a8aa8; }
-  .dot-homework { background: #6a3fa0; }
 
   /* --- team assignments panel --- */
   .team-panel {
@@ -976,7 +947,6 @@
 
   @media (max-width: 720px) {
     .sidebar-title { font-size: 1.12rem; }
-    .sidebar-subtitle { font-size: 0.72rem; }
 
     .page-layout { padding: 20px 14px 128px; }
     .cal-intro p { font-size: 0.85rem; }
@@ -991,9 +961,6 @@
     .toolbar { flex-wrap: wrap; padding: 12px 0; gap: 8px; }
     #searchBox { flex: 1 1 100%; padding: 10px 14px; font-size: 0.9rem; }
     .toolbar-btn { flex: 1 1 auto; padding: 9px 12px; font-size: 0.8rem; }
-
-    .legend { gap: 10px 14px; margin-bottom: 18px; padding-bottom: 14px; }
-    .legend-item { font-size: 0.72rem; }
 
     .cal-month-header { font-size: 1rem; margin: 26px 0 10px; }
     .cal-day { flex-direction: column; gap: 8px; padding: 12px 0; }
@@ -1057,7 +1024,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
       <h1 class="sidebar-title">JMO Course Reference &amp; Calendar</h1>
-      <p class="sidebar-subtitle">Joint Military Operations Department — Seminar Leadership Course, Fall 2026 · Magnificent Seminar 7</p>
       <div class="sidebar-controls">
         <button type="button" class="today-btn" data-action="jump-today">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><circle cx="12" cy="15" r="2" fill="currentColor" stroke="none"/></svg>
@@ -1074,16 +1040,6 @@
       <button type="button" class="toolbar-btn" data-action="expand-all">Expand all</button>
       <button type="button" class="toolbar-btn" data-action="collapse-all">Collapse all</button>
     </div>
-    
-<div class="legend">
-  <span class="legend-item"><span class="legend-dot dot-session"></span>Session</span>
-  <span class="legend-item"><span class="legend-dot dot-offsite"></span>Off&#8209;Site</span>
-  <span class="legend-item"><span class="legend-dot dot-deadline"></span>Deadline</span>
-  <span class="legend-item"><span class="legend-dot dot-social"></span>Event</span>
-  <span class="legend-item"><span class="legend-dot dot-admin"></span>Admin</span>
-  <span class="legend-item"><span class="legend-dot dot-note"></span>Note</span>
-  <span class="legend-item"><span class="legend-dot dot-homework"></span>Homework</span>
-</div>
 
 <div class="team-panel">
   <div class="team-panel-title">Team Assignments &mdash; Philippines Campaign</div>
@@ -1150,7 +1106,7 @@
           <span class="title">Course Overview</span>
           <span class="card-meta-line">0830-0900 &middot; Lecture Pringle</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Lecture</span><span class="badge">2 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Lecture</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;We will be confronted by further challenges driven by developments in artificial intelligence, quantum computing, hypersonics [and] space-based capabilities, not to mention the developments that we can’t even imagine yet. There will be no substitute for leadership that encourages critical thinking. There will be no substitute for leaders that recognize the implications of new ideas, new approaches and new technologies. There will be no substitute for leaders that take action to effect change.&rdquo;</p>
@@ -1179,7 +1135,7 @@
           <span class="title">Introductory Seminar</span>
           <span class="card-meta-line">0915-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">3 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;The whole is greater than the sum of its parts.&rdquo;</p>
@@ -1211,7 +1167,7 @@
           <span class="title">Problem Solving and Military Decision Making</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle/Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span><span class="badge">5 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;Whenever we find ourselves confronted by a situation which calls for something to be done, we pass from recognition of the necessity for action to the action itself by mental processes which, often without deliberate consciousness on our part, follow a certain clearly defined course. We see the something to be accomplished, evaluate and balance the factors entering into its accomplishment, and decide upon the way of going about it. In many, perhaps in most, cases, the something to be done is rather vaguely seen, the evaluation of factors involved is incomplete, and the decision is hasty: but the process, however superficial, is inevitably logical to the extent that some sort of a decision precedes the action, some sort of an estimate precedes the decision, and some recognition of the end to be attained precedes the estimate.&rdquo;</p>
@@ -1249,7 +1205,7 @@
           <span class="title">The Pacing Threat</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle/Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Panel/Seminar</span><span class="badge">7 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Panel/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;The United States cannot allow any nation to become so dominant that it could threaten our interests... we must prevent the global, and in some cases even regional, domination of others.&rdquo;</p>
@@ -1290,7 +1246,7 @@
           <span class="title">Research Paper</span>
           <span class="card-meta-line">0830-1000 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">5 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;in today’s turbulent security environment, we will succeed and defeat our enemies by out-thinking them. To do that, and to be successful senior officers, you need to read, think, and write.&rdquo;</p>
@@ -1322,7 +1278,7 @@
           <span class="title">Strategic Background of the Philippines Campaign</span>
           <span class="card-meta-line">1015-1145 &middot; Lecture Pringle</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Lecture</span><span class="badge">2 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Lecture</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;I must say that during phases there, I thought it was not possible in such a broad theater to plan so far in advance, when so much depended on the success of certain of the local operations as to whether they should be continued, whether we should continue along that course.&rdquo;</p>
@@ -1357,7 +1313,7 @@
           <span class="title">Introduction to Operational Art and Principles of War</span>
           <span class="card-meta-line">0830-1000 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">3 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;Throughout the hierarchy of enlightenment, from Truth, which the epistemologists say exists but is never known with certainty, to principles, which express our contemporary vision of Truth, to policy and doctrine, which are programs for concerted action based on principles, and finally to strategic or tactical decisions, which are individual actions guided by policy and doctrine--throughout this hierarchy, error creeps in.&rdquo;</p>
@@ -1389,7 +1345,7 @@
           <span class="title">Military Objective and Levels of War</span>
           <span class="card-meta-line">1015-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">6 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;What do you want to achieve or avoid? The answers to this question are objectives. How will you go about achieving your desired results? The answer to this you can call strategy.&rdquo;</p>
@@ -1421,7 +1377,7 @@
           <span class="title">Operational Factors and Theater Geometry</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge badge-homework">Homework</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;I intend, if possible, to deny the enemy a chance to outrange me in an air duel and also to deny him an opportunity to employ an air shuttle against me. If I am to prevent his gaining that advantage, I must have early information and I must move smartly.&rdquo;</p>
@@ -1460,7 +1416,7 @@
           <span class="title">Operational Functions</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;The commander must exercise all the joint functions to effectively operate the force and generate combat power. Inadequate integration and balancing of these functions can undermine the cohesion, effectiveness, and adaptability of the force.&rdquo;</p>
@@ -1499,7 +1455,7 @@
           <span class="title">Critical Factor Analysis</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge">3 readings</span></span>
+        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge badge-homework">Homework</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;The Japanese in the Philippines were ill prepared to withstand invasion. Indeed, the Japanese forces as a whole were now suffering the consequences of their own earlier success. Having passed what Clausewitz calls ‘the culminating point of the offensive’, they found themselves in possession of more territory than they could closely defend and were confronted by an enemy who was on the rampage and whose resources were growing by the month.&rdquo;</p>
@@ -1546,7 +1502,7 @@
           <span class="title">Operational Design / Operational Leadership Philippines Campaign</span>
           <span class="card-meta-line">1015-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge">6 readings</span></span>
+        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge badge-homework">Homework</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;It is still somewhat of a mystery how and whence… MacArthur derived his authority to use United States Forces to liberate one Philippines island after another. He had no specific directive for anything subsequent to Luzon…&rdquo;</p>
@@ -1606,7 +1562,7 @@
           <span class="title">Commander&#x27;s Estimate of the Situation (CES) / Operational Idea Philippines</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge">5 readings</span></span>
+        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Seminar</span><span class="badge badge-homework">Homework</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;…all too often it is forgotten that the main-in fact, the sole- purpose of the estimate is to reach a quick and good, not the best, decision.&rdquo;</p>
@@ -1645,7 +1601,7 @@
           <span class="title">Wargame Philippines</span>
           <span class="card-meta-line">0830-1430 &middot; Wargame Philippines</span>
         </span>
-        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Wargame</span><span class="badge">2 readings</span></span>
+        <span class="badges"><span class="badge badge-new">New update</span><span class="badge badge-type">Wargame</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;Wargames are extremely valuable means for enhancing training of commanders and their staffs in decision making and writing plans and orders. This is especially the case in an era of shrinking forces and resources. Wargames greatly help to focus the minds of the participants on all aspects of warfare. They are excellent tools to enhance tactical or operational thinking of future commanders and their staffs.&rdquo;</p>
@@ -1684,7 +1640,7 @@
           <span class="title">Naval Power and the Role of Naval Forces</span>
           <span class="card-meta-line">0830-1000 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-new">New update</span><span class="cal-guest">Guest: ADM Polar</span><span class="badge badge-type">Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="badge badge-new">New update</span><span class="cal-guest">Guest: ADM Polar</span><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;A Navy performs one or more of four functions and no others: At sea it (1) assures that our own goods and services are safe and (2) that the enemies are not. From the sea, it (3) guarantees safe delivery of goods and services ashore, and (4) prevents delivery ashore by an enemy navy.&rdquo;</p>
@@ -1717,7 +1673,7 @@
           <span class="title">Struggle for Sea Control</span>
           <span class="card-meta-line">1015-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">11 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;…control of the seas means security. Control of the seas can mean peace. Control of the seas can mean victory. The United States must control the sea if it is to protect your security.&rdquo;</p>
@@ -1762,7 +1718,7 @@
           <span class="title">Operational Design: Falklands/Malvinas Conflict</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle/Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span><span class="badge">11 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;An officer said when it was all over, “We re-learned a lot of old lessons. We talk a great deal about what went wrong. What is really remarkable is how much went right&rdquo;</p>
@@ -1817,7 +1773,7 @@
           <span class="title">Commander&#x27;s Estimate of the Situation (CES) Falklands/Malvinas</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">5 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;Making a decision is one of the most important responsibilities of a military commander at any level of command and is especially critical in combat.&rdquo;</p>
@@ -1849,7 +1805,7 @@
           <span class="title">Wargame Falklands/Malvinas</span>
           <span class="card-meta-line">0830-1430 &middot; Wargame Falklands/Malvinas</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Wargame</span><span class="badge">3 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Wargame</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;In the context of training, wargaming needs to be used more broadly to fill what is arguably our greatest deficiency in the training and education of leaders: practice in decision- making against a thinking enemy.&rdquo;</p>
@@ -1893,7 +1849,7 @@
           <span class="title">Operational Art Examination</span>
           <span class="card-meta-line">0830 issued / 1200 returned &middot; Exam</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Individual Effort</span><span class="badge">1 reading</span></span>
+        <span class="badges"><span class="badge badge-type">Individual Effort</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;No wonder then, that war, though it may appear to be uncomplicated, cannot be waged with distinction except by men of outstanding intellect.&rdquo;</p>
@@ -1928,7 +1884,7 @@
           <span class="title">National Strategies to Strategic Guidance</span>
           <span class="card-meta-line">0830-1145 &middot; Classified Lecture MLH / UNCLASS Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">5 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;This document (2025 National Security Strategy) is a roadmap to ensure that America remains the greatest and most successful nation in human history, and the home of freedom on earth. In the years ahead, we will continue to develop every dimension of our national strength – and we will make America safer, richer, freer, greater, and more powerful than ever before.&rdquo;</p>
@@ -1960,7 +1916,7 @@
           <span class="title">Strategic Direction to Operational Plans (Classified Seminar)</span>
           <span class="card-meta-line">0830-1145 &middot; Classified Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Classified Seminar</span><span class="badge">3 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Classified Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;The threats we face are advancing and they are multi- faceted. Emerging&rdquo;</p>
@@ -1992,7 +1948,7 @@
           <span class="title">Campaigning and Conceptual Planning</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">6 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;The commander in war must work in a medium which his eyes cannot see; which his best deductive powers cannot always fathom; and with which, because of constant changes, he can rarely become completely familiar.&rdquo;</p>
@@ -2033,7 +1989,7 @@
           <span class="title">The Joint Planning Process</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle/Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span><span class="badge">7 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;That is the reason it is so important to plan, to keep yourselves steeped in the character of the problem that you may one day be called upon to solve--or to help to solve.&rdquo;</p>
@@ -2068,7 +2024,7 @@
           <span class="title">Contemporary Challenges to Sea Control (Classified Lecture/Seminar)</span>
           <span class="card-meta-line">0830-1145 &middot; Classified Lecture MLH / Seminar</span>
         </span>
-        <span class="badges"><span class="cal-guest">Guest: Fitzsimons</span><span class="badge badge-type">Classified Lecture/Seminar</span><span class="badge">1 reading</span></span>
+        <span class="badges"><span class="cal-guest">Guest: Fitzsimons</span><span class="badge badge-type">Classified Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;We need to do more to take interests in the sea, understand the sea, and strategically manage the sea, and continually do more to promote China’s efforts to become a maritime power.&rdquo;</p>
@@ -2100,7 +2056,7 @@
           <span class="title">Chinese Maritime Strategy</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle / Seminar</span>
         </span>
-        <span class="badges"><span class="cal-guest">Guest: Caldwell</span><span class="badge badge-type">Lecture/Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="cal-guest">Guest: Caldwell</span><span class="badge badge-type">Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;Just as the IJN and the U.S. Navy inflicted heavy losses on each other in single encounters, it is conceivable that a future engagement involving the PLA could be decided in an afternoon.&rdquo;</p>
@@ -2141,7 +2097,7 @@
           <span class="title">Chinese Operational-Level Warfare</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle / Seminar</span>
         </span>
-        <span class="badges"><span class="cal-guest">Guest: Easton</span><span class="badge badge-type">Lecture/Seminar</span><span class="badge">6 readings</span></span>
+        <span class="badges"><span class="cal-guest">Guest: Easton</span><span class="badge badge-type">Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;...But from the start, we took an overarching point of view, seeing the US military as an apple sectioned in many ways for study. We believe that only with a thorough understanding of all of the US military&#x27;s strong points and shortcomings can we surpass the US military, first in theory and then in practice.&rdquo;</p>
@@ -2176,7 +2132,7 @@
           <span class="title">Operational Command and Control</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">7 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;I don’t care how operationally brilliant you are; if you can’t create harmony – vicious harmony – on the battlefield, based on trust across different military services, foreign allied militaries, and diplomatic lines, you need to go home, because your leadership is obsolete.&rdquo;</p>
@@ -2211,7 +2167,7 @@
           <span class="title">Operational Intelligence</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;By ‘intelligence’ we mean every sort of information about the enemy and his country – the basis, in short of our own plans and operations.&rdquo;</p>
@@ -2252,7 +2208,7 @@
           <span class="title">Joint Logistics and Campaigning</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle/Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span><span class="badge">7 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;A sound logistics plan is the foundation upon which a war operation should be based. If the necessary minimum of logistics support cannot be given to the combatant forces involved, the operation may fail, or at best be only partially successful.&rdquo;</p>
@@ -2290,7 +2246,7 @@
           <span class="title">Information Warfare</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Contemporary Doctrine and Planning</div><blockquote class="epigraph">
       <p>&ldquo;The profoundest truth of war is that the issue of battle is usually decided in the minds of the opposing commanders, not the bodies of their men.&rdquo;</p>
@@ -2331,7 +2287,7 @@
           <span class="title">Space Warfare</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle/Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span><span class="badge">6 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;Through Operation EPIC FURY, the Chairman of the Joint Chiefs, Gen. Caine, highlighted U.S. Space Command as a first mover— layering non-kinetic effects to disrupt and degrade Iran’s ability to see, communicate, and respond at the very start of major combat operations. Space superiority is the foundation of our national security and global stability.&rdquo;</p>
@@ -2366,7 +2322,7 @@
           <span class="title">Russian Way of War</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle/Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;All our responses will be asymmetric, but they will be highly effective.&rdquo;</p>
@@ -2404,7 +2360,7 @@
           <span class="title">Cyberspace Operations in Warfare</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">6 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;We can thus only say that the aims a belligerent adopts, and the resources he employs, must be governed by the particular characteristics of his own position; but they will also conform to the spirit of the age and to its general character.&rdquo;</p>
@@ -2442,7 +2398,7 @@
           <span class="title">Small Wars and Irregular Warfare</span>
           <span class="card-meta-line">0830-1145 &middot; Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;A revolutionary war is never confined within the bounds of military action. Because its purpose is to destroy an existing society and its institutions and to replace them with a completely new state structure, any revolutionary war is a unity of which the constituent parts, in varying importance, are military, political, economic, social, and psychological.&rdquo;</p>
@@ -2477,7 +2433,7 @@
           <span class="title">Navy Future Warfighting Concept - DMO (Classified Lecture/Seminar)</span>
           <span class="card-meta-line">0830-1145 &middot; Classified Lecture MLH/Seminar — Navy Future Warfighting Concept (DMO)</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span><span class="badge">2 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;Conceal your dispositions, and your condition will remain secret, which leads to victory; show your dispositions, and your condition will become patent, which leads to defeat&rdquo;</p>
@@ -2509,7 +2465,7 @@
           <span class="title">Marine Corps Future Warfighting Concept - EABO (Classified Lecture/Seminar)</span>
           <span class="card-meta-line">0830-1145 &middot; Classified Lecture MLH/Seminar — Marine Corps Future Warfighting Concept (EABO)</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span><span class="badge">3 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;The Marines have landed, and the situation is well in hand.&rdquo;</p>
@@ -2541,7 +2497,7 @@
           <span class="title">Air Force Future Warfighting Concept - ACE (Classified Lecture/Seminar)</span>
           <span class="card-meta-line">0830-1145 &middot; Classified Lecture MLH/Seminar — Air Force Future Warfighting Concept (ACE)</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span><span class="badge">1 reading</span></span>
+        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;It is easier—and more effective—to destroy the enemy’s aerial power by destroying his nests and eggs on the ground than to hunt his flying birds in the air.&rdquo;</p>
@@ -2573,7 +2529,7 @@
           <span class="title">Army Warfighting Concept - MDO (Classified Lecture/Seminar)</span>
           <span class="card-meta-line">0830-1145 &middot; Classified Lecture MLH/Seminar — Army Warfighting Concept (MDO)</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span><span class="badge">2 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;We need to shift from a domain-based concept of old tactics with&rdquo;</p>
@@ -2608,7 +2564,7 @@
           <span class="title">Joint Warfighting Concept Overview (Classified Lecture/Seminar)</span>
           <span class="card-meta-line">0830-1145 &middot; US Only — Classified Lecture MLH / Seminar</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span><span class="badge">4 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Classified Lecture/Seminar</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Joint and Service Warfighting Concepts</div><blockquote class="epigraph">
       <p>&ldquo;Victory smiles upon those who anticipate the change in the character of war, not upon those who wait to adapt themselves after the change occurs.&rdquo;</p>
@@ -2647,7 +2603,7 @@
           <span class="title">Capstone Synthesis Event</span>
           <span class="card-meta-line">0830-1145 &middot; Lecture Pringle / Exercise — Capstone Synthesis Event begins</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Exercise</span><span class="badge">2 readings</span></span>
+        <span class="badges"><span class="badge badge-type">Exercise</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Warfighting Capstone</div><blockquote class="epigraph">
       <p>&ldquo;1) Is the proposed operation likely to succeed? 2) What might be the consequences of failure? 3) Is it in the realm of practicability in terms of material and supplies?&rdquo;</p>
