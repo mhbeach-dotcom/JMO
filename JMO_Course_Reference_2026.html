@@ -523,6 +523,18 @@
     padding: 40px 0;
     font-style: italic;
   }
+  .search-status {
+    display: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: -4px 0 12px 2px;
+  }
+  .session-card .title mark {
+    background: #ffe066;
+    color: #1a1a1a;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
   .back-to-top {
     position: fixed;
     bottom: 24px;
@@ -1134,6 +1146,7 @@
       <button type="button" class="toolbar-btn" data-action="expand-all">Expand all</button>
       <button type="button" class="toolbar-btn" data-action="collapse-all">Collapse all</button>
     </div>
+    <div class="search-status" id="searchStatus" aria-live="polite"></div>
 
 <div class="team-panel">
   <div class="team-panel-title">Team Assignments &mdash; Philippines Campaign</div>
@@ -2941,35 +2954,66 @@
 
   // ---------------- search (dynamic DOM text matching) ----------------
   var searchIndex = [];
+  var totalSessionCount = 0;
+
+  function escapeRegExp(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
 
   function buildSearchIndex() {
     searchIndex = Array.prototype.map.call(document.querySelectorAll('.session-card'), function(card) {
+      var titleEl = card.querySelector('summary .title');
       return {
         card: card,
         code: card.dataset.code,
-        text: card.textContent.toLowerCase()
+        text: card.textContent.toLowerCase(),
+        titleEl: titleEl,
+        titleHTML: titleEl ? titleEl.innerHTML : ''
       };
     });
+    totalSessionCount = searchIndex.length;
+  }
+
+  function highlightTitle(entry, terms) {
+    if (!entry.titleEl) return;
+    if (!terms.length) {
+      entry.titleEl.innerHTML = entry.titleHTML;
+      return;
+    }
+    var pattern = new RegExp('(' + terms.map(escapeRegExp).join('|') + ')', 'gi');
+    entry.titleEl.innerHTML = entry.titleHTML.replace(pattern, '<mark>$1</mark>');
   }
 
   function filterSessions() {
     var q = document.getElementById('searchBox').value.trim().toLowerCase();
+    var terms = q ? q.split(/\s+/).filter(Boolean) : [];
     var visibleCodes = {};
     var visibleCount = 0;
     searchIndex.forEach(function(entry) {
-      var match = !q || entry.text.indexOf(q) !== -1;
+      var match = !terms.length || terms.every(function(term) {
+        return entry.text.indexOf(term) !== -1;
+      });
       entry.card.style.display = match ? '' : 'none';
       if (match) {
         visibleCount++;
         visibleCodes[entry.code] = true;
-        if (q) entry.card.open = true;
+        if (terms.length) entry.card.open = true;
       }
+      highlightTitle(entry, match ? terms : []);
     });
     document.querySelectorAll('.cal-item-continuation').forEach(function(item) {
-      var match = !q || visibleCodes[item.dataset.code];
+      var match = !terms.length || visibleCodes[item.dataset.code];
       item.style.display = match ? '' : 'none';
     });
-    document.getElementById('noResults').style.display = (q && visibleCount === 0) ? 'block' : 'none';
+    var noResults = document.getElementById('noResults');
+    var status = document.getElementById('searchStatus');
+    noResults.style.display = (terms.length && visibleCount === 0) ? 'block' : 'none';
+    if (terms.length && visibleCount > 0) {
+      status.textContent = visibleCount + ' of ' + totalSessionCount + ' sessions match';
+      status.style.display = 'block';
+    } else {
+      status.style.display = 'none';
+    }
   }
 
   function expandAll() {
@@ -3140,7 +3184,26 @@
     if (e.key === 'Escape') closeDrawer();
   });
 
-  document.getElementById('searchBox').addEventListener('input', filterSessions);
+  document.getElementById('searchBox').addEventListener('input', debounce(filterSessions, 100));
+
+  document.getElementById('searchBox').addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      if (this.value) {
+        this.value = '';
+        filterSessions();
+        e.stopPropagation();
+      }
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      var firstMatch = searchIndex.filter(function(entry) {
+        return entry.card.style.display !== 'none';
+      })[0];
+      if (firstMatch) {
+        firstMatch.card.open = true;
+        firstMatch.card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
 
   window.addEventListener('scroll', function() {
     var btn = document.getElementById('backToTop');
