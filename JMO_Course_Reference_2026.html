@@ -247,10 +247,16 @@
     border-bottom: 1px solid var(--border);
     margin-bottom: 10px;
   }
+  .search-box-wrap {
+    position: relative;
+    flex: 1;
+    display: flex;
+  }
   #searchBox {
     flex: 1;
+    width: 100%;
     min-height: 44px;
-    padding: 11px 16px;
+    padding: 11px 40px 11px 16px;
     border-radius: 999px;
     border: 1.5px solid var(--border);
     font-size: 0.95rem;
@@ -263,6 +269,29 @@
   #searchBox:focus {
     border-color: var(--navy-text);
     box-shadow: 0 0 0 3px rgba(11,37,69,0.1);
+  }
+  .search-clear-btn {
+    display: none;
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+  }
+  .search-clear-btn:hover {
+    background: var(--border);
+    color: var(--text);
   }
   .toolbar-btn {
     min-height: 44px;
@@ -529,7 +558,7 @@
     font-size: 0.85rem;
     margin: -4px 0 12px 2px;
   }
-  .session-card .title mark {
+  mark.search-hl {
     background: #ffe066;
     color: #1a1a1a;
     border-radius: 2px;
@@ -1065,7 +1094,8 @@
     .mod-grid { grid-template-columns: 1fr; gap: 10px; }
 
     .toolbar { flex-wrap: wrap; padding: 12px 0; gap: 8px; }
-    #searchBox { flex: 1 1 100%; padding: 10px 14px; font-size: 0.9rem; }
+    .search-box-wrap { flex: 1 1 100%; }
+    #searchBox { padding: 10px 40px 10px 14px; font-size: 0.9rem; }
     .toolbar-btn { flex: 1 1 auto; padding: 9px 12px; font-size: 0.8rem; }
 
     .cal-month-header { font-size: 1rem; margin: 26px 0 10px; }
@@ -1142,7 +1172,10 @@
       </div>
     </div>
     <div class="toolbar">
-      <input id="searchBox" type="text" placeholder="Search objectives, questions, readings, authors…" autocomplete="off">
+      <div class="search-box-wrap">
+        <input id="searchBox" type="text" placeholder="Search objectives, questions, readings, authors…" autocomplete="off">
+        <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear search" title="Clear search">&times;</button>
+      </div>
       <button type="button" class="toolbar-btn" data-action="expand-all">Expand all</button>
       <button type="button" class="toolbar-btn" data-action="collapse-all">Collapse all</button>
     </div>
@@ -2962,26 +2995,83 @@
 
   function buildSearchIndex() {
     searchIndex = Array.prototype.map.call(document.querySelectorAll('.session-card'), function(card) {
-      var titleEl = card.querySelector('summary .title');
       return {
         card: card,
         code: card.dataset.code,
-        text: card.textContent.toLowerCase(),
-        titleEl: titleEl,
-        titleHTML: titleEl ? titleEl.innerHTML : ''
+        text: card.textContent.toLowerCase()
       };
     });
     totalSessionCount = searchIndex.length;
   }
 
-  function highlightTitle(entry, terms) {
-    if (!entry.titleEl) return;
-    if (!terms.length) {
-      entry.titleEl.innerHTML = entry.titleHTML;
-      return;
-    }
-    var pattern = new RegExp('(' + terms.map(escapeRegExp).join('|') + ')', 'gi');
-    entry.titleEl.innerHTML = entry.titleHTML.replace(pattern, '<mark>$1</mark>');
+  function clearHighlights() {
+    document.querySelectorAll('mark.search-hl').forEach(function(mark) {
+      var parent = mark.parentNode;
+      if (!parent) return;
+      while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+      parent.removeChild(mark);
+      parent.normalize();
+    });
+  }
+
+  function highlightTerms(root, terms) {
+    var testRe = new RegExp(terms.map(escapeRegExp).join('|'), 'i');
+    var globalRe = new RegExp(terms.map(escapeRegExp).join('|'), 'gi');
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(node) {
+        var p = node.parentNode;
+        if (!p || p.nodeName === 'SCRIPT' || p.nodeName === 'STYLE') return NodeFilter.FILTER_REJECT;
+        return testRe.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    var nodes = [];
+    var n;
+    while ((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function(node) {
+      var text = node.nodeValue;
+      var frag = document.createDocumentFragment();
+      var lastIndex = 0;
+      var m;
+      globalRe.lastIndex = 0;
+      while ((m = globalRe.exec(text))) {
+        if (m.index > lastIndex) frag.appendChild(document.createTextNode(text.slice(lastIndex, m.index)));
+        var mark = document.createElement('mark');
+        mark.className = 'search-hl';
+        mark.textContent = m[0];
+        frag.appendChild(mark);
+        lastIndex = globalRe.lastIndex;
+      }
+      if (lastIndex < text.length) frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  // Non-session calendar entries (holidays, admin notes, etc.) that should
+  // disappear along with non-matching sessions while a search is active.
+  function filterCalendarNoise(terms) {
+    document.querySelectorAll('.cal-day-items > *').forEach(function(item) {
+      if (item.classList.contains('session-card') || item.classList.contains('cal-item-continuation')) return;
+      item.style.display = terms.length ? 'none' : '';
+    });
+    var currentMonthHeader = null;
+    var monthHasVisibleDay = new Map();
+    document.querySelectorAll('#calAgenda > *').forEach(function(el) {
+      if (el.classList.contains('cal-month-header')) {
+        currentMonthHeader = el;
+        monthHasVisibleDay.set(el, false);
+        return;
+      }
+      if (!el.classList.contains('cal-day')) return;
+      var itemsContainer = el.querySelector('.cal-day-items');
+      var hasVisible = !terms.length || (itemsContainer && Array.prototype.some.call(itemsContainer.children, function(c) {
+        return c.style.display !== 'none';
+      }));
+      el.style.display = hasVisible ? '' : 'none';
+      if (hasVisible && currentMonthHeader) monthHasVisibleDay.set(currentMonthHeader, true);
+    });
+    monthHasVisibleDay.forEach(function(hasVisible, header) {
+      header.style.display = (!terms.length || hasVisible) ? '' : 'none';
+    });
   }
 
   function filterSessions() {
@@ -2989,6 +3079,7 @@
     var terms = q ? q.split(/\s+/).filter(Boolean) : [];
     var visibleCodes = {};
     var visibleCount = 0;
+    clearHighlights();
     searchIndex.forEach(function(entry) {
       var match = !terms.length || terms.every(function(term) {
         return entry.text.indexOf(term) !== -1;
@@ -2997,16 +3088,21 @@
       if (match) {
         visibleCount++;
         visibleCodes[entry.code] = true;
-        if (terms.length) entry.card.open = true;
+        if (terms.length) {
+          entry.card.open = true;
+          highlightTerms(entry.card, terms);
+        }
       }
-      highlightTitle(entry, match ? terms : []);
     });
     document.querySelectorAll('.cal-item-continuation').forEach(function(item) {
       var match = !terms.length || visibleCodes[item.dataset.code];
       item.style.display = match ? '' : 'none';
+      if (match && terms.length) highlightTerms(item, terms);
     });
+    filterCalendarNoise(terms);
     var noResults = document.getElementById('noResults');
     var status = document.getElementById('searchStatus');
+    document.getElementById('searchClearBtn').style.display = q ? 'flex' : 'none';
     noResults.style.display = (terms.length && visibleCount === 0) ? 'block' : 'none';
     if (terms.length && visibleCount > 0) {
       status.textContent = visibleCount + ' of ' + totalSessionCount + ' sessions match';
@@ -3184,13 +3280,20 @@
     if (e.key === 'Escape') closeDrawer();
   });
 
+  function clearSearchBox() {
+    var box = document.getElementById('searchBox');
+    if (!box.value) return;
+    box.value = '';
+    filterSessions();
+    box.focus();
+  }
+
   document.getElementById('searchBox').addEventListener('input', debounce(filterSessions, 100));
 
   document.getElementById('searchBox').addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       if (this.value) {
-        this.value = '';
-        filterSessions();
+        clearSearchBox();
         e.stopPropagation();
       }
     } else if (e.key === 'Enter') {
@@ -3204,6 +3307,8 @@
       }
     }
   });
+
+  document.getElementById('searchClearBtn').addEventListener('click', clearSearchBox);
 
   window.addEventListener('scroll', function() {
     var btn = document.getElementById('backToTop');
