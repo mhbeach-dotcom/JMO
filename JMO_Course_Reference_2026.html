@@ -833,6 +833,30 @@
   .cal-item-note { border-left-color: #7a8aa8; }
   .cal-item-note .cal-item-main { font-style: italic; color: var(--muted); }
   .cal-item-note .cal-tag { background: #7a8aa8; }
+  .cal-offsite-card { padding: 0; display: block; }
+  .cal-offsite-card summary {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 12px;
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+  }
+  .cal-offsite-card summary::-webkit-details-marker { display: none; }
+  .cal-offsite-card summary::after {
+    content: "›";
+    font-size: 1.1rem;
+    color: #0b7d6b;
+    font-weight: 700;
+    margin-left: auto;
+    transform: rotate(90deg);
+    transition: transform 0.18s;
+  }
+  .cal-offsite-card[open] summary::after { transform: rotate(-90deg); }
+  .cal-offsite-card .offsite-body { padding: 0 12px 10px 12px; }
+  .cal-offsite-card .offsite-body ul.plain-list { margin: 0; }
 
   /* --- session card embedded in agenda --- */
   .cal-session-card { border-left: 3px solid var(--navy-text); }
@@ -2403,7 +2427,7 @@
           <div class="supp-label">Supplemental Reading <span class="opt">(optional)</span></div>
           <ul class="cite-list supp-list"><li class="cite supp"><span class="cite-text"><a href="https://www.rand.org/pubs/research_reports/RRA2771-1.html" target="_blank" rel="noopener">Helmus, Todd C. and Khrystyna Holynska. “Ukrainian Resistance to Russian Disinformation: Lessons for Future Conflict,” RAND, September 3, 2024. Read: 7-31, “The Ukrainian Counterdisinformation Campaign.”</a></span></li><li class="cite supp"><span class="cite-text"><a href="https://www.jcs.mil/Portals/36/Documents/Doctrine/concepts/joint_concepts_jcoie.pdf" target="_blank" rel="noopener">U. S. Office of the Chairman of the Joint Chiefs of Staff. Joint Concept for Operations in the Information Environment. Washington, D.C.: CJCS, July 25, 2018.</a></span></li></ul>
         </div></div>
-    </details><div class="cal-item cal-item-offsite"><span class="cal-tag">Off-Site</span><span class="cal-item-main">Off Site — Groton (TBD)</span></div></div>
+    </details></div>
         </div><div class="cal-day" id="day-2026-10-16">
           <div class="cal-day-date"><span class="cal-dow">Friday</span><span class="cal-dnum">Oct 16</span></div>
           <div class="cal-day-items"><div class="cal-item cal-item-admin"><span class="cal-item-main">Reading, Research, and Reflection</span></div><div class="cal-item cal-item-deadline"><span class="cal-tag">Deadline</span><span class="cal-item-main">1600 Research Papers Due</span></div></div>
@@ -2444,6 +2468,9 @@
           <div class="supp-label">Supplemental Reading <span class="opt">(optional)</span></div>
           <ul class="cite-list supp-list"><li class="cite supp"><span class="cite-text"><a href="https://digital-commons.usnwc.edu/nwc-review/vol57/iss1/7" target="_blank" rel="noopener">Klein, John J. “Corbett in Orbit.” Naval War College Review V. LVII, No. 1 (Winter 2004): 1-13.</a></span></li><li class="cite supp"><span class="cite-text"><a href="https://media.defense.gov/2025/Dec/23/2003849070/-1/-1/1/ANNUAL-REPORT-TO-CONGRESS-MILITARY-AND-SECURITY-DEVELOPMENTS-INVOLVING-THE-PEOPLES-REPUBLIC-OF-CHINA-2025.PDF" target="_blank" rel="noopener">U.S. Department of Defense. Military and Security Developments Involving the People’s Republic of China, Annual Report to Congress, 2025. pp 6-7, 16-22, 39-41.</a></span></li><li class="cite supp"><span class="cite-text"><a href="https://aerospace.csis.org/aerospace101/counterspace-weapons-101/" target="_blank" rel="noopener">Way, Tyler. “Counterspace Weapons 101.” Center for Strategic and International Studies, June 14, 2022.</a></span></li><li class="cite supp"><span class="cite-text"><a href="https://www.airuniversity.af.edu/Portals/10/CASI/documents/Translations/2022-01-26%202020%20Science%20of%20Military%20Strategy.pdf" target="_blank" rel="noopener">China Aerospace Studies Institute. “In Their Own Words: Science of Military Strategy 2020.” Montgomery, AL: Air University, Jan 2022.</a></span></li><li class="cite supp"><span class="cite-text"><a href="https://csps.aerospace.org/sites/default/files/2021-08/Reesman_PhysicsWarSpace_20201001.pdf" target="_blank" rel="noopener">Rebecca Reesman and James Wilson, “The Physics of Space War: How Orbital Dynamics Constrain Space-To-Space Engagements” (Washington, D.C.: Aerospace Corporation, 2020).</a></span></li></ul>
         </div></div>
+    </details><details class="cal-item cal-item-offsite cal-offsite-card">
+      <summary><span class="cal-tag">Off-Site</span><span class="cal-item-main">Off Site — Groton</span></summary>
+      <div class="offsite-body"><ul class="plain-list"><li>Tour of Naval Submarine School (Ship Control Trainer, Fire Fighting Trainer and Bridge Trainer)</li><li>Tour of USS Hyman G. Rickover (SSN 795) — <a href="https://ussrickover.org/" target="_blank" rel="noopener">ussrickover.org</a></li></ul></div>
     </details></div>
         </div><div class="cal-day" id="day-2026-10-21">
           <div class="cal-day-date"><span class="cal-dow">Wednesday</span><span class="cal-dnum">Oct 21</span></div>
