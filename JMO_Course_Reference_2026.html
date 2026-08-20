@@ -49,6 +49,9 @@
     .research-date-item.is-next .research-date-nlt { color: #f3a99c; }
     .event-callout { background: #2a2410; border-color: #6b5a1a; }
     .event-callout h4 { color: #e8c368; }
+    .hero-session-row.is-live .hero-state { color: #f3a99c; }
+    .hero-live-dot { background: #f3a99c; }
+    .next-up-bar { background: #0a1830; }
  }
   }
   :root[data-theme="dark"] { 
@@ -73,6 +76,9 @@
     .research-date-item.is-next .research-date-nlt { color: #f3a99c; }
     .event-callout { background: #2a2410; border-color: #6b5a1a; }
     .event-callout h4 { color: #e8c368; }
+    .hero-session-row.is-live .hero-state { color: #f3a99c; }
+    .hero-live-dot { background: #f3a99c; }
+    .next-up-bar { background: #0a1830; }
  }
 
   * { box-sizing: border-box; }
@@ -586,6 +592,38 @@
   .back-to-top.show { display: flex; }
   .back-to-top:hover { background: var(--navy-deep); }
 
+  .next-up-bar {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 44;
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 16px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--sans);
+    font-size: 0.84rem;
+    box-shadow: 0 -2px 12px rgba(16,24,40,0.18);
+  }
+  .next-up-bar.show { display: flex; }
+  .next-up-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .next-up-jump {
+    background: var(--gold);
+    color: var(--navy-deep);
+    border: none;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
   footer.page-footer {
     text-align: center;
     color: var(--muted);
@@ -594,7 +632,7 @@
   }
 
   @media print {
-    .toolbar, .back-to-top, .bottom-nav, .theme-toggle-btn, .sidebar, .drawer-backdrop { display: none; }
+    .toolbar, .back-to-top, .bottom-nav, .theme-toggle-btn, .sidebar, .drawer-backdrop, .hero-today, .next-up-bar { display: none !important; }
     .page-layout { display: block !important; max-width: none; }
     .session-card { break-inside: avoid; box-shadow: none; }
     .card-body { display: block !important; }
@@ -694,6 +732,49 @@
     color: var(--muted);
     margin-bottom: 10px;
   }
+  .hero-today {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 14px clamp(16px, 4vw, 32px);
+  }
+  .hero-today-inner { max-width: 1400px; margin: 0 auto; }
+  .hero-today-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .hero-today-sessions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-session-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-family: var(--sans);
+    cursor: pointer;
+    text-align: left;
+  }
+  .hero-session-code { font-weight: 700; color: var(--navy-text); }
+  .hero-session-title { color: var(--text); font-size: 0.88rem; }
+  .hero-state { font-size: 0.76rem; font-weight: 700; color: var(--muted); margin-left: auto; white-space: nowrap; }
+  .hero-session-row.is-live .hero-state { color: #a23225; }
+  .hero-live-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #a23225;
+    margin-right: 4px;
+    animation: heroLivePulse 1.4s ease-in-out infinite;
+  }
+  @keyframes heroLivePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  .hero-session-row.is-done { opacity: 0.6; }
+
   .research-countdown {
     background: #fdecea;
     border: 1px solid #f3b4ac;
@@ -1078,6 +1159,7 @@
     .bottom-nav button:active { color: var(--navy-text); }
     .bottom-nav button.active { color: var(--gold); }
     .page-layout { padding-bottom: 110px; }
+    .next-up-bar { bottom: 58px; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0)); }
   }
 
   @media (max-width: 720px) {
@@ -1152,6 +1234,13 @@
 </noscript>
 
 <div class="drawer-backdrop" id="drawerBackdrop" data-action="close-drawer"></div>
+
+<div class="hero-today" id="heroToday" hidden>
+  <div class="hero-today-inner">
+    <div class="hero-today-label" id="heroTodayLabel">Today</div>
+    <div class="hero-today-sessions" id="heroTodaySessions"></div>
+  </div>
+</div>
 
 <div class="page-layout">
   <aside class="sidebar">
@@ -2897,6 +2986,11 @@
 
 <button type="button" class="back-to-top" id="backToTop" data-action="scroll-top" aria-label="Back to top">&uarr;</button>
 
+<div class="next-up-bar" id="nextUpBar" hidden>
+  <span class="next-up-text" id="nextUpText"></span>
+  <button type="button" class="next-up-jump" id="nextUpJumpBtn">Jump &rarr;</button>
+</div>
+
 <nav class="bottom-nav" aria-label="Quick navigation">
   <button type="button" data-action="open-drawer" aria-label="Menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -3121,6 +3215,84 @@
   }
 
   // ---------------- navigation helpers ----------------
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function formatHHMM(date) {
+    return pad(date.getHours()) + ':' + pad(date.getMinutes());
+  }
+
+  function formatDateShort(dateStr) {
+    var parts = dateStr.split('-').map(Number);
+    var d = new Date(parts[0], parts[1] - 1, parts[2]);
+    var weekday = d.toLocaleDateString(undefined, { weekday: 'short' });
+    var month = d.toLocaleDateString(undefined, { month: 'short' });
+    return weekday + ', ' + month + ' ' + parts[2];
+  }
+
+  function isTomorrow(dateStr, todayStr) {
+    var t = todayStr.split('-').map(Number);
+    var tomorrow = new Date(t[0], t[1] - 1, t[2] + 1);
+    var tomorrowStr = tomorrow.getFullYear() + '-' + pad(tomorrow.getMonth() + 1) + '-' + pad(tomorrow.getDate());
+    return dateStr === tomorrowStr;
+  }
+
+  // Reads a session card's ancestor .cal-day id (date) and its .card-meta-line
+  // (time, formatted "HHMM-HHMM · description") to build a comparable Date.
+  // Some cards (e.g. exam days) don't follow the HHMM-HHMM format; start/end
+  // are null in that case and callers must degrade to a date-only display.
+  function parseSessionTime(card) {
+    var metaEl = card.querySelector('.card-meta-line');
+    var dayEl = card.closest('.cal-day');
+    var titleEl = card.querySelector('.title');
+    if (!dayEl) return null;
+    var dateStr = dayEl.id.replace('day-', '');
+    var parts = dateStr.split('-').map(Number);
+    var start = null, end = null;
+    var m = metaEl ? metaEl.textContent.match(/^(\d{2})(\d{2})-(\d{2})(\d{2})/) : null;
+    if (m) {
+      start = new Date(parts[0], parts[1] - 1, parts[2], +m[1], +m[2]);
+      end = new Date(parts[0], parts[1] - 1, parts[2], +m[3], +m[4]);
+    }
+    return {
+      code: card.dataset.code,
+      dateStr: dateStr,
+      start: start,
+      end: end,
+      title: titleEl ? titleEl.textContent : '',
+      card: card
+    };
+  }
+
+  // Single traversal shared by the "today" hero and the "next up" footer so
+  // the "what's next" answer is only computed once per render tick.
+  function findTodayAndNextSession() {
+    var now = new Date();
+    var todayStr = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    var todaySessions = [];
+    var nextSession = null;
+    document.querySelectorAll('.cal-day').forEach(function(dayEl) {
+      var dateStr = dayEl.id.replace('day-', '');
+      if (dateStr < todayStr) return;
+      dayEl.querySelectorAll('.session-card').forEach(function(card) {
+        var info = parseSessionTime(card);
+        if (!info) return;
+        if (dateStr === todayStr) todaySessions.push(info);
+        if (!nextSession) {
+          if (dateStr > todayStr) {
+            nextSession = info;
+          } else if (dateStr === todayStr && (info.start === null || info.start > now)) {
+            nextSession = info;
+          }
+        }
+      });
+    });
+    return { todayStr: todayStr, todaySessions: todaySessions, nextSession: nextSession };
+  }
+
   function jumpToSession(code) {
     var card = document.getElementById('card-' + code);
     if (!card) return;
@@ -3210,6 +3382,111 @@
     } else {
       countdownEl.hidden = true;
     }
+  }
+
+  // ---------------- today's session hero ----------------
+  function renderHeroSessionRow(s, now) {
+    var stateClass, stateHtml;
+    if (s.start === null) {
+      stateClass = 'is-unparsed';
+      stateHtml = '<span class="hero-state">' + (s.dateStr === todayKey(now) ? 'Today' : formatDateShort(s.dateStr)) + '</span>';
+    } else if (now < s.start) {
+      var diffMs = s.start - now;
+      stateClass = 'is-upcoming';
+      if (diffMs > 24 * 3600000) {
+        stateHtml = '<span class="hero-state">' + formatDateShort(s.dateStr) + ' &middot; ' + formatHHMM(s.start) + '</span>';
+      } else {
+        var mins = Math.round(diffMs / 60000);
+        var hh = Math.floor(mins / 60), mm = mins % 60;
+        stateHtml = '<span class="hero-state hero-countdown">Starts in ' + (hh > 0 ? hh + 'h ' : '') + mm + 'm</span>';
+      }
+    } else if (s.end && now <= s.end) {
+      stateClass = 'is-live';
+      stateHtml = '<span class="hero-state hero-live"><span class="hero-live-dot"></span>In progress</span>';
+    } else {
+      stateClass = 'is-done';
+      stateHtml = '<span class="hero-state">Completed</span>';
+    }
+    return '<button type="button" class="hero-session-row ' + stateClass + '" data-jump-session="' + s.code + '">' +
+      '<span class="hero-session-code">' + s.code + '</span>' +
+      '<span class="hero-session-title">' + escapeHtml(s.title) + '</span>' +
+      stateHtml +
+      '</button>';
+  }
+
+  function todayKey(now) {
+    return now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+  }
+
+  function renderHeroToday() {
+    var hero = document.getElementById('heroToday');
+    var labelEl = document.getElementById('heroTodayLabel');
+    var listEl = document.getElementById('heroTodaySessions');
+    if (!hero || !labelEl || !listEl) return;
+
+    var now = new Date();
+    var data = findTodayAndNextSession();
+
+    if (data.todaySessions.length) {
+      labelEl.textContent = 'Today';
+      listEl.innerHTML = data.todaySessions.map(function(s) { return renderHeroSessionRow(s, now); }).join('');
+    } else if (data.nextSession) {
+      labelEl.textContent = 'Next session';
+      listEl.innerHTML = renderHeroSessionRow(data.nextSession, now);
+    } else {
+      hero.hidden = true;
+      return;
+    }
+    hero.hidden = false;
+  }
+
+  // ---------------- next up sticky footer ----------------
+  function renderNextUpBar() {
+    var bar = document.getElementById('nextUpBar');
+    var textEl = document.getElementById('nextUpText');
+    var jumpBtn = document.getElementById('nextUpJumpBtn');
+    if (!bar || !textEl || !jumpBtn) return;
+
+    var now = new Date();
+    var data = findTodayAndNextSession();
+    var target = null;
+    for (var i = 0; i < data.todaySessions.length; i++) {
+      var s = data.todaySessions[i];
+      if (s.start === null || now < s.start) { target = s; break; }
+    }
+    if (!target) target = data.nextSession;
+
+    if (!target) {
+      bar.dataset.hasTarget = 'false';
+      textEl.textContent = '';
+      jumpBtn.removeAttribute('data-jump-session');
+      return;
+    }
+
+    bar.dataset.hasTarget = 'true';
+    var label = target.dateStr === data.todayStr ? 'Today' :
+      isTomorrow(target.dateStr, data.todayStr) ? 'Tomorrow' : formatDateShort(target.dateStr);
+    var timeLabel = target.start ? (label + ' ' + formatHHMM(target.start)) : label;
+    textEl.textContent = 'Next: ' + target.code + ' — ' + timeLabel;
+    jumpBtn.dataset.jumpSession = target.code;
+  }
+
+  function refreshTodayAndNextUp() {
+    renderHeroToday();
+    renderNextUpBar();
+  }
+
+  var nextUpObserver = null;
+  function initNextUpObserver() {
+    var hero = document.getElementById('heroToday');
+    var bar = document.getElementById('nextUpBar');
+    if (!hero || !bar || !('IntersectionObserver' in window)) return;
+    nextUpObserver = new IntersectionObserver(function(entries) {
+      var heroVisible = entries[0].isIntersecting;
+      var shouldShow = !heroVisible && !hero.hidden && bar.dataset.hasTarget !== 'false';
+      bar.classList.toggle('show', shouldShow);
+    }, { threshold: 0 });
+    nextUpObserver.observe(hero);
   }
 
   function collapseHeavyPanelsIfMobile() {
@@ -3326,6 +3603,9 @@
   collapseHeavyPanelsIfMobile();
   updateResearchDates();
   setInterval(updateResearchDates, 60000);
+  refreshTodayAndNextUp();
+  initNextUpObserver();
+  setInterval(refreshTodayAndNextUp, 30000);
 })();
 </script>
 
