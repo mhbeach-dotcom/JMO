@@ -53,6 +53,7 @@
     .hero-live-dot { background: #f3a99c; }
     .next-up-bar { background: #0a1830; }
     .team-japan-card { background: #241014; border-left-color: #e0475f; }
+    .team-japan-sunburst { color: #e0475f; }
     .team-japan-chip { background: #3a161c; color: #f5b4bd; border-color: #6b2530; }
  }
   }
@@ -82,6 +83,7 @@
     .hero-live-dot { background: #f3a99c; }
     .next-up-bar { background: #0a1830; }
     .team-japan-card { background: #241014; border-left-color: #e0475f; }
+    .team-japan-sunburst { color: #e0475f; }
     .team-japan-chip { background: #3a161c; color: #f5b4bd; border-color: #6b2530; }
  }
 
@@ -967,7 +969,18 @@
   /* --- session card embedded in agenda --- */
   .cal-session-card { border-left: 3px solid var(--navy-text); }
 
-  .team-japan-card { border-left: 3px solid #bc002d; background: #fdfaf5; }
+  .team-japan-card { position: relative; border-left: 3px solid #bc002d; background: #fdfaf5; }
+  .team-japan-sunburst-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .team-japan-sunburst { display: block; width: 100%; height: 100%; color: #bc002d; }
+  .team-japan-sunburst path { fill: currentColor; }
+  .team-japan-card > summary { position: relative; z-index: 1; }
+  .team-japan-card > .card-body { position: relative; z-index: 1; background: var(--card-bg); }
   .team-japan-chip {
     display: inline-flex;
     align-items: center;
@@ -1883,6 +1896,26 @@
           <div class="cal-day-items">
     <details class="session-card cal-session-card team-japan-card" id="card-JMO-14" data-code="JMO-14">
       <summary>
+        <div class="team-japan-sunburst-wrap" aria-hidden="true">
+          <svg class="team-japan-sunburst" viewBox="0 0 400 200" preserveAspectRatio="none" focusable="false">
+            <path d="M50,250 L-40.3,-262.1 L-6.3,-266.9 Z" opacity="0.22"/>
+            <path d="M50,250 L16.4,-268.9 L50.7,-270.0 Z" opacity="0.08"/>
+            <path d="M50,250 L73.6,-269.5 L107.8,-266.8 Z" opacity="0.22"/>
+            <path d="M50,250 L130.4,-263.7 L164.1,-257.3 Z" opacity="0.08"/>
+            <path d="M50,250 L186.3,-251.8 L219.1,-241.7 Z" opacity="0.22"/>
+            <path d="M50,250 L240.6,-233.8 L272.1,-220.2 Z" opacity="0.08"/>
+            <path d="M50,250 L292.5,-210.0 L322.3,-193.0 Z" opacity="0.22"/>
+            <path d="M50,250 L341.5,-180.6 L369.3,-160.4 Z" opacity="0.08"/>
+            <path d="M50,250 L387.0,-146.0 L412.4,-122.9 Z" opacity="0.22"/>
+            <path d="M50,250 L428.4,-106.6 L451.1,-80.9 Z" opacity="0.08"/>
+            <path d="M50,250 L465.3,-62.9 L485.0,-34.9 Z" opacity="0.22"/>
+            <path d="M50,250 L497.1,-15.5 L513.7,14.6 Z" opacity="0.08"/>
+            <path d="M50,250 L523.6,35.2 L536.7,66.9 Z" opacity="0.22"/>
+            <path d="M50,250 L544.3,88.4 L553.8,121.4 Z" opacity="0.08"/>
+            <path d="M50,250 L559.0,143.7 L564.9,177.5 Z" opacity="0.22"/>
+            <path d="M50,250 L567.6,200.2 L569.8,234.4 Z" opacity="0.08"/>
+          </svg>
+        </div>
         <span class="code">JMO-14</span>
         <span class="title-wrap">
           <span class="title">Wargame Philippines</span>
