@@ -53,6 +53,7 @@
     .hero-live-dot { background: #f3a99c; }
     .next-up-bar { background: #0a1830; }
     .team-japan-card { background: #241014; border-left-color: #e0475f; }
+    .team-japan-sunburst { color: #e0475f; }
     .team-japan-chip { background: #3a161c; color: #f5b4bd; border-color: #6b2530; }
  }
   }
@@ -82,6 +83,7 @@
     .hero-live-dot { background: #f3a99c; }
     .next-up-bar { background: #0a1830; }
     .team-japan-card { background: #241014; border-left-color: #e0475f; }
+    .team-japan-sunburst { color: #e0475f; }
     .team-japan-chip { background: #3a161c; color: #f5b4bd; border-color: #6b2530; }
  }
 
@@ -694,34 +696,6 @@
   .sn-notes-list li { font-size: 0.86rem; margin-bottom: 8px; }
 
 
-  /* --- team assignments panel --- */
-  .team-panel {
-    margin: 2px 0 22px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .team-panel-title {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .team-card { margin-bottom: 10px; }
-  .team-card:last-child { margin-bottom: 0; }
-  .team-card-name {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 700;
-    font-size: 0.86rem;
-    color: var(--navy-text);
-    font-family: var(--serif);
-    margin-bottom: 3px;
-  }
-  .team-card-members { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-
   /* --- research paper dates panel --- */
   .research-panel {
     margin: 2px 0 22px;
@@ -739,32 +713,34 @@
   .hero-today {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border);
-    padding: 14px clamp(16px, 4vw, 32px);
+    padding: 8px clamp(16px, 4vw, 32px);
   }
-  .hero-today-inner { max-width: 1400px; margin: 0 auto; }
+  .hero-today-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .hero-today-label {
     font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--gold);
-    margin-bottom: 8px;
+    flex-shrink: 0;
   }
-  .hero-today-sessions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-today-sessions { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; min-width: 0; }
   .hero-session-row {
     display: flex;
     align-items: center;
     gap: 10px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 14px;
+    border-radius: 8px;
+    padding: 4px 12px;
     font-family: var(--sans);
     cursor: pointer;
     text-align: left;
+    min-width: 0;
+    max-width: 100%;
   }
-  .hero-session-code { font-weight: 700; color: var(--navy-text); }
-  .hero-session-title { color: var(--text); font-size: 0.88rem; }
+  .hero-session-code { font-weight: 700; color: var(--navy-text); flex-shrink: 0; }
+  .hero-session-title { color: var(--text); font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
   .hero-state { font-size: 0.76rem; font-weight: 700; color: var(--muted); margin-left: auto; white-space: nowrap; }
   .hero-session-row.is-live .hero-state { color: #a23225; }
   .hero-live-dot {
@@ -956,6 +932,10 @@
   .cal-item-deadline .cal-tag { background: #c0392b; }
   .cal-item-homework { border-left-color: #6a3fa0; }
   .cal-item-homework .cal-tag { background: #6a3fa0; }
+  .cal-item-resource { border-left-color: #4a5568; }
+  .cal-item-resource .cal-tag { background: #4a5568; }
+  .cal-item-resource.cal-offsite-card summary::after { color: #4a5568; }
+  .past-exam-year:not(:first-child) { margin-top: 14px; }
   .cal-item-social { border-left-color: var(--gold); }
   .cal-item-social .cal-tag { background: var(--gold); color: var(--navy-deep); }
   .cal-item-note { border-left-color: #7a8aa8; }
@@ -989,7 +969,18 @@
   /* --- session card embedded in agenda --- */
   .cal-session-card { border-left: 3px solid var(--navy-text); }
 
-  .team-japan-card { border-left: 3px solid #bc002d; background: #fdfaf5; }
+  .team-japan-card { position: relative; border-left: 3px solid #bc002d; background: #fdfaf5; }
+  .team-japan-sunburst-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .team-japan-sunburst { display: block; width: 100%; height: 100%; color: #bc002d; }
+  .team-japan-sunburst path { fill: currentColor; }
+  .team-japan-card > summary { position: relative; z-index: 1; }
+  .team-japan-card > .card-body { position: relative; z-index: 1; background: var(--card-bg); }
   .team-japan-chip {
     display: inline-flex;
     align-items: center;
@@ -1259,7 +1250,7 @@
 
 <div class="hero-today" id="heroToday" hidden>
   <div class="hero-today-inner">
-    <div class="hero-today-label" id="heroTodayLabel">Today</div>
+    <span class="hero-today-label" id="heroTodayLabel">Today</span>
     <div class="hero-today-sessions" id="heroTodaySessions"></div>
   </div>
 </div>
@@ -1292,16 +1283,9 @@
     </div>
     <div class="search-status" id="searchStatus" aria-live="polite"></div>
 
-<div class="team-panel">
-  <div class="team-panel-title">Team Assignments &mdash; Philippines Campaign</div>
-  <div class="team-card">
-    <div class="team-card-name"><svg class="flag-icon" viewBox="0 0 30 20" width="20" height="14" role="img" aria-label="Flag of Japan"><rect width="30" height="20" rx="2" fill="#fff" stroke="#d8dce3" stroke-width="1"/><circle cx="15" cy="10" r="6" fill="#bc002d"/></svg>Team Japan</div>
-    <div class="team-card-members">Jason, Anton, Dan J., Matt B., Andrew, Linden, Roman</div>
-  </div>
-  <div class="team-card">
-    <div class="team-card-name"><svg class="flag-icon" viewBox="0 0 30 20" width="20" height="14" role="img" aria-label="Flag of the United States"><rect width="30" height="20" rx="2" fill="#fff"/><g fill="#b31942"><rect y="0" width="30" height="1.54"/><rect y="3.08" width="30" height="1.54"/><rect y="6.15" width="30" height="1.54"/><rect y="9.23" width="30" height="1.54"/><rect y="12.31" width="30" height="1.54"/><rect y="15.38" width="30" height="1.54"/><rect y="18.46" width="30" height="1.54"/></g><rect width="12" height="10.77" fill="#0a3161"/><rect width="30" height="20" rx="2" fill="none" stroke="#d8dce3" stroke-width="1"/></svg>Team US</div>
-    <div class="team-card-members">Dan S., Matt W., Frank, Eric, Mat R., James, Felipe</div>
-  </div>
+<div class="research-panel" id="examCountdownPanel">
+  <div class="research-panel-title">Op Art Exam</div>
+  <div class="research-countdown" id="examCountdown" hidden></div>
 </div>
 
 <div class="research-panel" id="researchPanel">
@@ -1345,6 +1329,10 @@
     <details class="course-update-panel" id="courseUpdatePanel19Aug">
           <summary>19 Aug 2026 Update — New Op Design Handouts</summary>
           <div class="sn-body"><p>Three handouts have been added to Blackboard to support the operational idea and COG deconstruction work on JMO-11&#x27;s Thursday, 20 Aug session:</p><ul class="plain-list"><li><a href="https://navalwarcollege.blackboard.com/ultra/courses/_24035_1/file/_1286091_1?courseId=_24035_1" target="_blank" rel="noopener">Operational Idea Examples</a></li><li><a href="https://navalwarcollege.blackboard.com/ultra/courses/_24035_1/file/_1286090_1?courseId=_24035_1" target="_blank" rel="noopener">Defeat Mechanisms</a></li><li><a href="https://navalwarcollege.blackboard.com/ultra/courses/_24035_1/file/_1286094_1?courseId=_24035_1" target="_blank" rel="noopener">Op Art Whiteboard Process</a></li></ul></div>
+        </details>
+    <details class="course-update-panel" id="courseUpdatePanel21Aug">
+          <summary>21 Aug 2026 Update — Op Art Exam links</summary>
+          <div class="sn-body"><p>Required reading links for JMO-20 (Operational Art Examination, 17 Sep):</p><ul class="plain-list"><li><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286166_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study: The Japanese Netherlands East Indies Campaign, 1941-42</a></li><li><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286167_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study Appendices</a></li><li><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286168_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study Maps</a></li><li><a href="https://navalwarcollege.blackboard.com/ultra/courses/_24035_1/file/_1281162_1?courseId=_24035_1" target="_blank" rel="noopener">How to Read a Case Study</a></li></ul></div>
         </details>
     <details class="seminar-notes-panel" id="seminarNotesPanel">
       <summary>Seminar 7 Notes &mdash; moderators &amp; logistics</summary>
@@ -1912,6 +1900,26 @@
           <div class="cal-day-items">
     <details class="session-card cal-session-card team-japan-card" id="card-JMO-14" data-code="JMO-14">
       <summary>
+        <div class="team-japan-sunburst-wrap" aria-hidden="true">
+          <svg class="team-japan-sunburst" viewBox="0 0 400 200" preserveAspectRatio="none" focusable="false">
+            <path d="M50,250 L-40.3,-262.1 L-6.3,-266.9 Z" opacity="0.22"/>
+            <path d="M50,250 L16.4,-268.9 L50.7,-270.0 Z" opacity="0.08"/>
+            <path d="M50,250 L73.6,-269.5 L107.8,-266.8 Z" opacity="0.22"/>
+            <path d="M50,250 L130.4,-263.7 L164.1,-257.3 Z" opacity="0.08"/>
+            <path d="M50,250 L186.3,-251.8 L219.1,-241.7 Z" opacity="0.22"/>
+            <path d="M50,250 L240.6,-233.8 L272.1,-220.2 Z" opacity="0.08"/>
+            <path d="M50,250 L292.5,-210.0 L322.3,-193.0 Z" opacity="0.22"/>
+            <path d="M50,250 L341.5,-180.6 L369.3,-160.4 Z" opacity="0.08"/>
+            <path d="M50,250 L387.0,-146.0 L412.4,-122.9 Z" opacity="0.22"/>
+            <path d="M50,250 L428.4,-106.6 L451.1,-80.9 Z" opacity="0.08"/>
+            <path d="M50,250 L465.3,-62.9 L485.0,-34.9 Z" opacity="0.22"/>
+            <path d="M50,250 L497.1,-15.5 L513.7,14.6 Z" opacity="0.08"/>
+            <path d="M50,250 L523.6,35.2 L536.7,66.9 Z" opacity="0.22"/>
+            <path d="M50,250 L544.3,88.4 L553.8,121.4 Z" opacity="0.08"/>
+            <path d="M50,250 L559.0,143.7 L564.9,177.5 Z" opacity="0.22"/>
+            <path d="M50,250 L567.6,200.2 L569.8,234.4 Z" opacity="0.08"/>
+          </svg>
+        </div>
         <span class="code">JMO-14</span>
         <span class="title-wrap">
           <span class="title">Wargame Philippines</span>
@@ -2161,9 +2169,9 @@
         <span class="code">JMO-20</span>
         <span class="title-wrap">
           <span class="title">Operational Art Examination</span>
-          <span class="card-meta-line">0830 issued / 1200 returned &middot; Exam</span>
+          <span class="card-meta-line">Issued 0830 Sep 17 &middot; Due 1200 Sep 18</span>
         </span>
-        <span class="badges"><span class="badge badge-type">Individual Effort</span></span>
+        <span class="badges"><span class="badge badge-type">Exam</span></span>
       </summary>
       <div class="card-body"><div class="card-block-label">Operational Art Theory and History</div><blockquote class="epigraph">
       <p>&ldquo;No wonder then, that war, though it may appear to be uncomplicated, cannot be waged with distinction except by men of outstanding intellect.&rdquo;</p>
@@ -2182,9 +2190,24 @@
       <ul class="plain-list q-list"><li>None.</li></ul>
     </div><div class="subsection">
           <h4><span class="sec-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22Z"/><path d="M4 4.5v15A2.5 2.5 0 0 0 6.5 22H20"/></svg></span>Required Reading</h4>
-          <ul class="cite-list"><li class="cite cite-req"><label class="read-toggle" for="rd-e0387a3e" title="Mark as read"><input type="checkbox" id="rd-e0387a3e" class="read-checkbox" data-read-id="e0387a3e"></label><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286166_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study: The Japanese Netherlands East Indies Campaign, 1941-42</a></span></li><li class="cite cite-req"><label class="read-toggle" for="rd-c17f2b91" title="Mark as read"><input type="checkbox" id="rd-c17f2b91" class="read-checkbox" data-read-id="c17f2b91"></label><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286167_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study Appendices</a></span></li><li class="cite cite-req"><label class="read-toggle" for="rd-6f3a8d4c" title="Mark as read"><input type="checkbox" id="rd-6f3a8d4c" class="read-checkbox" data-read-id="6f3a8d4c"></label><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286168_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study Maps</a></span></li></ul>
+          <ul class="cite-list"><li class="cite cite-req"><label class="read-toggle" for="rd-e0387a3e" title="Mark as read"><input type="checkbox" id="rd-e0387a3e" class="read-checkbox" data-read-id="e0387a3e"></label><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286166_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study: The Japanese Netherlands East Indies Campaign, 1941-42</a></span></li><li class="cite cite-req"><label class="read-toggle" for="rd-c17f2b91" title="Mark as read"><input type="checkbox" id="rd-c17f2b91" class="read-checkbox" data-read-id="c17f2b91"></label><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286167_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study Appendices</a></span></li><li class="cite cite-req"><label class="read-toggle" for="rd-6f3a8d4c" title="Mark as read"><input type="checkbox" id="rd-6f3a8d4c" class="read-checkbox" data-read-id="6f3a8d4c"></label><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1286168_1?courseId=_20963_1" target="_blank" rel="noopener">Case Study Maps</a></span></li><li class="cite cite-req"><label class="read-toggle" for="rd-a4d9f27b" title="Mark as read"><input type="checkbox" id="rd-a4d9f27b" class="read-checkbox" data-read-id="a4d9f27b"></label><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_24035_1/file/_1281162_1?courseId=_24035_1" target="_blank" rel="noopener">How to Read a Case Study</a></span></li></ul>
         </div></div>
+    </details><details class="cal-item cal-item-resource cal-offsite-card">
+      <summary><span class="cal-tag">Resources</span><span class="cal-item-main">Past Exams — JMO Operational Art</span></summary>
+      <div class="offsite-body">
+        <div class="card-block-label past-exam-year">2025 — Operation Cartwheel</div>
+        <ul class="cite-list"><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1203216_1?courseId=_20963_1" target="_blank" rel="noopener">2025 JMO Exam Question - Operation Cartwheel (Primary)</a></span></li><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1198939_1?courseId=_20963_1" target="_blank" rel="noopener">2025 JMO SLC Exam - Cartwheel Case Coversheet</a></span></li><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1198940_1?courseId=_20963_1" target="_blank" rel="noopener">2025 JMO SLC Exam Case - CARTWHEEL Base Case Reading</a></span></li><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1198941_1?courseId=_20963_1" target="_blank" rel="noopener">2025 SLC Exam - CARTWHEEL Appendices</a></span></li><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1198942_1?courseId=_20963_1" target="_blank" rel="noopener">2025 SLC Exam - CARTWHEEL Map Pack</a></span></li></ul>
+        <div class="card-block-label past-exam-year">2024 — Crimea, 1941–1942</div>
+        <ul class="cite-list"><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1178480_1?courseId=_20963_1" target="_blank" rel="noopener">2024 JMO SLC Exam Case - Crimea 1941-1942</a></span></li><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1178481_1?courseId=_20963_1" target="_blank" rel="noopener">2024 JMO SLC Op Art Exam - Crimea 1941-42</a></span></li></ul>
+        <div class="card-block-label past-exam-year">2023 — Japanese Invasion of Malaya</div>
+        <ul class="cite-list"><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1034994_1?courseId=_20963_1" target="_blank" rel="noopener">2023 Exam 1 Case Study - Japanese Invasion of Malaya</a></span></li><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1043813_1?courseId=_20963_1" target="_blank" rel="noopener">2023 JMO CNW Exam 1 Question (Primary)</a></span></li></ul>
+        <div class="card-block-label past-exam-year">2022 — German Invasion of Greece</div>
+        <ul class="cite-list"><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1020451_1?courseId=_20963_1" target="_blank" rel="noopener">Fall 2022 JMO Op Art Exam (Exam #1) Case Study - The German Invasion of Greece 1941</a></span></li><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1020452_1?courseId=_20963_1" target="_blank" rel="noopener">Fall 2022 Op Art Exam (Exam #1) Case Study Map Pack</a></span></li><li class="cite"><span class="cite-text"><a href="https://navalwarcollege.blackboard.com/ultra/courses/_20963_1/file/_1020845_1?courseId=_20963_1" target="_blank" rel="noopener">2022 SLC Op Art Exam</a></span></li></ul>
+      </div>
     </details></div>
+        </div><div class="cal-day" id="day-2026-09-18">
+          <div class="cal-day-date"><span class="cal-dow">Friday</span><span class="cal-dnum">Sep 18</span></div>
+          <div class="cal-day-items"><div class="cal-item cal-item-deadline"><span class="cal-tag">Exam Due</span><span class="cal-item-main">1200 &mdash; Operational Art Examination response due</span></div></div>
         </div><div class="cal-day" id="day-2026-09-21">
           <div class="cal-day-date"><span class="cal-dow">Monday</span><span class="cal-dnum">Sep 21</span></div>
           <div class="cal-day-items"><div class="cal-item cal-item-admin"><span class="cal-item-main">Electives 5</span></div><div class="cal-item cal-item-admin"><span class="cal-item-main">FSP</span></div></div>
@@ -3279,8 +3302,10 @@
       start = new Date(parts[0], parts[1] - 1, parts[2], +m[1], +m[2]);
       end = new Date(parts[0], parts[1] - 1, parts[2], +m[3], +m[4]);
     }
+    var codeEl = card.querySelector('.code');
     return {
-      code: card.dataset.code,
+      code: codeEl ? codeEl.textContent : card.dataset.code,
+      jumpCode: card.dataset.code,
       dateStr: dateStr,
       start: start,
       end: end,
@@ -3406,6 +3431,36 @@
     }
   }
 
+  // ---------------- op art exam countdown ----------------
+  function updateExamCountdown() {
+    var el = document.getElementById('examCountdown');
+    if (!el) return;
+    var now = new Date();
+    var issueTime = new Date('2026-09-17T08:30:00');
+    var dueTime = new Date('2026-09-18T12:00:00');
+    var target, label, desc;
+    if (now < issueTime) {
+      target = issueTime;
+      label = 'Op Art Exam issued in';
+      desc = '0830, 17 Sep';
+    } else if (now < dueTime) {
+      target = dueTime;
+      label = 'Op Art Exam due in';
+      desc = '1200, 18 Sep';
+    } else {
+      el.hidden = true;
+      return;
+    }
+    var diffMs = target - now;
+    var totalHours = Math.floor(diffMs / 3600000);
+    var days = Math.floor(totalHours / 24);
+    var hours = totalHours % 24;
+    el.hidden = false;
+    el.innerHTML = '<span class="rc-label">' + label + '</span>' +
+      '<span class="rc-time">' + days + 'd ' + hours + 'h</span> ' +
+      '<span class="rc-desc">&mdash; ' + desc + '</span>';
+  }
+
   // ---------------- today's session hero ----------------
   function renderHeroSessionRow(s, now) {
     var stateClass, stateHtml;
@@ -3429,7 +3484,7 @@
       stateClass = 'is-done';
       stateHtml = '<span class="hero-state">Completed</span>';
     }
-    return '<button type="button" class="hero-session-row ' + stateClass + '" data-jump-session="' + s.code + '">' +
+    return '<button type="button" class="hero-session-row ' + stateClass + '" data-jump-session="' + s.jumpCode + '">' +
       '<span class="hero-session-code">' + s.code + '</span>' +
       '<span class="hero-session-title">' + escapeHtml(s.title) + '</span>' +
       stateHtml +
@@ -3490,7 +3545,7 @@
       isTomorrow(target.dateStr, data.todayStr) ? 'Tomorrow' : formatDateShort(target.dateStr);
     var timeLabel = target.start ? (label + ' ' + formatHHMM(target.start)) : label;
     textEl.textContent = 'Next: ' + target.code + ' — ' + timeLabel;
-    jumpBtn.dataset.jumpSession = target.code;
+    jumpBtn.dataset.jumpSession = target.jumpCode;
   }
 
   function refreshTodayAndNextUp() {
@@ -3625,6 +3680,8 @@
   collapseHeavyPanelsIfMobile();
   updateResearchDates();
   setInterval(updateResearchDates, 60000);
+  updateExamCountdown();
+  setInterval(updateExamCountdown, 60000);
   refreshTodayAndNextUp();
   initNextUpObserver();
   setInterval(refreshTodayAndNextUp, 30000);
