@@ -711,32 +711,34 @@
   .hero-today {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border);
-    padding: 14px clamp(16px, 4vw, 32px);
+    padding: 8px clamp(16px, 4vw, 32px);
   }
-  .hero-today-inner { max-width: 1400px; margin: 0 auto; }
+  .hero-today-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   .hero-today-label {
     font-size: 0.72rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--gold);
-    margin-bottom: 8px;
+    flex-shrink: 0;
   }
-  .hero-today-sessions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-today-sessions { display: flex; flex-wrap: wrap; gap: 10px; flex: 1; min-width: 0; }
   .hero-session-row {
     display: flex;
     align-items: center;
     gap: 10px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 14px;
+    border-radius: 8px;
+    padding: 4px 12px;
     font-family: var(--sans);
     cursor: pointer;
     text-align: left;
+    min-width: 0;
+    max-width: 100%;
   }
-  .hero-session-code { font-weight: 700; color: var(--navy-text); }
-  .hero-session-title { color: var(--text); font-size: 0.88rem; }
+  .hero-session-code { font-weight: 700; color: var(--navy-text); flex-shrink: 0; }
+  .hero-session-title { color: var(--text); font-size: 0.88rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
   .hero-state { font-size: 0.76rem; font-weight: 700; color: var(--muted); margin-left: auto; white-space: nowrap; }
   .hero-session-row.is-live .hero-state { color: #a23225; }
   .hero-live-dot {
@@ -1235,7 +1237,7 @@
 
 <div class="hero-today" id="heroToday" hidden>
   <div class="hero-today-inner">
-    <div class="hero-today-label" id="heroTodayLabel">Today</div>
+    <span class="hero-today-label" id="heroTodayLabel">Today</span>
     <div class="hero-today-sessions" id="heroTodaySessions"></div>
   </div>
 </div>
@@ -3263,8 +3265,10 @@
       start = new Date(parts[0], parts[1] - 1, parts[2], +m[1], +m[2]);
       end = new Date(parts[0], parts[1] - 1, parts[2], +m[3], +m[4]);
     }
+    var codeEl = card.querySelector('.code');
     return {
-      code: card.dataset.code,
+      code: codeEl ? codeEl.textContent : card.dataset.code,
+      jumpCode: card.dataset.code,
       dateStr: dateStr,
       start: start,
       end: end,
@@ -3443,7 +3447,7 @@
       stateClass = 'is-done';
       stateHtml = '<span class="hero-state">Completed</span>';
     }
-    return '<button type="button" class="hero-session-row ' + stateClass + '" data-jump-session="' + s.code + '">' +
+    return '<button type="button" class="hero-session-row ' + stateClass + '" data-jump-session="' + s.jumpCode + '">' +
       '<span class="hero-session-code">' + s.code + '</span>' +
       '<span class="hero-session-title">' + escapeHtml(s.title) + '</span>' +
       stateHtml +
@@ -3504,7 +3508,7 @@
       isTomorrow(target.dateStr, data.todayStr) ? 'Tomorrow' : formatDateShort(target.dateStr);
     var timeLabel = target.start ? (label + ' ' + formatHHMM(target.start)) : label;
     textEl.textContent = 'Next: ' + target.code + ' — ' + timeLabel;
-    jumpBtn.dataset.jumpSession = target.code;
+    jumpBtn.dataset.jumpSession = target.jumpCode;
   }
 
   function refreshTodayAndNextUp() {
