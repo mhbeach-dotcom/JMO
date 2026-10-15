@@ -3624,8 +3624,15 @@
     nextUpObserver.observe(hero);
   }
 
+  var wasMobile = null;
   function collapseHeavyPanelsIfMobile() {
-    if (window.innerWidth < 720) {
+    // Collapse only on load or when crossing into the mobile breakpoint; mobile
+    // browsers fire resize while scrolling (address bar show/hide), which must
+    // not close a panel the user just opened.
+    var isMobile = window.innerWidth < 720;
+    var crossed = wasMobile !== isMobile;
+    wasMobile = isMobile;
+    if (isMobile && crossed) {
       document.querySelectorAll('.seminar-notes-panel, .course-update-panel').forEach(function(p) {
         p.open = false;
       });
