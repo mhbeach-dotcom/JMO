@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><title>Day 2 Aggregate COAs</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#1c2530;--muted:#5d6879;--border:#d9dde4;--accent:#0b2545;--link:#1a56b8;--head:#eef1f6;--zebra:#f8f9fb;--gold:#c9a227;--callout:#fff8e1}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151f;--card:#1a2233;--text:#e5e9f2;--muted:#9aa8c0;--border:#2c3650;--accent:#8fb4e8;--link:#7cb0ff;--head:#222c44;--zebra:#1d263a;--callout:#2a2410}}
+:root[data-theme="dark"]{--bg:#10151f;--card:#1a2233;--text:#e5e9f2;--muted:#9aa8c0;--border:#2c3650;--accent:#8fb4e8;--link:#7cb0ff;--head:#222c44;--zebra:#1d263a;--callout:#2a2410}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--link)}
+.bar{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;padding:8px 16px}
+.bar .t{font-weight:700;color:var(--accent);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.95rem}
+.bar button,.bar a.b{font:inherit;font-size:.85rem;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:16px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px}
+nav.toc{position:sticky;top:60px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;font-size:.88rem;border:1px solid var(--border);background:var(--card);border-radius:10px;padding:12px}
+nav.toc b{display:block;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.06em}
+nav.toc a{display:block;padding:4px 0;text-decoration:none;color:var(--text)}nav.toc a:hover{color:var(--link)}
+nav.toc a.h3{padding-left:12px;color:var(--muted);font-size:.82rem}
+main{min-width:0;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 28px}
+main>p:first-child{font-size:1.5rem;line-height:1.3;color:var(--accent);margin-top:0}
+h1{font-size:1.45rem;color:var(--accent);border-bottom:2px solid var(--gold);padding-bottom:6px;margin:2.2rem 0 1rem;line-height:1.25}
+h3{font-size:1.1rem;color:var(--accent);margin:1.6rem 0 .5rem;line-height:1.3}
+h1 strong,h3 strong{font-weight:700}
+p{margin:.6em 0}ul{padding-left:1.3em}li{margin:.3em 0}li>p{margin:0}
+.tw{overflow-x:auto;margin:1em 0;border:1px solid var(--border);border-radius:8px;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:520px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+td+td,th+th{border-left:1px solid var(--border)}
+th{background:var(--head);color:var(--accent);position:sticky;top:0}
+tbody tr:nth-child(even) td{background:var(--zebra)}
+td>p:first-child{margin-top:0}td>p:last-child{margin-bottom:0}
+.tw.one{border-left:4px solid var(--gold);background:var(--callout)}.tw.one table{min-width:0}.tw.one td{background:transparent!important;border:0}
+.tw.kv table{min-width:0}.tw.kv td:first-child{white-space:nowrap;width:1%;font-weight:600;color:var(--accent)}
+em{color:var(--muted)}
+footer{max-width:1180px;margin:0 auto;padding:0 16px 32px;color:var(--muted);font-size:.8rem}
+@media(max-width:860px){.wrap{display:block;padding:10px}nav.toc{position:static;max-height:none;margin-bottom:12px}nav.toc .sub{display:none}main{padding:16px 14px}
+ .tw.kv table{min-width:0}.tw.kv td:first-child{white-space:normal}}
+@media(max-width:700px){.tw.multi{border:0;overflow:visible}.tw.multi table{min-width:0;display:block}.tw.multi thead{display:none}.tw.multi tbody,.tw.multi tr{display:block}
+ .tw.multi tr{border:1px solid var(--border);border-radius:8px;margin-bottom:12px;background:var(--card);overflow:hidden}
+ .tw.multi td{display:block;border:0!important;border-bottom:1px solid var(--border)!important;background:transparent!important}
+ .tw.multi td:last-child{border-bottom:0!important}.tw.multi td::before{content:attr(data-label);display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+ .tw.multi td[colspan]::before{display:none}.tw.multi td:first-child{background:var(--head)!important;font-size:1rem}}
+@media print{.bar,nav.toc{display:none}.wrap{display:block}main{border:0}}
+</style></head><body>
+<div class="bar"><span class="t">Day 2 Aggregate COAs</span><a class="b" href="Day2_COA_Comparison_by_Author.html">By author →</a><button id="tg" type="button">Theme</button></div>
+<div class="wrap"><nav class="toc"><b>Contents</b><a class="h1" href="#common-frame-for-all-four-coas">1. Common frame for all four COAs</a><a class="h3 sub" href="#mission">Mission</a><a class="h3 sub" href="#boundaries-set-for-every-coa">Boundaries set for every COA</a><a class="h3 sub" href="#planning-facts-from-the-exercise-materials">Planning facts from the exercise materials</a><a class="h3 sub" href="#commanders-critical-information-requirements">Commander’s critical information requirements</a><a class="h1" href="#coa-1-forward-denial">2. COA 1: Forward Denial</a><a class="h3 sub" href="#coa-statement-and-purpose">COA statement and purpose</a><a class="h3 sub" href="#who-what-when-where-why-how">Who, what, when, where, why, how</a><a class="h3 sub" href="#main-effort-and-supporting-efforts">Main effort and supporting efforts</a><a class="h3 sub" href="#phasing-keyed-to-the-30-november-2359-deadline">Phasing, keyed to the 30 November 2359 deadline</a><a class="h3 sub" href="#forces-and-capabilities">Forces and capabilities</a><a class="h3 sub" href="#key-assumptions">Key assumptions</a><a class="h3 sub" href="#geographic-concept-enough-to-sketch">Geographic concept (enough to sketch)</a><a class="h3 sub" href="#risk">Risk</a><a class="h3 sub" href="#effect-on-coalition-building-and-maintenance">Effect on coalition building and maintenance</a><a class="h3 sub" href="#required-authorities">Required authorities</a><a class="h1" href="#coa-2-standoff-denial">3. COA 2: Standoff Denial</a><a class="h3 sub" href="#coa-statement-and-purpose-1">COA statement and purpose</a><a class="h3 sub" href="#who-what-when-where-why-how-1">Who, what, when, where, why, how</a><a class="h3 sub" href="#main-effort-and-supporting-efforts-1">Main effort and supporting efforts</a><a class="h3 sub" href="#phasing-keyed-to-the-30-november-2359-deadline-1">Phasing, keyed to the 30 November 2359 deadline</a><a class="h3 sub" href="#forces-and-capabilities-1">Forces and capabilities</a><a class="h3 sub" href="#key-assumptions-1">Key assumptions</a><a class="h3 sub" href="#geographic-concept-enough-to-sketch-1">Geographic concept (enough to sketch)</a><a class="h3 sub" href="#risk-1">Risk</a><a class="h3 sub" href="#effect-on-coalition-building-and-maintenance-1">Effect on coalition building and maintenance</a><a class="h3 sub" href="#required-authorities-1">Required authorities</a><a class="h1" href="#coa-3-defensive-shield-conditional-response">4. COA 3: Defensive Shield, Conditional Response</a><a class="h3 sub" href="#coa-statement-and-purpose-2">COA statement and purpose</a><a class="h3 sub" href="#who-what-when-where-why-how-2">Who, what, when, where, why, how</a><a class="h3 sub" href="#main-effort-and-supporting-efforts-2">Main effort and supporting efforts</a><a class="h3 sub" href="#phasing-keyed-to-the-30-november-2359-deadline-2">Phasing, keyed to the 30 November 2359 deadline</a><a class="h3 sub" href="#forces-and-capabilities-2">Forces and capabilities</a><a class="h3 sub" href="#key-assumptions-2">Key assumptions</a><a class="h3 sub" href="#geographic-concept-enough-to-sketch-2">Geographic concept (enough to sketch)</a><a class="h3 sub" href="#risk-2">Risk</a><a class="h3 sub" href="#effect-on-coalition-building-and-maintenance-2">Effect on coalition building and maintenance</a><a class="h3 sub" href="#required-authorities-2">Required authorities</a><a class="h1" href="#coa-4-pressure-led-asymmetric">5. COA 4: Pressure-Led Asymmetric</a><a class="h3 sub" href="#coa-statement-and-purpose-3">COA statement and purpose</a><a class="h3 sub" href="#who-what-when-where-why-how-3">Who, what, when, where, why, how</a><a class="h3 sub" href="#main-effort-and-supporting-efforts-3">Main effort and supporting efforts</a><a class="h3 sub" href="#phasing-keyed-to-the-30-november-2359-deadline-3">Phasing, keyed to the 30 November 2359 deadline</a><a class="h3 sub" href="#forces-and-capabilities-3">Forces and capabilities</a><a class="h3 sub" href="#key-assumptions-3">Key assumptions</a><a class="h3 sub" href="#geographic-concept-enough-to-sketch-3">Geographic concept (enough to sketch)</a><a class="h3 sub" href="#risk-3">Risk</a><a class="h3 sub" href="#effect-on-coalition-building-and-maintenance-3">Effect on coalition building and maintenance</a><a class="h3 sub" href="#required-authorities-3">Required authorities</a><a class="h1" href="#screening-against-the-jp-5-0-criteria">6. Screening against the JP 5-0 criteria</a><a class="h3 sub" href="#what-the-screening-says">What the screening says</a><a class="h1" href="#decision-points">7. Decision points</a><a class="h3 sub" href="#d1.-what-30-november-2359-triggers">D1. What 30 November 2359 triggers</a><a class="h3 sub" href="#d2.-strike-boundary">D2. Strike boundary</a><a class="h3 sub" href="#d3.-u.s.-element-on-taiwan-in-coa-1">D3. U.S. element on Taiwan in COA 1</a><a class="h3 sub" href="#d4.-how-the-prc-zone-is-treated">D4. How the PRC zone is treated</a><a class="h3 sub" href="#d5.-east-coast-lifeline-geometry">D5. East-coast lifeline geometry</a><a class="h3 sub" href="#d6.-timeline-to-carry">D6. Timeline to carry</a><a class="h3 sub" href="#d7.-force-levels-in-the-text">D7. Force levels in the text</a><a class="h3 sub" href="#d8.-early-fleet-destruction-campaign">D8. Early fleet-destruction campaign</a><a class="h3 sub" href="#d9.-contact-with-beijing">D9. Contact with Beijing</a><a class="h3 sub" href="#d10.-sustainment-concept">D10. Sustainment concept</a><a class="h3 sub" href="#d11.-force-use-triggers">D11. Force-use triggers</a><a class="h3 sub" href="#d12.-non-kinetic-offensive-scope">D12. Non-kinetic offensive scope</a><a class="h3 sub" href="#d13.-centers-of-gravity">D13. Centers of gravity</a><a class="h3 sub" href="#d14.-quantitative-wargame-results">D14. Quantitative wargame results</a><a class="h1" href="#basis-of-this-document">8. Basis of this document</a></nav><main>
+<p><strong>USPACOM Taiwan Strait Crisis, Day 2: Aggregate COAs</strong></p>
+<p>Courses of action for the USPACOM Commander’s choice, NLT 1115 on 3 November 2026. Aggregate of 14 team inputs. Draft for team review, 2 November 2026.</p>
+<div class="tw one"><table>
+
+<tbody>
+<tr class="odd">
+<td><p><strong>Recommended pair: COA 1 and COA 2.</strong> They differ on where the U.S. fights, how visible it is, and whether U.S. elements are on Taiwan. Most authors’ pairs follow this axis. COA 3 and COA 4 are shown to give the commander range; neither alone meets SECWAR’s demobilization objective.</p>
+<p><strong>Decisions already set by the team lead:</strong> 30 November is an NCA decision point with the COA ready to execute (D1); no U.S. mainland strikes in any COA (D2); COA 1 includes a limited U.S. element on Taiwan with Taiwan’s consent (D3). The remaining decision points are open for the team.</p></td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Contributor names are the authors whose input the proposed text draws on. “(verify)” marks anything not in the exercise materials.</em></p>
+<h1 id="common-frame-for-all-four-coas"><strong>1. Common frame for all four COAs</strong></h1>
+<h3 id="mission"><strong>Mission</strong></h3>
+<p>Deter a PRC attack on Taiwan and prevent a forcible seizure; support Taiwan’s ability to resist; preserve access to the island; and support the demand that the PRC demobilize its invasion forces by 2359 on 30 November 2026. Defeat any invasion launched earlier. Stay inside the President’s limits: no wider war, no occupation, no regime change.</p>
+<p><em><strong>Contributors:</strong> Beach, Coates, Jernigan, Rariden; Group CES for the objective hierarchy</em></p>
+<h3 id="boundaries-set-for-every-coa"><strong>Boundaries set for every COA</strong></h3>
+<ul>
+<li><p>30 November 2359 is an NCA decision point. Each COA is ready to execute on that decision; none starts combat on the date by itself. The exercise gives no time zone for the deadline. Before NCA direction, USPACOM postures, collects and defends. An actual PRC attack changes this under ROE set by NCA.</p></li>
+<li><p>No U.S. mainland strikes in any COA. Fires are against forces in the air and at sea. Any mainland strike is a separate NCA decision outside these COAs.</p></li>
+<li><p>No COA recognizes the PRC zone as lawful or asks for the 144-hour approval. Crisis channels to Beijing stay open, run by State and the NSC.</p></li>
+<li><p>Basing, overflight and access are asked for, with dates, not assumed. Japan, the Philippines, Australia, Vietnam and NATO are with us; South Korea keeps USFK on the Peninsula; the Solomon Islands, New Zealand, Pakistan and Papua New Guinea deny transit; Djibouti backs Beijing.</p></li>
+</ul>
+<h3 id="planning-facts-from-the-exercise-materials"><strong>Planning facts from the exercise materials</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Deadline</strong></td>
+<td>PRC must demobilize by 2359 on 30 Nov 2026; any invasion before then must be thwarted (SECWAR, Day 2).</td>
+</tr>
+<tr class="even">
+<td><strong>Intelligence</strong></td>
+<td>Lift forming at Ningbo and Zhanjiang. A full 1.2 million-person landing needs about 90 days. A smaller attack, possibly airborne, could come sooner (Day 2 inject). Day 1 had said 30–45 days.</td>
+</tr>
+<tr class="odd">
+<td><strong>Zone</strong></td>
+<td>Notice to Mariners and Airmen: 21°–26°N, west of 123°E, 144-hour approval through China Marine Surveillance. The Intel Map draft draws a five-point polygon (26°N 120°E, 26°N 123°E, 21°N 123°E, 21°N 119°E, 23°N 117°E). All of Taiwan, including the east coast, is inside.</td>
+</tr>
+<tr class="even">
+<td><strong>Incident</strong></td>
+<td>A Taiwanese Hsiung Feng III sank a PLAN Type 22 missile boat 23 NM west of Hsinchu at 012356Z. The PRC says it was a fishing vessel.</td>
+</tr>
+<tr class="odd">
+<td><strong>Forces (Day 1)</strong></td>
+<td>10 SSNs and 1 SSGN for tasking; 3rd and 12th MLR; the Theodore Roosevelt CSG and America ARG in the Western Pacific; Reagan and Vinson CSGs in the Eastern Pacific; Air Expeditionary Wing flow under 30 days with 6–18 B-52/B-2; 82nd Airborne IRF; THAAD and Patriot drawn down by Middle East demand.</td>
+</tr>
+<tr class="even">
+<td><strong>Policy</strong></td>
+<td>President: embargo, asset freezes, forces to the Western Pacific, work with Taiwan and willing allies to deny a seizure. No AUMF appears in the Day 2 files.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="commanders-critical-information-requirements"><strong>Commander’s critical information requirements</strong></h3>
+<p>Reused from the parked CCIRs of the Day 1 Group CES and tied to go and no-go points in the decision table (D11).</p>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>PIR</strong></td>
+<td>Blockade or zone enforcement; lift requisition and loading (civil ferry activation, stop-loss, training halts); PLA force-generation timelines; changing missile or cyber threats.</td>
+</tr>
+<tr class="even">
+<td><strong>FFIR</strong></td>
+<td>Approved allied access by country and date; available forces and munitions; applicable ROE; host-nation access decisions; munitions resupply timelines.</td>
+</tr>
+<tr class="odd">
+<td><strong>EEFI</strong></td>
+<td>U.S. movements, basing talks, readiness gaps.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Rariden (PIR, FFIR, EEFI grouping), Beach and Jernigan (indicators)</em></p>
+<h1 id="coa-1-forward-denial"><strong>2. COA 1: Forward Denial</strong></h1>
+<p><strong>RECOMMENDED PAIR (COA 1 and COA 2)</strong></p>
+<h3 id="coa-statement-and-purpose"><strong>COA statement and purpose</strong></h3>
+<p><strong>Statement.</strong> Beginning 2 November, USPACOM deploys a coalition-enabled forward denial force along the First Island Chain and, with Taiwan’s consent, a limited U.S. element on Taiwan. It holds PRC lift, escorts and airborne forces at risk in the Strait approaches and the gaps, defeats any attack launched before 30 November, and on the NCA decision after 2359 on 30 November holds, extends or executes. No U.S. mainland strikes.</p>
+<p><strong>Purpose.</strong> Convince Beijing that a landing or blockade will fail, so that demobilization is cheaper than attack, while keeping the war limited.</p>
+<p><em><strong>Contributors:</strong> Beach, Isabelle, Jernigan, Robles, Taylor, Allen</em></p>
+<h3 id="who-what-when-where-why-how"><strong>Who, what, when, where, why, how</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Who</strong></td>
+<td>CDRUSPACOM is the supported commander. Components: 7th Fleet (JFMCC), PACAF (JFACC), MARFORPAC and III MEF (stand-in forces), USARPAC (multi-domain task force, IAMD), SUBPAC, CYBERCOM and SPACEFOR-PAC, SOCPAC. Partners: Japan, the Philippines, Australia, Taiwan’s joint defense force.</td>
+</tr>
+<tr class="even">
+<td><strong>What</strong></td>
+<td>Forward denial of the Strait approaches and gaps; defense of Taiwan’s air, ports and command; contest zone enforcement; keep Taiwan supplied; defeat any insertion at sea and at the shoreline.</td>
+</tr>
+<tr class="odd">
+<td><strong>When</strong></td>
+<td>Start 2 Nov. SVTC decisions 6 Nov. Denial posture credible by 25 Nov. NCA decision at 2359 on 30 Nov.</td>
+</tr>
+<tr class="even">
+<td><strong>Where</strong></td>
+<td>Bashi/Luzon gap, Miyako gap, Penghu Channel and Pescadores, Strait approaches, Yonaguni, northern Luzon, Okinawa, and a limited element on Taiwan. Embarkation ports (Ningbo, Zhanjiang, Fuzhou to Shantou) are watched by ISR only.</td>
+</tr>
+<tr class="odd">
+<td><strong>Why</strong></td>
+<td>A smaller airborne or limited attack could come well before the 90-day full assembly. The zone is an immediate access problem. SECWAR requires any early invasion to be thwarted.</td>
+</tr>
+<tr class="even">
+<td><strong>How</strong></td>
+<td>Stand-in fires and undersea forces as the main effort; IAMD and ISR; dispersed air; limited presence on Taiwan; verified ISR release; supplies moved to Taiwan before any closure.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Beach, Isabelle, Jernigan, Robles, Taylor, Allen</em></p>
+<h3 id="main-effort-and-supporting-efforts"><strong>Main effort and supporting efforts</strong></h3>
+<p><strong>Main effort.</strong> Forward denial by undersea forces and stand-in land-based fires, holding PLA lift, escorts and airborne forces at risk in the Strait approaches.</p>
+<p><strong>Supporting efforts.</strong></p>
+<ul>
+<li><p>Allied access and authorities: Japan, the Philippines (EDCA), Australia depth; dated asks.</p></li>
+<li><p>Disperse and defend: ACE across the chain; shift IAMD to Guam and Okinawa; harden C2.</p></li>
+<li><p>Limited U.S. element on Taiwan (IAMD, ISR, maritime, advisors), with Taiwan’s consent and NCA direction; no U.S. ground combat force.</p></li>
+<li><p>Sustainment: front-load munitions, interceptors, fuel and spares to Taiwan; east-coast resupply inside the zone with escort; sealift bridge from the West Coast.</p></li>
+<li><p>Cyber, space and electronic effects against PLA ISR and enforcement C2 (military targets only).</p></li>
+<li><p>Defend Yonaguni and the Senkakus with Japan; Japan takes the Miyako Strait ASW sector.</p></li>
+<li><p>Information: release verified ISR on armed PLAAF sorties before the UN session; keep a who-shoots-first record.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Isabelle, Jernigan, Taylor, Allen, Robles; supporting: Beach, Isabelle, Jernigan, Allen, Stavrov (Miyako ASW to JMSDF), Mastromauro (ACE), Coates (ISR release)</em></p>
+<h3 id="phasing-keyed-to-the-30-november-2359-deadline"><strong>Phasing, keyed to the 30 November 2359 deadline</strong></h3>
+<div class="tw multi"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Phase</strong></th>
+<th><strong>Window</strong></th>
+<th><strong>Title</strong></th>
+<th><strong>Actions and transition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-label="Phase"><strong>I</strong></td>
+<td data-label="Window">2–12 Nov</td>
+<td data-label="Title">Posture and access</td>
+<td data-label="Actions and transition">ISR surge on Ningbo, Zhanjiang and the Fuzhou–Xiamen–Shantou ports. Sail all 10 SSNs and the SSGN to Bashi, Penghu and Miyako. Disperse air; shift IAMD. Move MLRs and the task force to Yonaguni, Miyako and northern Luzon on host consent. Open Taiwan-consent and Japan prior-consultation talks (Taylor asks for 4 Nov; verify). Front-load Taiwan. This is the exposed window: forces are still moving; hold the reserve back.</td>
+</tr>
+<tr class="even">
+<td data-label="Phase"><strong>II</strong></td>
+<td data-label="Window">12–25 Nov</td>
+<td data-label="Title">Establish denial</td>
+<td data-label="Actions and transition">Stand-in fires and the undersea barrier in place. Limited element on Taiwan. Escorted east-coast resupply, with no request for PRC approval. Non-kinetic counter-ISR. Denial posture credible by 25 Nov.</td>
+</tr>
+<tr class="odd">
+<td data-label="Phase"><strong>III</strong></td>
+<td data-label="Window">25–30 Nov</td>
+<td data-label="Title">Hold and decide</td>
+<td data-label="Actions and transition">Brief NCA on indicators and options. Keep posture; pre-stage ROE. Track the 90-day clock and the smaller-attack risk; neither is a guaranteed date.</td>
+</tr>
+<tr class="even">
+<td data-label="Phase"><strong>IV</strong></td>
+<td data-label="Window">After 2359, 30 Nov</td>
+<td data-label="Title">Hold, extend or execute</td>
+<td data-label="Actions and transition">On NCA decision: hold the posture and embargo with the off-ramp open; extend with allied agreement and a stated date; or execute sea denial against lift and blockade forces. Then consolidate and return to competition. Branch at any time: a PRC attack triggers defeat of the landing at sea and at the shoreline, as authorized.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Beach (30 Nov options), Mastromauro (phase dates), Allen (phase lengths), Taylor (consultation date)</em></p>
+<h3 id="forces-and-capabilities"><strong>Forces and capabilities</strong></h3>
+<ul>
+<li><p>SUBPAC: 10 SSNs and 1 SSGN.</p></li>
+<li><p>3rd and 12th MLR; Army multi-domain task force and long-range fires (NMESIS, PrSM: verify).</p></li>
+<li><p>7th Fleet: Theodore Roosevelt CSG and America ARG; Reagan and Vinson CSGs only if released by NCA and GFM (Day 1 shows them in the Eastern Pacific).</p></li>
+<li><p>PACAF and the Air Expeditionary Wing flow (under 30 days); 6–18 B-52/B-2.</p></li>
+<li><p>THAAD and Patriot; a 30-day CENTCOM and EUCOM relief request; sealift and MSC support.</p></li>
+<li><p>Partners: JSDF in the Southwest Islands, Australian depth, Taiwan’s joint defense force.</p></li>
+<li><p>Reserve: a CSG or equivalent, selected SSNs and the 82nd Airborne IRF, held out of the first fight.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Allen, Taylor, Mastromauro, Day 1 posture</em></p>
+<h3 id="key-assumptions"><strong>Key assumptions</strong></h3>
+<ul>
+<li><p>Japan and the Philippines grant the specific missions by about the first 7–10 days. Their support is stated; the missions are not (Day 2 files).</p></li>
+<li><p>Taiwan consents to the limited U.S. element. The President’s speech shows a general request for help, not consent to a particular element.</p></li>
+<li><p>A smaller attack can come before 90 days. This follows from the Day 2 inject, not from a stated PRC plan.</p></li>
+<li><p>Interceptor and anti-ship stocks last long enough. Allen and Taylor put depletion at 10–15 days of high-tempo denial (Taylor’s figure is a model; verify).</p></li>
+<li><p>No AUMF is in the files; the COA runs on the President’s direction and NCA decisions.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Beach (A1, A2), Allen, Taylor</em></p>
+<h3 id="geographic-concept-enough-to-sketch"><strong>Geographic concept (enough to sketch)</strong></h3>
+<p>A chain of stand-in strongpoints from Yonaguni and Miyako in the north to northern Luzon and the Batanes in the south closes the east and south gaps. Submarine stations sit in the Bashi Channel, the Penghu Channel and the Miyako gap. The main effort arrow runs into the Strait approaches west of Taiwan, aimed at lift and escorts leaving Fuzhou to Shantou and at airborne forces crossing. A limited U.S. element sits on Taiwan. A resupply line runs from Okinawa and the south to Hualien and Suao, and it lies inside the zone. Carriers stay outside the PLARF envelope of the Strait. Guam and Okinawa are rear hubs.</p>
+<p><em><strong>Contributors:</strong> Isabelle (decisive points), Beach (zone geometry), Taylor, Allen. Map in the working deck.</em></p>
+<h3 id="risk"><strong>Risk</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Force</strong></td>
+<td>High. Forward forces and hubs (Kadena, Andersen) sit inside PLA missile and air envelopes. Shallow-water hazards for submarines. Fast use of precision munitions.</td>
+</tr>
+<tr class="even">
+<td><strong>Mission</strong></td>
+<td>Moderate. Depends on access and consent arriving in the first 7–10 days; the denial force is weakest while still moving.</td>
+</tr>
+<tr class="odd">
+<td><strong>Escalation</strong></td>
+<td>Highest of the four COAs. Presence on Taiwan can be framed as sponsorship of the “terrorist” narrative. Held down by limited scope, no mainland strikes, open crisis channels and a documented who-shoots-first record.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Beach, Isabelle, Jernigan, Allen, Taylor</em></p>
+<h3 id="effect-on-coalition-building-and-maintenance"><strong>Effect on coalition building and maintenance</strong></h3>
+<p>Strongest signal to Japan, the Philippines, Australia and Vietnam, who are already with us. Strain points: Japan’s prior-consultation decision, EDCA limits, Taiwan’s consent. Visible forward posture may push ASEAN and India holdouts away. South Korea is unaffected; USFK stays on the Peninsula.</p>
+<p><em><strong>Contributors:</strong> Beach, Taylor, Robles</em></p>
+<h3 id="required-authorities"><strong>Required authorities</strong></h3>
+<ul>
+<li><p>NCA direction and ROE for denial, with pre-authorized defensive ROE.</p></li>
+<li><p>NCA decision and Taiwan’s consent for a U.S. element on Taiwan (One China policy and Taiwan Relations Act questions; the Day 1 Group CES held this for NCA).</p></li>
+<li><p>Host-nation permissions: Japan prior consultation (verify) and Philippine EDCA scope (verify).</p></li>
+<li><p>Global Force Management decisions for CSGs, munitions and interceptors.</p></li>
+<li><p>A separate NCA decision for the 30 November action. No AUMF in the files.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Beach, Taylor, Coates</em></p>
+<h1 id="coa-2-standoff-denial"><strong>3. COA 2: Standoff Denial</strong></h1>
+<p><strong>RECOMMENDED PAIR (COA 1 and COA 2)</strong></p>
+<h3 id="coa-statement-and-purpose-1"><strong>COA statement and purpose</strong></h3>
+<p><strong>Statement.</strong> From operational depth and the sea, USPACOM denies a forcible seizure and contests blockade enforcement. Undersea forces, long-range air and counter-ISR hold PRC lift and enforcement forces at risk. Surface forces stay outside the PRC missile envelope, and no U.S. element goes to Taiwan. Pressure from the embargo, asset freezes and allies runs alongside. Sea denial alone does not compel demobilization by 30 November; that needs a separate NCA decision.</p>
+<p><strong>Purpose.</strong> Deny a seizure with the least early exposure and escalation, buy time for coalition cohesion and economic pressure, and keep options to go direct if the PRC attacks.</p>
+<p><em><strong>Contributors:</strong> Beach, Isabelle, Jernigan, Robles, Allen, Taylor</em></p>
+<h3 id="who-what-when-where-why-how-1"><strong>Who, what, when, where, why, how</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Who</strong></td>
+<td>CDRUSPACOM, with a forward command post outside Taiwan (Guam or afloat). Components: 7th Fleet, PACAF and the bomber task force, SUBPAC, CYBERCOM and SPACEFOR-PAC. Partners: Australia (Darwin, Tindal, Stirling), Japan, the Philippines as authorized, Taiwan’s joint defense force on the island.</td>
+</tr>
+<tr class="even">
+<td><strong>What</strong></td>
+<td>Hold lift and enforcement forces at risk from depth; contest blockade at sea; counter PLA ISR; sustain Taiwan from outside; defeat a landing at sea as it crosses.</td>
+</tr>
+<tr class="odd">
+<td><strong>When</strong></td>
+<td>Start 2 Nov. Standoff line and hardening by about 9 Nov. Standoff attrition 9–25 Nov. NCA decision at 2359 on 30 Nov.</td>
+</tr>
+<tr class="even">
+<td><strong>Where</strong></td>
+<td>Deep water east of Taiwan, the Bashi and Miyako gaps, a standoff line east of 135°E (Taylor’s convention; verify), and rear hubs at Guam, Hawaii, Darwin and Tindal.</td>
+</tr>
+<tr class="odd">
+<td><strong>Why</strong></td>
+<td>Keeps the force out of the missile envelope while pressure builds, preserves munitions, and avoids committing before access and authorities are settled.</td>
+</tr>
+<tr class="even">
+<td><strong>How</strong></td>
+<td>Bombers and submarines carry the fires; carriers stay east of the line; cyber, space and EW degrade PLA ISR; mining and interdiction at the gaps; air and sea resupply to Taiwan without a U.S. element.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Beach, Isabelle, Jernigan, Robles, Allen, Taylor</em></p>
+<h3 id="main-effort-and-supporting-efforts-1"><strong>Main effort and supporting efforts</strong></h3>
+<p><strong>Main effort.</strong> Long-range standoff fires and undersea interdiction that hold PLA lift and enforcement vessels at risk.</p>
+<p><strong>Supporting efforts.</strong></p>
+<ul>
+<li><p>Counter-ISR: cyber, space and EW against PLA ISR and enforcement C2 (military targets only).</p></li>
+<li><p>Embargo and asset freeze with allies; interdiction authority for embargo enforcement.</p></li>
+<li><p>Protect sea lanes and escort shipping outside the zone.</p></li>
+<li><p>Sustain Taiwan from outside: liaison, intelligence, air defense support, east-coast resupply by air and sea.</p></li>
+<li><p>Harden and disperse Guam and Okinawa; shift IAMD; JMSDF takes the Miyako ASW sector.</p></li>
+<li><p>Information: verified ISR release, legal basis stated in every public statement.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Isabelle, Jernigan, Allen, Taylor, Robles, Stavrov (mines, LRASM); supporting: Isabelle, Jernigan, Allen, Taylor (embargo interdiction), Beach</em></p>
+<h3 id="phasing-keyed-to-the-30-november-2359-deadline-1"><strong>Phasing, keyed to the 30 November 2359 deadline</strong></h3>
+<div class="tw multi"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Phase</strong></th>
+<th><strong>Window</strong></th>
+<th><strong>Title</strong></th>
+<th><strong>Actions and transition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-label="Phase"><strong>I</strong></td>
+<td data-label="Window">2–9 Nov</td>
+<td data-label="Title">Harden and contain</td>
+<td data-label="Actions and transition">Standoff containment line set east of 135°E. Harden Guam and Okinawa; shift IAMD. Bomber task force to Guam and Australia. Begin non-kinetic counter-ISR.</td>
+</tr>
+<tr class="even">
+<td data-label="Phase"><strong>II</strong></td>
+<td data-label="Window">9–25 Nov</td>
+<td data-label="Title">Standoff attrition</td>
+<td data-label="Actions and transition">Long-range fires and submarine interdiction ready to hold lift at risk. Covert mining plan staged. Front-load Taiwan. Build coalition and economic pressure.</td>
+</tr>
+<tr class="odd">
+<td data-label="Phase"><strong>III</strong></td>
+<td data-label="Window">25–30 Nov</td>
+<td data-label="Title">Hold and decide</td>
+<td data-label="Actions and transition">Brief NCA. State plainly that the COA denies a landing but does not compel; pre-plan the sequel.</td>
+</tr>
+<tr class="even">
+<td data-label="Phase"><strong>IV</strong></td>
+<td data-label="Window">After 2359, 30 Nov</td>
+<td data-label="Title">Deny and hold, or sequel</td>
+<td data-label="Actions and transition">Deny and hold with the embargo. The sequel needs its own NCA decision: expanded allied economic and maritime pressure, allied interdiction as each ally allows. If NCA will not take a sequel, brief this as a denial-and-hold COA and revise the deadline. Branch: a PRC attack triggers defeat of the landing at sea.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Allen, Beach (compellence limit and sequel), Taylor</em></p>
+<h3 id="forces-and-capabilities-1"><strong>Forces and capabilities</strong></h3>
+<ul>
+<li><p>Bomber task force (6–18 B-52/B-2 per Day 1; B-21: verify); tankers.</p></li>
+<li><p>SUBPAC: 10 SSNs and 1 SSGN; P-8 patrol aircraft.</p></li>
+<li><p>CSGs outside the missile envelope; destroyers.</p></li>
+<li><p>CYBERCOM, JFHQ-C, SPACEFOR-PAC; standoff ISR platforms (verify).</p></li>
+<li><p>Guam, Pearl Harbor, Darwin, Tindal and Stirling as reload and repair depth.</p></li>
+<li><p>Reserve: one CSG and about a quarter of bomber capacity in depth.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Allen, Isabelle, Taylor</em></p>
+<h3 id="key-assumptions-1"><strong>Key assumptions</strong></h3>
+<ul>
+<li><p>Taiwan’s defense survives the air campaign without U.S. forces on the island long enough for denial to bite. Allen puts exposure at 45–90 days.</p></li>
+<li><p>Guam and Australian depth stay available and survivable.</p></li>
+<li><p>Standoff ISR and tankers survive PLAAF long-range air defenses (Allen).</p></li>
+<li><p>The 135°E line is a staff convention, not an exercise fact.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Allen, Taylor</em></p>
+<h3 id="geographic-concept-enough-to-sketch-1"><strong>Geographic concept (enough to sketch)</strong></h3>
+<p>Carrier groups sit east of a standoff line near 135°E, outside the PLARF envelope. Submarines work the deep water east of Taiwan and the Bashi gap, with mining and interdiction at the gaps. A long arc of bomber sorties runs from Guam and Australia toward the Strait approaches. Cyber, space and EW arrows reach PLA ISR and enforcement nodes. Okinawa and Luzon are dispersal sites as authorized. There is no U.S. element on Taiwan; resupply and liaison come by air and sea from outside.</p>
+<p><em><strong>Contributors:</strong> Taylor, Allen, Isabelle. Map in the working deck.</em></p>
+<h3 id="risk-1"><strong>Risk</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Force</strong></td>
+<td>Low to moderate at the start. Guam and Darwin stay exposed to long-range strikes; standoff ISR, tankers and bombers are fragile; submarines carry the contested-waters risk (Allen).</td>
+</tr>
+<tr class="even">
+<td><strong>Mission</strong></td>
+<td>High. Effects may come too slowly against an airborne insertion, a key-port seizure, or a quarantine that becomes normal. Taiwan absorbs the early fight (Isabelle, Jernigan, Robles, Allen).</td>
+</tr>
+<tr class="odd">
+<td><strong>Escalation</strong></td>
+<td>Lower than COA 1: fewer overt triggers, no presence on the island.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Allen, Isabelle, Jernigan, Robles, Beach</em></p>
+<h3 id="effect-on-coalition-building-and-maintenance-1"><strong>Effect on coalition building and maintenance</strong></h3>
+<p>Needs less immediate access and relies on Guam and Australia, so it is easier for hesitant partners to join and keeps legitimacy clean. It may read to Japan and Taiwan as a weaker commitment. Consistent with South Korea’s request.</p>
+<p><em><strong>Contributors:</strong> Robles, Beach, Isabelle</em></p>
+<h3 id="required-authorities-1"><strong>Required authorities</strong></h3>
+<ul>
+<li><p>NCA direction and ROE for standoff fires and mining, with legal review for mines in international waters.</p></li>
+<li><p>Australian basing and overflight for bombers.</p></li>
+<li><p>CYBERCOM and SPACEFOR-PAC authorities for effects on PLA ISR and C2.</p></li>
+<li><p>Embargo interdiction authority (DoD, Treasury, State).</p></li>
+<li><p>A separate NCA decision for any 30 November sequel.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Beach, Taylor, Allen</em></p>
+<h1 id="coa-3-defensive-shield-conditional-response"><strong>4. COA 3: Defensive Shield, Conditional Response</strong></h1>
+<p><strong>SHOWN FOR RANGE</strong></p>
+<h3 id="coa-statement-and-purpose-2"><strong>COA statement and purpose</strong></h3>
+<p><strong>Statement.</strong> USPACOM postures, hardens, preserves and sustains U.S. and allied forces and strengthens Taiwan from outside the zone, with a visible but defensible presence. It holds a pre-planned transition to COA 1 or COA 2 on defined triggers or on the NCA decision at 30 November. Compellence rests on the embargo, asset freezes and diplomacy, not military force.</p>
+<p><strong>Purpose.</strong> Deter without confrontation, protect a force that is stretched across theaters and a thin munitions base, keep the coalition intact and the off-ramp open.</p>
+<p><em><strong>Contributors:</strong> Rariden, Wilson, Coates, West, Smith</em></p>
+<h3 id="who-what-when-where-why-how-2"><strong>Who, what, when, where, why, how</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Who</strong></td>
+<td>CDRUSPACOM with forces already in the theater; JFMCC, JFACC, USARPAC for IAMD and sustainment; Taiwan liaison cell; partners by consent.</td>
+</tr>
+<tr class="even">
+<td><strong>What</strong></td>
+<td>ISR surge; disperse and harden; reinforce IAMD; supplies and support to Taiwan; allied exercises; stay outside the zone; prepare the transition.</td>
+</tr>
+<tr class="odd">
+<td><strong>When</strong></td>
+<td>Start 2 Nov. Posture complete by 9 Nov; sustainment and access by 30 Nov. NCA decision at 2359 on 30 Nov.</td>
+</tr>
+<tr class="even">
+<td><strong>Where</strong></td>
+<td>Okinawa and southwest Japan, northern Luzon as authorized, Guam, Hawaii, Australia; presence in the Philippine Sea outside the zone.</td>
+</tr>
+<tr class="odd">
+<td><strong>Why</strong></td>
+<td>Congress and the Pentagon worry about overextension; THAAD and Patriot stocks are drawn down; access is unconfirmed.</td>
+</tr>
+<tr class="even">
+<td><strong>How</strong></td>
+<td>Defensive posture, ISR, hardening, sustainment, coalition coordination and messaging. Transition on triggers.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Rariden, Wilson, Coates, West, Smith</em></p>
+<h3 id="main-effort-and-supporting-efforts-2"><strong>Main effort and supporting efforts</strong></h3>
+<p><strong>Main effort.</strong> Disperse, harden and sustain the force, and strengthen Taiwan’s resilience.</p>
+<p><strong>Supporting efforts.</strong></p>
+<ul>
+<li><p>ISR surge on lift staging, the Strait approaches and PLARF units.</p></li>
+<li><p>Dated allied access asks; combined defensive exercises with Taiwan and allies.</p></li>
+<li><p>Front-load munitions, fuel and medical support to Taiwan.</p></li>
+<li><p>Release verified ISR; State-owned off-ramp.</p></li>
+<li><p>Request munitions relief; set a 30-day sustainment plan.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Wilson, Rariden; supporting: Wilson, Coates, West, Rariden</em></p>
+<h3 id="phasing-keyed-to-the-30-november-2359-deadline-2"><strong>Phasing, keyed to the 30 November 2359 deadline</strong></h3>
+<div class="tw multi"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Phase</strong></th>
+<th><strong>Window</strong></th>
+<th><strong>Title</strong></th>
+<th><strong>Actions and transition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-label="Phase"><strong>I</strong></td>
+<td data-label="Window">2–9 Nov</td>
+<td data-label="Title">Protect the force</td>
+<td data-label="Actions and transition">Disperse, harden, shift IAMD, sail submarines, surge ISR.</td>
+</tr>
+<tr class="even">
+<td data-label="Phase"><strong>II</strong></td>
+<td data-label="Window">9–30 Nov</td>
+<td data-label="Title">Build sustainment and access</td>
+<td data-label="Actions and transition">Munitions and lift plan, allied access with dates, front-load Taiwan, allied exercises.</td>
+</tr>
+<tr class="odd">
+<td data-label="Phase"><strong>III</strong></td>
+<td data-label="Window">30 Nov 2359</td>
+<td data-label="Title">NCA decision</td>
+<td data-label="Actions and transition">Sustain the posture beyond the deadline, or move to COA 1 or COA 2.</td>
+</tr>
+<tr class="even">
+<td data-label="Phase"><strong>IV</strong></td>
+<td data-label="Window">On a trigger</td>
+<td data-label="Title">Transition</td>
+<td data-label="Actions and transition">A force-use trigger (see decision D11) moves the force to COA 1 or COA 2 within about 72 hours using forces already postured.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Rariden, Wilson, Coates</em></p>
+<h3 id="forces-and-capabilities-2"><strong>Forces and capabilities</strong></h3>
+<ul>
+<li><p>Forces already in theater, inside the chain (Smith); no CONUS surge required.</p></li>
+<li><p>SUBPAC sailed for ISR and deterrence; IAMD (THAAD, Patriot) prioritized.</p></li>
+<li><p>Naval presence in the Philippine Sea outside the zone.</p></li>
+<li><p>Reserve: 82nd Airborne IRF and a mobile joint reserve (Coates).</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Smith, Coates, Wilson</em></p>
+<h3 id="key-assumptions-2"><strong>Key assumptions</strong></h3>
+<ul>
+<li><p>The PRC does not seize an outlying island or enforce a quarantine by force while the U.S. waits (Wilson names this as the main weakness).</p></li>
+<li><p>Authority and access for the transition arrive in time.</p></li>
+<li><p>Embargo and diplomacy add pressure over weeks.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Wilson, Rariden</em></p>
+<h3 id="geographic-concept-enough-to-sketch-2"><strong>Geographic concept (enough to sketch)</strong></h3>
+<p>A shield of hardened, dispersed hubs at Okinawa, southwest Japan, northern Luzon and Guam sits behind a ring of visible presence in the Philippine Sea, outside the zone. ISR orbits run along the zone’s edge and over the Strait approaches. Submarines sit in deep water east of Taiwan. Supply flows to Taiwan before any closure. A single decision gate marks the transition.</p>
+<p><em><strong>Contributors:</strong> Wilson, Coates, Smith. Map in the working deck.</em></p>
+<h3 id="risk-2"><strong>Risk</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Force</strong></td>
+<td>Low.</td>
+</tr>
+<tr class="even">
+<td><strong>Mission</strong></td>
+<td>High. May not deter an outlying island seizure or a quarantine that becomes normal; delayed authority could forfeit initiative (Rariden, Wilson, West).</td>
+</tr>
+<tr class="odd">
+<td><strong>Escalation</strong></td>
+<td>Lowest of the four.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Wilson, Rariden, West</em></p>
+<h3 id="effect-on-coalition-building-and-maintenance-2"><strong>Effect on coalition building and maintenance</strong></h3>
+<p>Easiest for hesitant partners and for South Korea. Taiwan and Japan may read it as insufficient given the President’s statement that an invasion must not succeed.</p>
+<p><em><strong>Contributors:</strong> Wilson, West</em></p>
+<h3 id="required-authorities-2"><strong>Required authorities</strong></h3>
+<ul>
+<li><p>Within existing USPACOM authority to posture, collect and defend.</p></li>
+<li><p>Transition ROE and NCA decision pre-staged.</p></li>
+<li><p>Allied access by consent.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Rariden, Wilson</em></p>
+<h1 id="coa-4-pressure-led-asymmetric"><strong>5. COA 4: Pressure-Led Asymmetric</strong></h1>
+<p><strong>SHOWN FOR RANGE</strong></p>
+<h3 id="coa-statement-and-purpose-3"><strong>COA statement and purpose</strong></h3>
+<p><strong>Statement.</strong> USPACOM makes PRC coercion costly and its enforcement ineffective through cyber, space, electronic and information effects against military ISR, C2 and enforcement, alongside the embargo, asset freezes and allied measures. Kinetic forces are held outside the zone. The option to move to COA 1 or COA 2 stays open.</p>
+<p><strong>Purpose.</strong> Deny Beijing narrative dominance and command-and-control coherence without early kinetic commitment.</p>
+<p><em><strong>Contributors:</strong> Cooper, Isabelle, Jernigan, Taylor (asymmetric element)</em></p>
+<h3 id="who-what-when-where-why-how-3"><strong>Who, what, when, where, why, how</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Who</strong></td>
+<td>CYBERCOM and JFHQ-C, SPACEFOR-PAC, electronic attack units, State, Treasury and Commerce, the intelligence community; kinetic forces as in COA 3.</td>
+</tr>
+<tr class="even">
+<td><strong>What</strong></td>
+<td>Degrade PLA ISR, C2 and comms; expose false PRC narratives with verified evidence; enforce the embargo; mine and interdict covertly.</td>
+</tr>
+<tr class="odd">
+<td><strong>When</strong></td>
+<td>Start 2 Nov. Effects are timed to the SVTC and to the NCA decision at 2359 on 30 Nov.</td>
+</tr>
+<tr class="even">
+<td><strong>Where</strong></td>
+<td>PLA nodes at Ningbo and the Fuzhou–Xiamen–Shantou coast; the information space; global economic channels.</td>
+</tr>
+<tr class="odd">
+<td><strong>Why</strong></td>
+<td>More plausible deniability, fewer overt triggers, less reliance on allies (Cooper).</td>
+</tr>
+<tr class="even">
+<td><strong>How</strong></td>
+<td>Cyber, space and EW on military targets; a verified-evidence information campaign; embargo interdiction; covert undersea interdiction.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Cooper, Isabelle, Jernigan, Taylor (asymmetric element)</em></p>
+<h3 id="main-effort-and-supporting-efforts-3"><strong>Main effort and supporting efforts</strong></h3>
+<p><strong>Main effort.</strong> Cyber, space and electronic effects against PLA ISR, C2 and enforcement communications.</p>
+<p><strong>Supporting efforts.</strong></p>
+<ul>
+<li><p>Information campaign built on verified ISR; counter the “terrorist” framing.</p></li>
+<li><p>Embargo, asset freezes and allied sanctions; interdiction authority.</p></li>
+<li><p>Covert undersea interdiction and mining.</p></li>
+<li><p>Defensive cyber for Taiwan’s C2 and for U.S. critical infrastructure.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Cooper, Isabelle, Jernigan; supporting: Cooper, Taylor (CONUS infrastructure defense), Stavrov (EA-18G)</em></p>
+<h3 id="phasing-keyed-to-the-30-november-2359-deadline-3"><strong>Phasing, keyed to the 30 November 2359 deadline</strong></h3>
+<div class="tw multi"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Phase</strong></th>
+<th><strong>Window</strong></th>
+<th><strong>Title</strong></th>
+<th><strong>Actions and transition</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-label="Phase"><strong>I</strong></td>
+<td data-label="Window">2–9 Nov</td>
+<td data-label="Title">Prepare effects</td>
+<td data-label="Actions and transition">Cyber preparation, deception, defensive hardening; ISR surge.</td>
+</tr>
+<tr class="even">
+<td data-label="Phase"><strong>II</strong></td>
+<td data-label="Window">9–25 Nov</td>
+<td data-label="Title">Apply pressure</td>
+<td data-label="Actions and transition">Non-kinetic effects against ISR and C2; information release; embargo enforcement.</td>
+</tr>
+<tr class="odd">
+<td data-label="Phase"><strong>III</strong></td>
+<td data-label="Window">25–30 Nov</td>
+<td data-label="Title">Assess and decide</td>
+<td data-label="Actions and transition">CYBERCOM assesses effect; NCA decides whether to continue or move to COA 1 or COA 2.</td>
+</tr>
+<tr class="even">
+<td data-label="Phase"><strong>IV</strong></td>
+<td data-label="Window">After 2359, 30 Nov</td>
+<td data-label="Title">Sustain or transition</td>
+<td data-label="Actions and transition">Sustain pressure, or transition on a trigger.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Cooper, Isabelle</em></p>
+<h3 id="forces-and-capabilities-3"><strong>Forces and capabilities</strong></h3>
+<ul>
+<li><p>CYBERCOM, JFHQ-C, SPACEFOR-PAC; electronic attack aircraft (EA-18G: verify).</p></li>
+<li><p>SSNs for covert mining and interdiction.</p></li>
+<li><p>State, Treasury and Commerce for the embargo and allied measures.</p></li>
+<li><p>Kinetic forces held back as in COA 3.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Cooper, Stavrov</em></p>
+<h3 id="key-assumptions-3"><strong>Key assumptions</strong></h3>
+<ul>
+<li><p>CYBERCOM assesses a real chance of effect against PLA targets (Cooper’s condition).</p></li>
+<li><p>The PRC’s retaliation in kind, including against U.S. infrastructure, can be absorbed or defended.</p></li>
+<li><p>Attribution of PRC cyber activity is available (parked CCIR).</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Cooper</em></p>
+<h3 id="geographic-concept-enough-to-sketch-3"><strong>Geographic concept (enough to sketch)</strong></h3>
+<p>Arrows from standoff and space-based locations reach PLA ISR and C2 nodes at Ningbo and on the Fuzhou to Xiamen coast. Naval and air forces sit outside the zone, east of Taiwan, as in COA 3. Submarines mine and interdict at the gaps. Off the map: the embargo, the asset freeze and allied sanctions.</p>
+<p><em><strong>Contributors:</strong> Cooper, Isabelle. Map in the working deck.</em></p>
+<h3 id="risk-3"><strong>Risk</strong></h3>
+<div class="tw kv"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Force</strong></td>
+<td>Low to moderate.</td>
+</tr>
+<tr class="even">
+<td><strong>Mission</strong></td>
+<td>High. Effects may not be decisive and do not stop an airborne insertion; the PRC gets a freer hand in the time available (Cooper).</td>
+</tr>
+<tr class="odd">
+<td><strong>Escalation</strong></td>
+<td>Moderate. PRC cyber retaliation against U.S. infrastructure and public (Cooper, Taylor).</td>
+</tr>
+</tbody>
+</table></div>
+<p><em><strong>Contributors:</strong> Cooper, Taylor</em></p>
+<h3 id="effect-on-coalition-building-and-maintenance-3"><strong>Effect on coalition building and maintenance</strong></h3>
+<p>Less reliance on allied access. Fits the economic measures Japan, the UK and France are preparing. Offers little visible commitment to Taiwan.</p>
+<p><em><strong>Contributors:</strong> Cooper</em></p>
+<h3 id="required-authorities-3"><strong>Required authorities</strong></h3>
+<ul>
+<li><p>Offensive cyber, space and EW authorities for military targets.</p></li>
+<li><p>Information-operations authorities and legal review; influence operations aimed at the PRC public need their own policy review.</p></li>
+<li><p>Treasury and Commerce authorities for sanctions. The Day 2 files authorize the embargo and asset freeze only. A cyber attack on the PRC financial system (Cooper) is not assumed.</p></li>
+</ul>
+<p><em><strong>Contributors:</strong> Cooper, Taylor</em></p>
+<h1 id="screening-against-the-jp-5-0-criteria"><strong>6. Screening against the JP 5-0 criteria</strong></h1>
+<p>Each COA is tested against suitability, feasibility, acceptability, distinguishability and completeness. This is staff judgment for discussion, not a wargame result.</p>
+<div class="tw multi"><table>
+
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Suitable</strong></th>
+<th><strong>Feasible</strong></th>
+<th><strong>Acceptable</strong></th>
+<th><strong>Distinguishable</strong></th>
+<th><strong>Complete</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-label=""><strong>COA 1</strong></td>
+<td data-label="Suitable">Yes. Compels through visible denial and a defined 30 Nov decision.</td>
+<td data-label="Feasible">Conditional on access and consent in 7–10 days and on munitions.</td>
+<td data-label="Acceptable">Accepts high force and escalation risk for the best chance to compel.</td>
+<td data-label="Distinguishable">Yes. Differs from COA 2 on where the U.S. fights, visibility and presence on Taiwan.</td>
+<td data-label="Complete">Yes at theater level. Needs wargaming and Red Team.</td>
+</tr>
+<tr class="even">
+<td data-label=""><strong>COA 2</strong></td>
+<td data-label="Suitable">Partly. Denies a seizure; cannot compel by 30 Nov without a sequel.</td>
+<td data-label="Feasible">Yes, if Guam and Australia depth hold.</td>
+<td data-label="Acceptable">Accepts higher mission risk for lower force and escalation risk.</td>
+<td data-label="Distinguishable">Yes. Stays off Taiwan and outside the envelope.</td>
+<td data-label="Complete">Yes, with the sequel stated as separate.</td>
+</tr>
+<tr class="odd">
+<td data-label=""><strong>COA 3</strong></td>
+<td data-label="Suitable">Weak for the stated objective unless the transition is pre-planned.</td>
+<td data-label="Feasible">Yes. Uses forces in theater.</td>
+<td data-label="Acceptable">Low risk but high mission risk.</td>
+<td data-label="Distinguishable">Yes on trigger. Overlaps the first days of COA 1 and COA 2.</td>
+<td data-label="Complete">Transition branches need more detail.</td>
+</tr>
+<tr class="even">
+<td data-label=""><strong>COA 4</strong></td>
+<td data-label="Suitable">No alone. Cannot stop an airborne insertion.</td>
+<td data-label="Feasible">Conditional on CYBERCOM’s assessment.</td>
+<td data-label="Acceptable">Moderate escalation; high mission risk.</td>
+<td data-label="Distinguishable">Overlaps COA 2’s counter-ISR.</td>
+<td data-label="Complete">Needs forces and triggers added.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Staff judgment, not measurement. Criteria are as the team lead listed them. The 2017 edition of JP 5-0 that could be reached names the five tests “feasible, acceptable, adequate, distinguishable, and complete” and puts the Strategic Estimate in Appendix B; the current edition’s wording was not verified.</em></p>
+<h3 id="what-the-screening-says"><strong>What the screening says</strong></h3>
+<ul>
+<li><p>COA 1 is the only COA that can plausibly meet the demobilization objective without a sequel NCA has not yet authorized. It carries the most force and escalation risk and depends on access and consent arriving early.</p></li>
+<li><p>COA 2 is the better denial and coalition option and the natural fallback if access, consent or NCA risk appetite fail. It must be briefed with its compellence limit.</p></li>
+<li><p>COA 3 and COA 4 are useful as the low-risk end of the range and as supporting efforts, but neither stops a fast airborne insertion by itself.</p></li>
+<li><p>What would change the recommendation: Taiwan or Japan refuse what COA 1 needs; NCA will not accept its escalation risk; or the PRC stays at zone enforcement and the air campaign, so a lower-risk denial posture suffices.</p></li>
+</ul>
+<h1 id="decision-points"><strong>7. Decision points</strong></h1>
+<p>Where authors disagree, or where an input conflicts with the exercise files. D1 to D3 are already set by the team lead and are shown for the record.</p>
+<h3 id="d1.-what-30-november-2359-triggers"><strong>D1. What 30 November 2359 triggers</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NCA decision point; COA ready to execute; earlier defeat of an attack under ROE</td>
+<td>Beach, Rariden</td>
+</tr>
+<tr class="even">
+<td>Pre-authorized dual-trigger ROE: kinetic sea denial on expiry or on early PLA launch</td>
+<td>Taylor; Mastromauro’s Phase III is close</td>
+</tr>
+<tr class="odd">
+<td>Combat from 6 Nov</td>
+<td>Stavrov</td>
+</tr>
+<tr class="even">
+<td>Not a combat trigger; response only after an actual attack</td>
+<td>Rariden (Approach 2), Wilson</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> NCA decision point with the COA ready to execute (the team lead’s choice).</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> SECWAR says we must be prepared to use force if the PRC will not demobilize. Pre-authorized ROE gives speed and gives up the hold and extend choices. Starting on 6 Nov has no authority in the files.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d2.-strike-boundary"><strong>D2. Strike boundary</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>No U.S. mainland strikes; fires at forces in the air and at sea</td>
+<td>Beach base, Mastromauro, Taylor, Coates</td>
+</tr>
+<tr class="even">
+<td>Allow strikes on launch sites that are firing, on triggers NCA sets in advance</td>
+<td>Beach COA 1 draft</td>
+</tr>
+<tr class="odd">
+<td>Taiwan strikes mainland ports using U.S. targeting data</td>
+<td>Stavrov</td>
+</tr>
+<tr class="even">
+<td>Cyber attack on the PRC financial system</td>
+<td>Cooper</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> No U.S. mainland strikes in any COA (the team lead’s choice). Anything else is a separate NCA decision.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> The President said no wider war. A mainland strike, or U.S. targeting that enables one, can end the limited conflict. Day 2 files authorize an embargo and asset freeze, not financial attack.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d3.-u.s.-element-on-taiwan-in-coa-1"><strong>D3. U.S. element on Taiwan in COA 1</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Limited: air and missile defense, ISR, maritime, advisors; Taiwan’s consent; NCA</td>
+<td>Beach</td>
+</tr>
+<tr class="even">
+<td>Liaison, advisors or SOF only</td>
+<td>Cooper, Coates, Taylor (COA 2)</td>
+</tr>
+<tr class="odd">
+<td>None</td>
+<td>Mastromauro, Isabelle, Allen, Rariden</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Recommended default:</strong> Limited presence with Taiwan’s consent (the team lead’s choice).</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Why it matters:</strong> It sharpens the difference from COA 2 and the signal to Beijing. It raises One China policy, TRA and escalation questions, and only one author proposes it. The Day 1 Group CES listed U.S. forces on Taiwan as held for NCA or excluded; the Day 2 speech (Taiwan’s request, U.S. forces to work with Taiwan) is the new basis.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d4.-how-the-prc-zone-is-treated"><strong>D4. How the PRC zone is treated</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Do not recognize or request approval; operate inside the zone when ROE allow</td>
+<td>Beach, Smith (COA 2), Stavrov</td>
+</tr>
+<tr class="even">
+<td>Stay outside; avoid encounters inside the zone; operate on the east of it</td>
+<td>Smith (COA 1), Rariden, Taylor (COA 2), Coates (presence)</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> No COA asks for the 144-hour approval or accepts the zone. COA 1 sustains Taiwan inside the zone under defensive ROE. COAs 2 to 4 keep U.S. combatants outside the zone until a trigger.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> Decides where first contact happens and who fires first. Asking for approval would legitimize the zone. Rariden’s point stands: the declaration alone does not authorize confrontation.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d5.-east-coast-lifeline-geometry"><strong>D5. East-coast lifeline geometry</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hualien and Suao are inside the zone (Intel Map polygon and the 123°E text)</td>
+<td>Beach</td>
+</tr>
+<tr class="even">
+<td>East-coast ports are reachable and uncontested</td>
+<td>Allen, Coates, Isabelle, Mastromauro, Stavrov, Taylor</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> Treat the east coast as inside the zone. Treat the map corners as a draft until the staff confirms them.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> Every resupply and escort concept depends on it. The map polygon and the text description differ: five corners against “west of 123°E.”</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d6.-timeline-to-carry"><strong>D6. Timeline to carry</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Day 2: about 90 days for the full landing; a smaller attack can come sooner; Day 1’s 30–45 days kept as a risk</td>
+<td>Jernigan, Beach, Rariden, Wilson, Coates</td>
+</tr>
+<tr class="even">
+<td>30–45 day or 45-day window</td>
+<td>Allen, Taylor</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> Carry both: 90 days for the full-scale landing, and a smaller airborne or limited attack with no fixed warning. Neither is a guaranteed date.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> The 45-day window drives Taylor’s and Allen’s timing. Using the Day 2 number alone could underweight the early attack that matters most before 30 Nov.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d7.-force-levels-in-the-text"><strong>D7. Force levels in the text</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Day 1 posture: 10 SSNs and 1 SSGN, one CSG forward, 2 MLRs, 6–18 B-52/B-2; more only by GFM and NCA</td>
+<td>Beach, Allen, Taylor, Coates</td>
+</tr>
+<tr class="even">
+<td>2 to 3 CSGs, 12 SSNs, 2 SSGNs, 18 bombers including B-21</td>
+<td>Mastromauro</td>
+</tr>
+<tr class="odd">
+<td>Draw forces from other theaters</td>
+<td>Cooper</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Recommended default:</strong> Use the Day 1 posture. Extra CSGs (Reagan, Vinson) appear only as GFM releases, with the munitions trade-off briefed.</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Why it matters:</strong> Feasibility turns on what is actually available. Mastromauro’s numbers exceed Day 1 and are marked (verify). Pulling from CENTCOM costs Middle East stocks.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d8.-early-fleet-destruction-campaign"><strong>D8. Early fleet-destruction campaign</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Defeat lift at sea only on a PRC lift sortie, inside COA 1 and COA 2</td>
+<td>Beach, Isabelle, Coates, Allen</td>
+</tr>
+<tr class="even">
+<td>Destroy lift, surface groups and the Liaoning from D-Day</td>
+<td>Mastromauro (COA 2), Stavrov (COA 2)</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> Fold “defeat the landing at sea” into the branch of COA 1 and COA 2. Do not carry a stand-alone fleet-destruction COA.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> It needs authority the files do not show, starts before the deadline, and invites the missile salvos on Guam and Okinawa that Stavrov himself rates high risk to force.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d9.-contact-with-beijing"><strong>D9. Contact with Beijing</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Crisis channels and a State-owned off-ramp stay open</td>
+<td>Beach, Coates, Smith (COA 1), West, Robles</td>
+</tr>
+<tr class="even">
+<td>No contact with PRC diplomats until they stand down</td>
+<td>Smith (COA 2)</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> Channels stay open, run by State and the NSC; USPACOM supports with mil-to-mil deconfliction.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> The President’s speech keeps direct communication open to prevent miscalculation. Cutting it raises the chance of an accident turning into a war.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d10.-sustainment-concept"><strong>D10. Sustainment concept</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Multi-node hubs: Guam, Pearl Harbor, Darwin and Tindal, Stirling; forward reload where authorized</td>
+<td>Beach, Coates, Isabelle</td>
+</tr>
+<tr class="even">
+<td>NDRF and MSC sealift bridge from the West Coast</td>
+<td>Stavrov</td>
+</tr>
+<tr class="odd">
+<td>Littoral shuttle from Darwin and Palau</td>
+<td>Allen, Taylor</td>
+</tr>
+<tr class="even">
+<td>Reserve fleet (MARAD) sealift and JLOTS in northern Luzon and the Ryukyus</td>
+<td>Mastromauro</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> Multi-node hubs as the base; an NDRF and MSC activation as a Phase I option (capacity: verify); Palau only if access is confirmed (verify).</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> Munitions are the binding constraint. Taylor’s model puts critical depletion near day 15 of high-tempo denial (unvalidated). Hubs inside missile arcs fail first.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d11.-force-use-triggers"><strong>D11. Force-use triggers</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>T1 PRC fire on Taiwan or U.S. and allied forces; T2 airborne or amphibious insertion; T3 force against shipping in the zone; T4 missile strikes on Guam, Okinawa or Japan. Median-line crossing, ADIZ penetration and the zone alone are indicators, not triggers</td>
+<td>Beach</td>
+</tr>
+<tr class="even">
+<td>Actual PRC armed attack plus NCA authorization</td>
+<td>Rariden</td>
+</tr>
+<tr class="odd">
+<td>Attack, blockade by force, or strike on bases</td>
+<td>Coates, Wilson</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Recommended default:</strong> Beach’s T1–T4, with each trigger tied to a response against the firing or inserting force first.</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Why it matters:</strong> Defines who fires first, and gives COA 3 and the 30 Nov decision a shared set of conditions to move on.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d12.-non-kinetic-offensive-scope"><strong>D12. Non-kinetic offensive scope</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cyber, space and EW on military ISR, C2 and enforcement only</td>
+<td>Isabelle, Jernigan, Stavrov, Taylor</td>
+</tr>
+<tr class="even">
+<td>Also influence operations aimed at the PRC public and cyber attack on financial institutions</td>
+<td>Cooper</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> Military targets only. Influence operations and financial effects each need their own policy and legal review.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> Financial attack and public-facing influence operations can hit U.S. infrastructure and the public in return (Cooper’s own risk note), and the Day 2 authorities do not cover them.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d13.-centers-of-gravity"><strong>D13. Centers of gravity</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Group CES: enemy landing force and enforcement force; friendly joint maritime and air force with undersea and stand-in strike decisive</td>
+<td>Group CES, most authors</td>
+</tr>
+<tr class="even">
+<td>Enemy COG is the PLAN Eastern Fleet</td>
+<td>Taylor</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> Use the Group CES. Do not re-derive.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> The CES test is that a COG is a physical force able to achieve the objective. The Eastern Fleet is one critical requirement for both enemy options.</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d14.-quantitative-wargame-results"><strong>D14. Quantitative wargame results</strong></h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Proposed by</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cite as unvalidated model output; use only qualitative sensitivities, such as the early Japan decision and munitions depletion</td>
+<td>Proposed here</td>
+</tr>
+<tr class="even">
+<td>Cite the percentages and the 4 Nov inflection</td>
+<td>Taylor</td>
+</tr>
+<tr class="odd">
+<td colspan="2"><strong>Recommended default:</strong> Do not cite percentages as findings. Keep two sensitivities in words: early host-nation decisions matter; munitions run low in the first weeks.</td>
+</tr>
+<tr class="even">
+<td colspan="2"><strong>Why it matters:</strong> The model’s assumptions are not in the exercise files, and its dashboard is labeled Day 1 and draws the zone at 123.2°E, then 125.5°E, not 123°E.</td>
+</tr>
+</tbody>
+</table></div>
+<h1 id="basis-of-this-document"><strong>8. Basis of this document</strong></h1>
+<ul>
+<li><p>Exercise files: Day 2 Guidance and Tasking, Intelligence Inject, Intel Map Draft, Global Times and U.S. news articles, President’s speech; Day 1 Catalyst, Graphics, Campaign Plan, State release. Baseline: the revised Group CES and the parked CCIRs. Inputs: the 14 authors shown in the comparison.</p></li>
+<li><p>Facts that are not in the exercise materials are marked (verify). They include weapon-system specifics, the 135°E standoff line, Japan’s prior-consultation process, EDCA scope, Palau access and the NDRF and MSC capacity.</p></li>
+<li><p>JP 5-0: the 2017 edition could be reached and names the tests “feasible, acceptable, adequate, distinguishable, and complete” and puts the Strategic Estimate in Appendix B. The tasking says Appendix A. The current edition’s wording and appendix letters, and the 01 July 2025 edition two authors cite, could not be checked. The definitions used in the screening table are the standard ones, not quoted from the text.</p></li>
+</ul>
+
+</main></div>
+<footer>Draft for team review, 2 November 2026. Converted from Day2_Aggregate_COAs.docx.</footer>
+<script>(function(){var r=document.documentElement,b=document.getElementById('tg');
+function cur(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+function lab(){b.textContent=cur()==='dark'?'☀ Light':'☾ Dark'}
+try{var s=localStorage.getItem('theme');if(s)r.setAttribute('data-theme',s)}catch(e){}
+lab();b.onclick=function(){var n=cur()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}lab()}})();</script></body></html>

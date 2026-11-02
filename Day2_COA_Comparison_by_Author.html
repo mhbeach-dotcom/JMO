@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><title>Day 2 COAs by Author</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#1c2530;--muted:#5d6879;--border:#d9dde4;--accent:#0b2545;--link:#1a56b8;--head:#eef1f6;--zebra:#f8f9fb;--gold:#c9a227;--callout:#fff8e1}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151f;--card:#1a2233;--text:#e5e9f2;--muted:#9aa8c0;--border:#2c3650;--accent:#8fb4e8;--link:#7cb0ff;--head:#222c44;--zebra:#1d263a;--callout:#2a2410}}
+:root[data-theme="dark"]{--bg:#10151f;--card:#1a2233;--text:#e5e9f2;--muted:#9aa8c0;--border:#2c3650;--accent:#8fb4e8;--link:#7cb0ff;--head:#222c44;--zebra:#1d263a;--callout:#2a2410}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+a{color:var(--link)}
+.bar{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;padding:8px 16px}
+.bar .t{font-weight:700;color:var(--accent);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.95rem}
+.bar button,.bar a.b{font:inherit;font-size:.85rem;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:16px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px}
+nav.toc{position:sticky;top:60px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;font-size:.88rem;border:1px solid var(--border);background:var(--card);border-radius:10px;padding:12px}
+nav.toc b{display:block;margin-bottom:6px;color:var(--muted);text-transform:uppercase;font-size:.72rem;letter-spacing:.06em}
+nav.toc a{display:block;padding:4px 0;text-decoration:none;color:var(--text)}nav.toc a:hover{color:var(--link)}
+nav.toc a.h3{padding-left:12px;color:var(--muted);font-size:.82rem}
+main{min-width:0;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 28px}
+main>p:first-child{font-size:1.5rem;line-height:1.3;color:var(--accent);margin-top:0}
+h1{font-size:1.45rem;color:var(--accent);border-bottom:2px solid var(--gold);padding-bottom:6px;margin:2.2rem 0 1rem;line-height:1.25}
+h3{font-size:1.1rem;color:var(--accent);margin:1.6rem 0 .5rem;line-height:1.3}
+h1 strong,h3 strong{font-weight:700}
+p{margin:.6em 0}ul{padding-left:1.3em}li{margin:.3em 0}li>p{margin:0}
+.tw{overflow-x:auto;margin:1em 0;border:1px solid var(--border);border-radius:8px;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:520px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+td+td,th+th{border-left:1px solid var(--border)}
+th{background:var(--head);color:var(--accent);position:sticky;top:0}
+tbody tr:nth-child(even) td{background:var(--zebra)}
+td>p:first-child{margin-top:0}td>p:last-child{margin-bottom:0}
+.tw.one{border-left:4px solid var(--gold);background:var(--callout)}.tw.one table{min-width:0}.tw.one td{background:transparent!important;border:0}
+.tw.kv table{min-width:0}.tw.kv td:first-child{white-space:nowrap;width:1%;font-weight:600;color:var(--accent)}
+em{color:var(--muted)}
+footer{max-width:1180px;margin:0 auto;padding:0 16px 32px;color:var(--muted);font-size:.8rem}
+@media(max-width:860px){.wrap{display:block;padding:10px}nav.toc{position:static;max-height:none;margin-bottom:12px}nav.toc .sub{display:none}main{padding:16px 14px}
+ .tw.kv table{min-width:0}.tw.kv td:first-child{white-space:normal}}
+@media(max-width:700px){.tw.multi{border:0;overflow:visible}.tw.multi table{min-width:0;display:block}.tw.multi thead{display:none}.tw.multi tbody,.tw.multi tr{display:block}
+ .tw.multi tr{border:1px solid var(--border);border-radius:8px;margin-bottom:12px;background:var(--card);overflow:hidden}
+ .tw.multi td{display:block;border:0!important;border-bottom:1px solid var(--border)!important;background:transparent!important}
+ .tw.multi td:last-child{border-bottom:0!important}.tw.multi td::before{content:attr(data-label);display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+ .tw.multi td[colspan]::before{display:none}.tw.multi td:first-child{background:var(--head)!important;font-size:1rem}}
+@media print{.bar,nav.toc{display:none}.wrap{display:block}main{border:0}}
+</style></head><body>
+<div class="bar"><span class="t">Day 2 COAs by Author</span><a class="b" href="Day2_Aggregate_COAs.html">← Aggregate COAs</a><button id="tg" type="button">Theme</button></div>
+<div class="wrap"><nav class="toc"><b>Contents</b><a class="h1" href="#at-a-glance">At a glance</a><a class="h1" href="#where-the-team-agrees">Where the team agrees</a><a class="h1" href="#where-it-differs">Where it differs</a></nav><main>
+<p><strong>USPACOM Taiwan Strait Crisis, Day 2: COA Inputs Compared by Author</strong></p>
+<p>14 authors, 17 files, read in full from the Day 2 Team Inputs folder. Draft for team review, 2 November 2026.</p>
+<h1 id="at-a-glance"><strong>At a glance</strong></h1>
+<div class="tw multi"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Author</strong></th>
+<th><strong>Files read</strong></th>
+<th><strong>COA 1 / Approach 1</strong></th>
+<th><strong>COA 2 / Approach 2</strong></th>
+<th><strong>Recommendation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-label="Author"><strong>Allen</strong></td>
+<td data-label="Files read">Allen_COAs.docx</td>
+<td data-label="COA 1 / Approach 1">Forward Sea Denial and Integrated Counter-Invasion: 3rd MLR with NMESIS at Bashi and Miyako, 10 SSNs and 1 SSGN into the gates and Penghu Channel, TACAIR “strike carousel,” front-load Taiwan.</td>
+<td data-label="COA 2 / Approach 2">Standoff Counter-Blockade and Operational Attrition: bombers from Guam and Australia, containment line east of 135°E, covert mining, Taiwan bears the fight inside the chain.</td>
+<td data-label="Recommendation">None stated. His own timelines: COA 1 30–45 days, COA 2 45–90 days with “high mission risk” of missing 30 Nov.</td>
+</tr>
+<tr class="even">
+<td data-label="Author"><strong>Beach (team lead)</strong></td>
+<td data-label="Files read">Beach_Capstone-Day2-COAs-JP5_Beach.docx</td>
+<td data-label="COA 1 / Approach 1">Forward Denial: early, visible presence including a limited U.S. element on Taiwan (air and missile defense, ISR, maritime, advisors), Strait defense, limited strikes on forces and launch sites firing; hold, extend or escalate at 30 Nov.</td>
+<td data-label="COA 2 / Approach 2">Stand-off Denial: sea, air and undersea denial with no U.S. element on Taiwan; force-use triggers T1–T4; states plainly that sea denial alone cannot compel demobilization.</td>
+<td data-label="Recommendation">COA 1, with COA 2 as fallback. Weighted criteria table. Corrects the map: the zone covers Taiwan’s east coast.</td>
+</tr>
+<tr class="odd">
+<td data-label="Author"><strong>Coates</strong></td>
+<td data-label="Files read">Coates_SI_COAs_02NOV.docx (footer: “Generated with the use of SI”)</td>
+<td data-label="COA 1 / Approach 1">Coalition Deterrence and Coercive Denial: no offensive combat; access asks, released ISR evidence, dispersal, east-coast lifeline, posture that can transition at once.</td>
+<td data-label="COA 2 / Approach 2">NCA-Directed Maritime-Air Denial Campaign: break the blockade, defeat the landing at sea (Penghu to Xiamen–Shantou), no mainland invasion; explicit offensive ROE needed.</td>
+<td data-label="Recommendation">None stated. COA 2 is the transition from COA 1 if the PRC attacks or enforces by force.</td>
+</tr>
+<tr class="even">
+<td data-label="Author"><strong>Cooper</strong></td>
+<td data-label="Files read">Cooper_COAs-Day2.docx (built on Isabelle’s template)</td>
+<td data-label="COA 1 / Approach 1">Direct Forward Denial and Integrated Counter-Invasion: mass forces along the chain, main effort “obviate the exclusion zone,” draw forces from other theaters, cyber and space against PLA C2, SOF on Taiwan.</td>
+<td data-label="COA 2 / Approach 2">Counter-Blockade and Asymmetric Response: cyber and space attacks on ISR, C2 and comms, information operations, “crash” the PRC financial system, covert mining; kinetic forces held outside the zone.</td>
+<td data-label="Recommendation">COA 1, adding COA 2 elements only if CYBERCOM assesses enough chance of success.</td>
+</tr>
+<tr class="odd">
+<td data-label="Author"><strong>Isabelle</strong></td>
+<td data-label="Files read">ISAB_COAs-Day2.docx</td>
+<td data-label="COA 1 / Approach 1">Direct Forward Denial and Integrated Counter-Invasion: stand-in, undersea and dispersed air to block lift and airborne insertion; decisive points at Bashi, Miyako, Penghu, Xiamen–Shantou, Hualien–Suao.</td>
+<td data-label="COA 2 / Approach 2">Indirect Standoff Counter-Blockade and System Attrition from Guam, Hawaii and Australia: bombers, counter-C4ISR, mining, escort.</td>
+<td data-label="Recommendation">COA 1 as primary; fold COA 2’s standoff fires and cyber/space in as supporting efforts.</td>
+</tr>
+<tr class="even">
+<td data-label="Author"><strong>Jernigan</strong></td>
+<td data-label="Files read">Jernigan-2-operational-approaches.docx; Jernigan_uspacom-strategic-estimate-day2.docx</td>
+<td data-label="COA 1 / Approach 1">Forward Denial and Integrated Counter-Invasion (direct): MLRs and MDTFs on island chain bases, SSN barrier at Bashi and Miyako, IAMD, cyber hardening of Taiwan C2.</td>
+<td data-label="COA 2 / Approach 2">Standoff Counter-Blockade and System Attrition (indirect): bombers at Guam and Darwin, counter-space and cyber on KJ-500 and C4ISR, undersea interdiction, SLOC escort.</td>
+<td data-label="Recommendation">Approach 1, integrating bomber standoff and cyber/space from Approach 2. The estimate supports it (the two files do not conflict).</td>
+</tr>
+<tr class="odd">
+<td data-label="Author"><strong>Mastromauro</strong></td>
+<td data-label="Files read">Mastro_USINDOPACOM_Strategic_Estimate_and_COAs.docx</td>
+<td data-label="COA 1 / Approach 1">Counter-Buildup and First Island Chain Sea/Air Denial: ISR surge, ACE, MLRs and MDTFs, SSN barrier, escort; targeted sea-denial strikes if no demobilization by 30 Nov or on assault.</td>
+<td data-label="COA 2 / Approach 2">Integrated Campaign to Resist Forcible Reunification: JTF in Japan, destroy lift at departure and at sea from D-Day, neutralize PLAAF and PLAN, hold the east-coast lifeline; 60–120 days.</td>
+<td data-label="Recommendation">None stated. His criteria table rates COA 1 higher on feasibility and acceptability.</td>
+</tr>
+<tr class="even">
+<td data-label="Author"><strong>Rariden</strong></td>
+<td data-label="Files read">Rariden_Day2_Operational_Approaches.docx</td>
+<td data-label="COA 1 / Approach 1">Immediate Deterrence: dispersed, sustainable defensive denial inside existing authorities; avoid unnecessary encounters in the zone; 30 Nov is a national decision point, not a combat trigger.</td>
+<td data-label="COA 2 / Approach 2">Conditional Military Response: only after an actual PRC armed attack plus NCA authorization; deny conquest, sustain Taiwan, seek cessation of hostilities.</td>
+<td data-label="Recommendation">Sequential: Approach 1 now, prepare Approach 2 in parallel. Theater sustainment is the main enabler.</td>
+</tr>
+<tr class="odd">
+<td data-label="Author"><strong>Robles</strong></td>
+<td data-label="Files read">Felipe_Robles_COAs.docx</td>
+<td data-label="COA 1 / Approach 1">Forward Denial and Counter Quarantine (direct): forward joint posture on the chain to contest the zone and preserve access; higher force risk, lower risk of a fait accompli.</td>
+<td data-label="COA 2 / Approach 2">Standoff Denial and Graduated Pressure (indirect): pressure from depth, coalition and legitimacy first, direct denial held in reserve; higher mission risk.</td>
+<td data-label="Recommendation">COA 1 as baseline with selected COA 2 elements, to be refined after wargaming, Red Team and confirmation of access and authorities.</td>
+</tr>
+<tr class="even">
+<td data-label="Author"><strong>Smith</strong></td>
+<td data-label="Files read">SD COAs Day 2.docx</td>
+<td data-label="COA 1 / Approach 1">Counter-blockade outside the PRC zone using only forces already inside the chain; no CONUS forces; continuous diplomatic engagement; embargo stays.</td>
+<td data-label="COA 2 / Approach 2">Enter the zone with ground, air and naval forces; refuse the 144-hour approval; defend Taiwan’s airspace with Taiwan; no contact with PRC diplomats until they stand down; mobilize CONUS rotation.</td>
+<td data-label="Recommendation">None stated.</td>
+</tr>
+<tr class="odd">
+<td data-label="Author"><strong>Stavrov</strong></td>
+<td data-label="Files read">COAs_1 amd 2.docx</td>
+<td data-label="COA 1 / Approach 1">Armed convoys to Hualien and Suao, NDRF sealift bridge, all SUBPAC to Bashi, Miyako ASW to JMSDF, U.S.-fed targeting for Taiwan strikes on embarkation ports, standoff interdiction and mines; combat from 061200Z Nov; 24 days.</td>
+<td data-label="COA 2 / Approach 2">Decisive open-water destruction of the PRC amphibious fleet and surface groups including the Liaoning; preemptive Taiwan strikes on Ningbo and Zhanjiang; 18 days.</td>
+<td data-label="Recommendation">None stated. Rates COA 2 risk to force High.</td>
+</tr>
+<tr class="even">
+<td data-label="Author"><strong>Taylor</strong></td>
+<td data-label="Files read">JT_Strategic_Estimate_USPACOM_v4 (1).docx; JT STRAT EST SEWAR CJCS Brief.pptx (4 slides, all pictures; read visually); wargame_master_display_dashboard.gif (45 frames; first and last read)</td>
+<td data-label="COA 1 / Approach 1">Distributed Sea Denial and Stand-in Interdiction: 3rd MLR with NMESIS, TACAIR “strike carousel” between land and sea FARPs, CTF-74 SSNs at Penghu, Darwin and Palau shuttle.</td>
+<td data-label="COA 2 / Approach 2">Standoff Maritime Containment and Asymmetric Advisory: CSGs east of 135°E, on-island SOF and AIT support Taiwan’s asymmetric fires.</td>
+<td data-label="Recommendation">Approach 1 with CSG duty-cycling. Four decisions: approve it, Japan Prior Consultation by 4 Nov, munitions and lift, dual-trigger ROE. Model results are his own.</td>
+</tr>
+<tr class="odd">
+<td data-label="Author"><strong>West</strong></td>
+<td data-label="Files read">West_Day_2 OpApproachOptions.docx</td>
+<td data-label="COA 1 / Approach 1">Immediate Integrated Denial and Access Assurance: move forward now, Guam as hub, Philippine access, protect access and resupply; highest risk of a clash over the zone.</td>
+<td data-label="COA 2 / Approach 2">Coalition Defense and Phased Readiness: build a coalition posture in phases, avoid an early clash, shift to denial on attack indicators; may concede initiative.</td>
+<td data-label="Recommendation">None. Leaves the choice to the commander and asks for confirmed access, forces and timelines.</td>
+</tr>
+<tr class="even">
+<td data-label="Author"><strong>Wilson</strong></td>
+<td data-label="Files read">COA_Analysis_ WILSON_ 2NOV.pdf</td>
+<td data-label="COA 1 / Approach 1">Defensive Shield and Force Preservation: ISR, dispersal, IAMD, front-load Taiwan, visible but defensible presence, defensive exercises; lower escalation risk.</td>
+<td data-label="COA 2 / Approach 2">Forward Coalition Denial and Conditional Defense: forward deployment, sea and air denial, counter-blockade and strike options if authorized; higher escalation risk.</td>
+<td data-label="Recommendation">COA 1 first, prepare COA 2 for execution if the PRC escalates or attacks; asks for transition criteria and triggers.</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Jernigan’s and Taylor’s files agree with each other, so each author is shown once with the files combined. Where Taylor’s deck and his estimate overlap, the v4 estimate is the fuller version and is used.</em></p>
+<h1 id="where-the-team-agrees"><strong>Where the team agrees</strong></h1>
+<ul>
+<li><p><strong>Deadline and principles.</strong> All 14 carry the 2359, 30 November deadline and the President’s four principles. None disputes that any early invasion must be thwarted.</p></li>
+<li><p><strong>A forward-versus-depth axis.</strong> Six pairs are forward denial against standoff denial (Allen, Beach, Isabelle, Jernigan, Robles, Taylor). Cooper, West and Mastromauro share the first half and change the second.</p></li>
+<li><p><strong>Forward denial as the baseline.</strong> Six recommend a forward COA 1 and fold COA 2 in as support (Beach, Cooper, Isabelle, Jernigan, Robles, Taylor). Rariden and Wilson recommend posture first, response on attack.</p></li>
+<li><p><strong>Undersea forces first.</strong> Allen, Beach, Coates, Isabelle, Jernigan, Mastromauro, Stavrov and Taylor put the 10 SSNs and 1 SSGN on the gates and the Penghu Channel as the early denial force.</p></li>
+<li><p><strong>Disperse, harden, front-load.</strong> ACE dispersal, IAMD shifted to Guam and Okinawa, and supplies moved to Taiwan before closure appear in 11 or more inputs.</p></li>
+<li><p><strong>Munitions relief.</strong> A 30-day relief request to CENTCOM and EUCOM for interceptors and anti-ship munitions: Allen, Beach, Coates, Jernigan, Mastromauro, Rariden, Taylor, Wilson.</p></li>
+<li><p><strong>No U.S. mainland strikes.</strong> Beach, Coates (no mainland invasion), Mastromauro, Stavrov (for U.S. forces) and Taylor (as an escalation risk). Nobody proposes U.S. forces invading.</p></li>
+<li><p><strong>Release verified ISR; ask allies, with dates.</strong> Japan, the Philippines and Australia carry the access asks. South Korea stays on the Peninsula. Access is treated as unconfirmed by most authors.</p></li>
+<li><p><strong>Wargame before committing.</strong> Robles, Rariden, West and Taylor tie the choice to wargaming, Red Team and confirmed access and authorities.</p></li>
+</ul>
+<h1 id="where-it-differs"><strong>Where it differs</strong></h1>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Topic</strong></th>
+<th><strong>Positions (who)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>What 30 November does</strong></td>
+<td>NCA decision point with a COA ready to execute (Beach, Rariden). Automatic kinetic sea denial on expiry or on an early PLA launch (Taylor; Mastromauro’s Phase III is similar). Combat from 6 Nov (Stavrov). Not a combat trigger; response needs an actual attack (Rariden’s Approach 2; Wilson’s COA 1 stays defensive until escalation).</td>
+</tr>
+<tr class="even">
+<td><strong>Strike boundary</strong></td>
+<td>No mainland strikes (Beach base, Mastromauro, Taylor, Coates). Limited strikes on launch sites that are firing (Beach COA 1 draft). Taiwan strikes mainland ports with U.S. targeting data (Stavrov). Cyber attack on PRC financial system (Cooper).</td>
+</tr>
+<tr class="odd">
+<td><strong>The PRC zone</strong></td>
+<td>Operate inside, refuse the 144-hour approval (Smith COA 2, Stavrov, Beach). Stay outside or avoid encounters (Smith COA 1, Rariden, Coates presence, Taylor COA 2).</td>
+</tr>
+<tr class="even">
+<td><strong>East-coast lifeline (Hualien, Suao)</strong></td>
+<td>Treated as reachable and uncontested (Allen, Coates, Isabelle, Mastromauro, Stavrov, Taylor). Beach notes the Intel Map puts Taiwan’s east coast inside the zone.</td>
+</tr>
+<tr class="odd">
+<td><strong>U.S. presence on Taiwan</strong></td>
+<td>Limited air and missile defense, ISR, maritime and advisors with consent (Beach). SOF, liaison or AIT only (Cooper, Coates, Taylor COA 2). None (Mastromauro, Isabelle, Allen, Rariden).</td>
+</tr>
+<tr class="even">
+<td><strong>How hard to hit the PLA</strong></td>
+<td>Lift and blockade forces only (Beach, Isabelle, Allen). Lift plus PLAAF and PLAN surface groups, 60–120 days (Mastromauro COA 2). Whole fleet including the Liaoning (Stavrov COA 2).</td>
+</tr>
+<tr class="odd">
+<td><strong>Force levels</strong></td>
+<td>Day 1 posture: 10 SSNs and 1 SSGN, one CSG forward (Beach, Allen, Taylor). 2 to 3 CSGs, 12 SSNs, 2 SSGNs, 18 bombers (Mastromauro). Draw forces from other theaters (Cooper).</td>
+</tr>
+<tr class="even">
+<td><strong>Contact with Beijing</strong></td>
+<td>Continuous engagement and a State-owned off-ramp (Smith COA 1, West, Robles, Coates, Beach). No PRC contact until they stand down (Smith COA 2).</td>
+</tr>
+<tr class="odd">
+<td><strong>Time horizon</strong></td>
+<td>24 days (Stavrov COA 1), 18 days (Stavrov COA 2), 30–45 days (Allen COA 1, Taylor), 45–90 days (Allen COA 2), 60–120 days (Mastromauro COA 2), sustain past 30 Nov (Rariden).</td>
+</tr>
+<tr class="even">
+<td><strong>Sustainment</strong></td>
+<td>NDRF and MSC sealift bridge (Stavrov). Littoral shuttle from Darwin and Palau (Allen, Taylor). Reserve fleet sealift (Mastromauro). Hub-and-spoke from Guam, Pearl Harbor and Australia (Beach, Coates).</td>
+</tr>
+<tr class="odd">
+<td><strong>Centers of gravity</strong></td>
+<td>Landing force and enforcement force, 7th Fleet (Group CES; most authors). PLAN Eastern Fleet as the enemy COG (Taylor).</td>
+</tr>
+<tr class="even">
+<td><strong>Quantitative modeling</strong></td>
+<td>Monte Carlo odds (&gt;95% success for COA 1, &gt;90% failure for COA 2) and a day-by-day dashboard (Taylor). Everyone else is qualitative.</td>
+</tr>
+</tbody>
+</table></div>
+
+</main></div>
+<footer>Draft for team review, 2 November 2026. Converted from Day2_COA_Comparison_by_Author.docx.</footer>
+<script>(function(){var r=document.documentElement,b=document.getElementById('tg');
+function cur(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+function lab(){b.textContent=cur()==='dark'?'☀ Light':'☾ Dark'}
+try{var s=localStorage.getItem('theme');if(s)r.setAttribute('data-theme',s)}catch(e){}
+lab();b.onclick=function(){var n=cur()==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}lab()}})();</script></body></html>
